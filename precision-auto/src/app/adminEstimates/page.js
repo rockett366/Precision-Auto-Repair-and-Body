@@ -10,15 +10,23 @@ export default function AdminEstiamtes() {
                 <h1>Review Estiamtes</h1>
                 <p>Manage and review customer repair estimates.</p>
 
-            {/* Search Bar & Filter */}
-            <div className={styles.searchContainer}>
-                <input
-                type="text"
-                placeholder="Search Item Name"
-                className={styles.searchInput}
-                />
-                <button className={styles.filterBtn}>Filter</button>
-            </div>
+          {/* Controls: Search Bar, Upload Button, and Sort Dropdown */}
+          <div className={styles.controlsContainer}>
+            <input
+              type="text"
+              placeholder="Search Item Name"
+              className={styles.searchInput}
+            />
+            <button className={styles.uploadBtn}>Upload</button>
+
+            {/* Sort Dropdown */}
+            <select className={styles.sortDropdown}>
+              <option value="">Sort By</option>
+              <option value="name">Name</option>
+              <option value="date">Date</option>
+              <option value="description">Description</option>
+            </select>
+          </div>
 
             {/* Table */}
             <div className={styles.tableContainer}>
@@ -39,7 +47,7 @@ export default function AdminEstiamtes() {
                         <td>01 / 01 / 1001</td>
                         <td>
                         <a href="#" className={styles.reviewBtn}>
-                            Review
+                            View
                         </a>
                         </td>
                     </tr>
