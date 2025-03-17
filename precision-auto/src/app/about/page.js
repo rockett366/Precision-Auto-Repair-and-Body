@@ -55,6 +55,24 @@ export default function About() {
           />
         </div>
       </div>
+
+      <div className={styles.storyContainer}>
+        <div className={styles.storyHeader}>
+          <span className={styles.storyLine}></span>
+          <h2>OUR STORY</h2>
+        </div>
+
+        <p className={styles.storyParagraph}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac erat sed elit
+          aliquet bibendum. Integer lacinia odio non libero tristique, sit amet tempor arcu
+          cursus. Mauris dictum libero et orci euismod, vitae eleifend enim facilisis. Curabitur
+          vulputate nulla ut felis placerat, ac suscipit lectus vulputate. Suspendisse potenti.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ac erat sed elit
+          aliquet bibendum. Integer lacinia odio non libero tristique, sit amet tempor arcu
+          cursus. Mauris dictum libero et orci euismod, vitae eleifend enim facilisis. Curabitur
+          vulputate nulla ut felis placerat, ac suscipit lectus vulputate. Suspendisse potenti.
+        </p>
+      </div>
     </div>
   );
 }
