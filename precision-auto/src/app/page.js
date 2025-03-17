@@ -18,9 +18,9 @@ export default function Home() {
               Your one stop shop for service <br></br> and repairs
             </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-            <Link href="">
+            <a href="">
               <button className={styles.button}>Estimate Page</button>
-            </Link>
+            </a>
           </div>
         </div>
 

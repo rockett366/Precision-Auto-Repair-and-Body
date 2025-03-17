@@ -20,6 +20,8 @@
 }
 .button:hover {
   background-color: white;
+  color: #1a1a1a;
+  cursor: pointer;
 }
 
 @media (prefers-color-scheme: dark) {
