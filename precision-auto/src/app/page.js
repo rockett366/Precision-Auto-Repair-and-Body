@@ -1,9 +1,11 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import Nav from "../app/constants/nav";
 
 export default function Home() {
   return (
     <div className={styles.page}>
+      <Nav />
       <main className={styles.main}>
         <div className={styles.landing}>
           <Image
@@ -15,7 +17,9 @@ export default function Home() {
           />
           <div className={styles.paragraph}>
             <h1>
-              Your one stop shop for service <br></br> and repairs
+              <span>Precision auto repair and body </span> <br></br>
+              <i>Your one stop shop for service</i> <br></br>
+              <i>and repairs</i>
             </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
             <a href="">

@@ -11,6 +11,8 @@
 
   gap: 64px;
   font-family: var(--font-geist-sans);
+
+  background-color: #d9d9d9;
 }
 .button {
   background-color: #931621;
@@ -40,6 +42,8 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  color: black;
+  background-color: #d9d9d9;
 }
 
 .main ol {
@@ -75,17 +79,48 @@
   align-items: center;
   padding-left: 20%;
 }
+
+.signup{
+  justify-content: left;
+  background-color: #d9d9d9;
+  display: grid;
+}
+
+.testing{
+  position: relative;
+  width: 15%;
+  height: auto;
+}
+
+.inputtest{
+  width: 50%;
+  padding: 10px;
+  margin: 0 0 0 0;
+  display: inline-block;
+  border: none;
+  background-color: #f1f1f1;
+}
+
+.google_button {
+  background-color: white;
+  border: none;
+  padding: 3%;
+  margin-top: 2%;
+  color:black
+}
+
+.header{
+  padding: 0 10px 0 10px;
+}
+
 .logo {
   position: relative;
-  opacity: 20%;
+  opacity: 30%;
 }
 .paragraph {
   opacity: 100%;
   position: relative;
   text-transform: uppercase;
-}
-.paragraph span {
-  color: #931621;
 }
 
 .ctas {
@@ -191,34 +226,4 @@ a.secondary {
 }
 
 @media (prefers-color-scheme: dark) {
-}
-
-.navigation {
-  position: fixed;
-  z-index: 99;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  width: 100%;
-}
-.navigation li {
-  display: inline-block;
-  margin-right: 10px; /* Adjust as needed */
-  background-color: var(--LightBlue);
-  min-width: 80px;
-  padding: 7px 20px;
-  margin: 20px;
-  text-align: center;
-  margin: auto;
-}
-.navigation ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-.navigation li:hover {
-  color: #931621;
-  background-color: #f2f2f2;
 }
