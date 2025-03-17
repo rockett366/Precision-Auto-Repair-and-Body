@@ -77,12 +77,15 @@
 }
 .logo {
   position: relative;
-  opacity: 30%;
+  opacity: 20%;
 }
 .paragraph {
   opacity: 100%;
   position: relative;
   text-transform: uppercase;
+}
+.paragraph span {
+  color: #931621;
 }
 
 .ctas {
@@ -188,4 +191,34 @@ a.secondary {
 }
 
 @media (prefers-color-scheme: dark) {
+}
+
+.navigation {
+  position: fixed;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 100%;
+}
+.navigation li {
+  display: inline-block;
+  margin-right: 10px; /* Adjust as needed */
+  background-color: var(--LightBlue);
+  min-width: 80px;
+  padding: 7px 20px;
+  margin: 20px;
+  text-align: center;
+  margin: auto;
+}
+.navigation ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.navigation li:hover {
+  color: #931621;
+  background-color: #f2f2f2;
 }
