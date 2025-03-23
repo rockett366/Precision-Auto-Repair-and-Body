@@ -38,4 +38,4 @@ coverage/
 Thumbs.db
 
 package.json
-.next/
+.next
