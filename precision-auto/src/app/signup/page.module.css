@@ -1,105 +1,39 @@
-.page {
-  --gray-rgb: 0, 0, 0;
-  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
-  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
 
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-
-  display: grid;
-  grid-template-rows: 20px 1fr 20px;
-
-  gap: 64px;
-  font-family: var(--font-geist-sans);
-
-  background-color: #d9d9d9;
-}
 .button {
-  background-color: #931621;
-  border: none;
+  box-sizing: border-box;
   padding: 3%;
   margin-top: 2%;
+  margin-left: 70px;
+  width: 89.8%;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-size: 16px;
+  border: 1px solid black;
+
 }
+
+.signup_button{
+  background-color: #931621;
+}
+
+
+.google_button{
+  background-color: white;
+}
+
 .button:hover {
   background-color: white;
   color: #1a1a1a;
   cursor: pointer;
 }
 
-@media (prefers-color-scheme: dark) {
-  .page {
-    --gray-rgb: 255, 255, 255;
-    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-  }
-}
-
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-  color: black;
-  background-color: #d9d9d9;
-}
-
-.main ol {
-  font-family: var(--font-geist-mono);
-  padding-left: 0;
-  margin: 0;
-  font-size: 14px;
-  line-height: 24px;
-  letter-spacing: -0.01em;
-  list-style-position: inside;
-}
-
-.main li:not(:last-of-type) {
-  margin-bottom: 8px;
-}
-
-.main code {
-  font-family: inherit;
-  background: var(--gray-alpha-100);
-  padding: 2px 4px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-/* landing page section one*/
-.landing {
-  position: relative;
-  width: 100%;
-  height: 700px; /* Adjust height as needed */
-  overflow: hidden;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  padding-left: 20%;
-}
-
+/* Sign up section */
 .signup{
   justify-content: left;
   background-color: #d9d9d9;
   display: grid;
 }
 
-.testing{
-  position: relative;
-  width: 15%;
-  height: auto;
-}
-
-.inputtest{
-  width: 50%;
-  padding: 10px;
-  margin: 0 0 0 0;
-  display: inline-block;
-  border: none;
-  background-color: #f1f1f1;
-}
 
 .google_button {
   background-color: white;
@@ -109,121 +43,119 @@
   color:black
 }
 
-.header{
-  padding: 0 10px 0 10px;
-}
 
-.logo {
-  position: relative;
-  opacity: 30%;
-}
-.paragraph {
-  opacity: 100%;
-  position: relative;
-  text-transform: uppercase;
-}
+/*testing signup*/
 
-.ctas {
+
+.leftContainer{
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  width: 50%;
+  height: auto;
 }
 
-.ctas a {
-  appearance: none;
-  border-radius: 128px;
-  height: 48px;
-  padding: 0 20px;
-  border: none;
-  border: 1px solid transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-  cursor: pointer;
+.rightContainer{
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  height: auto;
   justify-content: center;
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 500;
-}
-
-a.primary {
-  background: var(--foreground);
-  color: var(--background);
-  gap: 8px;
-}
-
-a.secondary {
-  border-color: var(--gray-alpha-200);
-  min-width: 158px;
-}
-
-.footer {
-  grid-row-start: 3;
-  display: flex;
-  gap: 24px;
-}
-
-.footer a {
-  display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.footer img {
-  flex-shrink: 0;
+.description{
+  text-align: center;
+  color:#931621;
+  font-weight: bold;
+  width: 90%;
+  font-size: 32px;
 }
 
-/* Enable hover only on non-touch devices */
-@media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
-  }
-
-  .footer a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
+.logo{
+  width: 100%;
+  height: auto;
 }
 
-@media (max-width: 600px) {
-  .page {
-    padding: 32px;
-    padding-bottom: 80px;
-  }
-
-  .main {
-    align-items: center;
-  }
-
-  .main ol {
-    text-align: center;
-  }
-
-  .ctas {
-    flex-direction: column;
-  }
-
-  .ctas a {
-    font-size: 14px;
-    height: 40px;
-    padding: 0 16px;
-  }
-
-  a.secondary {
-    min-width: auto;
-  }
-
-  .footer {
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-  }
+.signupPage{
+  background-color: #d9d9d9; /* Background color */
+  color: #000000; /* Text color */
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
-@media (prefers-color-scheme: dark) {
+.container{
+  display: flex;
+  align-items: start;
+  justify-content: left;
+  min-height: auto;
+  min-width: auto;
+  flex-direction: column;
+  padding-left: 70px;
+  padding-top: 70px;
+}
+
+
+.formContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 10px;
+  max-width: auto;
+  width: 100%;
+  padding-top: 10px;
+  border-color: 8px solid green;
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputbox{
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 16px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  background-color: white; 
+  color: #000000;
+}
+
+.googlelogo{
+  background-color: transparent;
+  width: 20px;
+  height: auto;
+}
+/*testing signup*/
+
+
+.header1{
+  color: black;
+  font-family: 'Inknut Antiqua';
+  font-size: 70px;
+  font-weight: bold;
+}
+
+.header2{
+  color: black;
+  font-family: 'Inknut Antiqua';
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.loginContainer{
+  padding-left: 70px;
+  padding-top: 10px;
+  display: flex;
+  gap: 5px;
+  color: black;
+}
+
+.login{
+  color: #007AFF;
+  text-decoration: underline;
 }
