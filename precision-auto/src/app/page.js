@@ -27,6 +27,28 @@ export default function Home() {
             </a>
           </div>
         </div>
+        <div className={styles.requestEst}>
+          <Image
+            className={styles.logo}
+            src="/images/logoBW.png"
+            alt="stock photo for car"
+            width={400}
+            height={150}
+          />
+          <div className={styles.reqEstParagraph}>
+            <h2>REQUEST AN ESTIMATE</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            </p>
+            <a href="">
+              <button className={styles.button}>Estimate Page</button>
+            </a>
+          </div>
+        </div>
 
         <div className={styles.ctas}></div>
       </main>

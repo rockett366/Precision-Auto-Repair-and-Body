@@ -73,6 +73,19 @@ export default function About() {
           vulputate nulla ut felis placerat, ac suscipit lectus vulputate. Suspendisse potenti.
         </p>
       </div>
+      
+      <div className={styles.imageSection}>
+        <div className={styles.imageHeader}>
+          <span className={styles.imageLine}></span>
+          <h2>CERTIFICATIONS</h2>
+        </div>
+
+        <img 
+          src="/images/about/placeholderimagecar.jpg" 
+          alt="Certificaiton Photo" 
+          className={styles.image} 
+        />
+      </div>
     </div>
   );
 }
