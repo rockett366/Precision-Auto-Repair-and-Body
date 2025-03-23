@@ -23,16 +23,16 @@ export default function Home() {
                 </div>
 
                     <label htmlFor="email"><b>Email</b></label>
-                    <input className = {styles.inputbox} type="text" placeholder="Enter Email" name="email" required></input>
+                    <input className = {styles.inputbox} type="email" placeholder="Enter Email" name="email" required></input>
                 <div className={styles.formContainer}>
                     <div className={styles.inputWrapper}>
                         <label htmlFor="password"><b>Password</b></label>
-                        <input className = {styles.inputbox} type="text" placeholder="Enter Password" required></input>
+                        <input className = {styles.inputbox} type="password" placeholder="Enter Password" required></input>
                     </div>
 
                     <div className={styles.inputWrapper}>
                         <label htmlFor="confirm password"><b>Confirm Password</b></label>
-                        <input className = {styles.inputbox} type="text" placeholder="Confirm Password" required></input>
+                        <input className = {styles.inputbox} type="password" placeholder="Confirm Password" required></input>
                     </div>
                 </div>
 
