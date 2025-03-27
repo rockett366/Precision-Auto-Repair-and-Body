@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../app/constants/nav";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -22,9 +23,9 @@ export default function Home() {
               <i>and repairs</i>
             </h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-            <a href="">
-              <button className={styles.button}>Estimate Page</button>
-            </a>
+            <button className={styles.button}>
+              <Link href="./select-service">Get Estimate</Link>
+            </button>
           </div>
         </div>
         <div className={styles.requestEst}>
