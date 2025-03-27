@@ -66,11 +66,33 @@ export default function Home() {
             </p>
             <button className={styles.button}>
               {" "}
-              <Link href="./select-service">Book now</Link>
+              <Link href="/">Book now</Link>
             </button>
           </div>
         </div>
 
+        {/* become a member for free section */}
+        <div className={styles.infoBanner}>
+          <div className={styles.bannerTitle}>
+            <div className={styles.dividerBar}> </div>
+
+            <h2>Become a Member for free</h2>
+            <div className={styles.dividerBar}> </div>
+          </div>
+          <div className={styles.infoSectionWords}>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            </p>
+            <button className={styles.button}>
+              {" "}
+              <Link href="./signup">SIGN UP NOW!</Link>
+            </button>
+          </div>
+        </div>
         <div className={styles.ctas}></div>
       </main>
       <footer className={styles.footer}></footer>

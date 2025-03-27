@@ -114,6 +114,38 @@
   align-items: center;
   justify-content: space-between;
 }
+/* beccome a member */
+
+.infoBanner {
+  background-color: #931621;
+  padding: 2%;
+}
+.bannerTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bannerTitle h2 {
+  min-width: fit-content;
+  padding: 1%;
+}
+.bannerTitle .dividerBar {
+  width: 100%;
+  background-color: #1a1a1a;
+}
+.infoBanner .button {
+  background-color: #1a1a1a;
+}
+.infoBanner .button:hover {
+  background-color: white;
+  color: #1a1a1a;
+}
+.infoBanner .infoSectionWords {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
 /* Enable hover only on non-touch devices */
 @media (hover: hover) and (pointer: fine) {
   a.primary:hover {
