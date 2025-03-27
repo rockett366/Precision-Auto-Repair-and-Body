@@ -28,7 +28,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className={styles.requestEst}>
+        <div className={styles.infoSection}>
           <Image
             className={styles.logo}
             src="/images/logoBW.png"
@@ -36,7 +36,7 @@ export default function Home() {
             width={400}
             height={150}
           />
-          <div className={styles.reqEstParagraph}>
+          <div className={styles.infoParagraph}>
             <h2>REQUEST AN ESTIMATE</h2>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
@@ -45,9 +45,29 @@ export default function Home() {
               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
               reprehenderit in voluptate velit esse cillum dolore eu fugiat
             </p>
-            <a href="">
-              <button className={styles.button}>Estimate Page</button>
-            </a>
+            <button className={styles.button}>
+              {" "}
+              <Link href="./select-service">Estimate Page</Link>
+            </button>
+          </div>
+        </div>
+        <div className={styles.infoSectionWords}>
+          <div className={styles.infoParagraph}>
+            <div className={styles.title}>
+              <h2>Make an Appointment</h2>
+              <div className={styles.dividerBar}> </div>
+            </div>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+            </p>
+            <button className={styles.button}>
+              {" "}
+              <Link href="./select-service">Book now</Link>
+            </button>
           </div>
         </div>
 
