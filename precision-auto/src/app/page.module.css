@@ -156,6 +156,7 @@
 }
 
 .navigation {
+  background-color: #1a1a1a;
   position: fixed;
   z-index: 99;
   display: flex;

@@ -1,62 +1,66 @@
 // src/app/adminEstiamtes/page.js
 import Image from "next/image";
 import styles from "./page.module.css";
+import Nav from "../constants/nav.js";
 
 export default function AdminEstiamtes() {
   return (
-    <div className={styles.page}>
+    <div>
+      <Nav />
+      <div className={styles.page}>
         <main className={styles.main}>
-            <div className={styles.landing}>
-                <h1>Review Estiamtes</h1>
-                <p>Manage and review customer repair estimates.</p>
+          <div className={styles.landing}>
+            <h1>Review Estiamtes</h1>
+            <p>Manage and review customer repair estimates.</p>
 
-          {/* Controls: Search Bar, Upload Button, and Sort Dropdown */}
-          <div className={styles.controlsContainer}>
-            <input
-              type="text"
-              placeholder="Search Item Name"
-              className={styles.searchInput}
-            />
-            <button className={styles.uploadBtn}>Upload</button>
+            {/* Controls: Search Bar, Upload Button, and Sort Dropdown */}
+            <div className={styles.controlsContainer}>
+              <input
+                type="text"
+                placeholder="Search Item Name"
+                className={styles.searchInput}
+              />
+              <button className={styles.uploadBtn}>Upload</button>
 
-            {/* Sort Dropdown */}
-            <select className={styles.sortDropdown}>
-              <option value="">Sort By</option>
-              <option value="name">Name</option>
-              <option value="date">Date</option>
-              <option value="description">Description</option>
-            </select>
-          </div>
+              {/* Sort Dropdown */}
+              <select className={styles.sortDropdown}>
+                <option value="">Sort By</option>
+                <option value="name">Name</option>
+                <option value="date">Date</option>
+                <option value="description">Description</option>
+              </select>
+            </div>
 
             {/* Table */}
             <div className={styles.tableContainer}>
-                <table className={styles.table}>
+              <table className={styles.table}>
                 <thead>
-                    <tr>
+                  <tr>
                     <th>Name</th>
                     <th>DESCRIPTION</th>
                     <th>Date</th>
                     <th></th>
-                    </tr>
+                  </tr>
                 </thead>
                 <tbody>
-                    {[...Array(10)].map((_, index) => (
+                  {[...Array(10)].map((_, index) => (
                     <tr key={index}>
-                        <td>NAME</td>
-                        <td>DESCRIPTION</td>
-                        <td>01 / 01 / 1001</td>
-                        <td>
+                      <td>NAME</td>
+                      <td>DESCRIPTION</td>
+                      <td>01 / 01 / 1001</td>
+                      <td>
                         <a href="#" className={styles.reviewBtn}>
-                            View
+                          View
                         </a>
-                        </td>
+                      </td>
                     </tr>
-                    ))}
+                  ))}
                 </tbody>
-                </table>
+              </table>
             </div>
-        </div>
+          </div>
         </main>
+      </div>
     </div>
   );
 }
