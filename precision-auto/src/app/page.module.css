@@ -87,16 +87,63 @@
 .paragraph span {
   color: #931621;
 }
-/* req. estimate  */
-.requestEst {
+/* info sections */
+.infoSection {
   display: flex;
   max-width: 1100px;
   margin: auto;
   justify-content: center;
   align-items: center;
 }
-.reqEstParagraph {
+.infoSectionWords {
+  max-width: 900px;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+}
+.infoParagraph {
   padding: 3%;
+}
+.dividerBar {
+  background: #931621;
+  width: 550px;
+  height: 6px;
+}
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* beccome a member */
+
+.infoBanner {
+  background-color: #931621;
+  padding: 2%;
+}
+.bannerTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bannerTitle h2 {
+  min-width: fit-content;
+  padding: 1%;
+}
+.bannerTitle .dividerBar {
+  width: 100%;
+  background-color: #1a1a1a;
+}
+.infoBanner .button {
+  background-color: #1a1a1a;
+}
+.infoBanner .button:hover {
+  background-color: white;
+  color: #1a1a1a;
+}
+.infoBanner .infoSectionWords {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 /* Enable hover only on non-touch devices */
@@ -156,6 +203,7 @@
 }
 
 .navigation {
+  background-color: #1a1a1a;
   position: fixed;
   z-index: 99;
   display: flex;

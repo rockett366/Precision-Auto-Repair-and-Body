@@ -12,34 +12,36 @@ export default function Nav() {
 
         <ul>
           <li>
-            <a href="">Rewards</a>
+            <Link href="/">Rewards</Link>
           </li>
           <li>
-            <a href="">Get Estimate</a>
+            <Link href="/select-service">Get Estimate</Link>
           </li>
           <li>
-            <a href="">Services</a>
+            <Link href="/">Services</Link>
           </li>
           <li>
-            <Image
-              className={styles.Mainlogo}
-              src="/images/logoBW.png"
-              alt="Company logo"
-              width={112}
-              height={35}
-            />
+            <Link href="/">
+              <Image
+                className={styles.Mainlogo}
+                src="/images/logoBW.png"
+                alt="Company logo"
+                width={112}
+                height={35}
+              />
+            </Link>
           </li>
           <li>
-            <a href="">Contact us</a>
+            <Link href="/">Contact us</Link>
           </li>
           <li>
-            <a href="">About</a>
+            <Link href="/about">About</Link>
           </li>
           <li>
-            <a href="">Login</a>
+            <Link href="/">Login</Link>
           </li>
           <li>
-            <a href="">Sign-up</a>
+            <Link href="/signup">Sign-up</Link>
           </li>
         </ul>
       </nav>{" "}

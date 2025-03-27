@@ -1,132 +1,132 @@
 /* General Styling */
 .inventoryContainer {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    background-color: #d9d9d9;
-    min-height: 100vh;
-  }
-  
-  .title {
-    font-size: 24px;
-    font-weight: bold;
-    color:black;
-    margin-bottom: 20px;
-    text-align: left;
-  }
-  
-  /* Search Bar */
-  .searchContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    background: white;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .searchInput {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-right: 10px;
-    flex-grow: 1;
-    font-size: 16px;
-  }
-  
-  .filterButton {
-    padding: 10px 20px;
-    border: none;
-    background-color: #bebebe;
-    color: black;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  /* Table */
-  .inventoryTable {
-    width: 100%;
-    border-collapse: collapse;
-    background: #d9d9d9;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  
-  .inventoryTable th {
-    background-color: #888;
-    padding: 10px;
-    text-align: left;
-    font-weight: bold;
-  }
-  
-  .inventoryTable th,
-  .inventoryTable td {
-    padding: 15px;
-    text-align: left;
-  }
-  
-  /* Table Row Styles */
-  .inventoryTable tr {
-    background-color: #888;
-    color: white;
-    border-radius: 20px;
-    margin-bottom: 10px;
-    display: block;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-  }
-  
-  .inventoryTable tr td {
-    display: inline-block;
-  }
-  
-  /* Buttons */
-  .inventoryActions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-  }
-  
-  .actionButton {
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    color:rgb(0, 0, 0);
-    padding: 5px 10px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  
-  .actionButton:hover {
-    background: #bbb;
-  }
-  
-  /* Save and Cancel Buttons */
-  .saveButton {
-    background: green;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .cancelButton {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  /* Edit Mode Input Fields */
-  .editInput {
-    padding: 5px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
+  padding: 20px;
+  padding-top: 130px;
+  font-family: Arial, sans-serif;
+  background-color: #d9d9d9;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Search Bar */
+.searchContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 10px;
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.filterButton {
+  padding: 10px 20px;
+  border: none;
+  background-color: #bebebe;
+  color: black;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Table */
+.inventoryTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: #d9d9d9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.inventoryTable th {
+  background-color: #888;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+}
+
+.inventoryTable th,
+.inventoryTable td {
+  padding: 15px;
+  text-align: left;
+}
+
+/* Table Row Styles */
+.inventoryTable tr {
+  background-color: #888;
+  color: white;
+  border-radius: 20px;
+  margin-bottom: 10px;
+  display: block;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.inventoryTable tr td {
+  display: inline-block;
+}
+
+/* Buttons */
+.inventoryActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.actionButton {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: rgb(0, 0, 0);
+  padding: 5px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.actionButton:hover {
+  background: #bbb;
+}
+
+/* Save and Cancel Buttons */
+.saveButton {
+  background: green;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancelButton {
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Edit Mode Input Fields */
+.editInput {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+}
