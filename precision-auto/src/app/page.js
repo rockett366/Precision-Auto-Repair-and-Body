@@ -28,6 +28,62 @@ export default function Home() {
             </button>
           </div>
         </div>
+
+        {/* grid images */}
+        <div className={styles.gridPhoto}>
+          <div className={styles.gridLayer}>
+            <div>
+              <Image
+                src="/images/mechanic-stock1.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+            <div>
+              <Image
+                src="/images/mechanic-stock4.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+            <div>
+              <Image
+                src="/images/mechanic-stock1.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+
+            <div>
+              <Image
+                src="/images/mechanic-stock3.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+            <div>
+              <Image
+                src="/images/mechanic-stock1.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+            <div>
+              <Image
+                src="/images/mechanic-stock2.jpg"
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            </div>
+          </div>
+        </div>
+        {/* request an estimate */}
         <div className={styles.infoSection}>
           <Image
             className={styles.logo}
@@ -51,6 +107,7 @@ export default function Home() {
             </button>
           </div>
         </div>
+        {/* make an apointment */}
         <div className={styles.infoSectionWords}>
           <div className={styles.infoParagraph}>
             <div className={styles.title}>
