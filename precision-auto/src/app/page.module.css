@@ -40,6 +40,7 @@
   flex-direction: column;
   gap: 32px;
   grid-row-start: 2;
+  justify-content: center;
 }
 
 .main ol {
@@ -87,6 +88,29 @@
 .paragraph span {
   color: #931621;
 }
+
+/* grid photo */
+.gridPhoto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1300px;
+  margin: auto;
+}
+.gridPhoto > div {
+  font-size: 30px;
+  text-align: center;
+  margin: 3%;
+}
+.gridLayer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.gridLayer > div {
+  margin: 2%;
+}
+
 /* info sections */
 .infoSection {
   display: flex;
