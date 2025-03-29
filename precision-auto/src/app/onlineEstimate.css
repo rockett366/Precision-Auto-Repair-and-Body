@@ -1,0 +1,226 @@
+/* -------------------------------------
+   SHARED NAV & HEADER STYLES for scrum 39, 51
+--------------------------------------*/
+
+/* A generic header container, if you want nav on the first line 
+   and a big title on the second line */
+   .header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 2rem;
+  }
+  
+  /* Navigation bar (on the first line), links on the right */
+  .topNav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 2rem;
+  }
+  
+  .navLink {
+    text-decoration: none;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  /* A title that appears on its own line, centered */
+  .pageTitle,
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem 0 0; /* small top margin so it’s not glued to nav */
+  }
+  
+  /* -------------------------------------
+     PAGE CONTAINERS
+  --------------------------------------*/
+  
+  /* If one page uses a gray background (#ccc, 1200px width) */
+  .pageContainer {
+    background-color: #ccc; 
+    min-height: 100vh;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Another option for a second page with a different background (#f2f2f2, 900px width) */
+  .page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    min-height: 100vh;
+  }
+  
+  /* -------------------------------------
+     STEP INDICATOR / PROGRESS BAR
+  --------------------------------------*/
+  .steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative; /* needed for the line behind circles */
+  }
+  
+  /* Thin horizontal line behind circles, linking them (1→2, 2→3, 3→4) */
+  .steps::before {
+    content: "";
+    position: absolute;
+    top: 15px;  /* half the circle's height (30px / 2) */
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: #ccc;
+    z-index: 0;
+  }
+  
+  .step {
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 1; /* circles above the line */
+  }
+  
+  /* Circles (by default, gray #ddd) */
+  .circle {
+    width: 30px;
+    height: 30px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin: 0 auto 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .step span {
+    display: block;
+    margin-top: 0.25rem;
+  }
+  
+  /* If you want an active step in red, you could use .circle.active { background: #b00; color: #fff; } */
+  
+  /* -------------------------------------
+     MAIN CONTENT BLOCKS
+  --------------------------------------*/
+  
+  /* Larger light-gray block (like #eee) */
+  .mainSection {
+    background-color: #eee;
+    border-radius: 4px;
+    padding: 2rem;
+  }
+  
+  /* Another option for a white block with borders */
+  .main {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 6px;
+  }
+  
+  /* -------------------------------------
+     HEADINGS & TEXT
+  --------------------------------------*/
+  
+  /* Red heading class (center if desired) */
+  .redHeading,
+  .heading-red {
+    color: #b00;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+  }
+  
+  /* For center-aligned paragraphs */
+  .centerText,
+  .center-text {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  /* Example subtext style, for smaller or secondary paragraphs */
+  .subText {
+    margin-bottom: 2rem;
+    color: #333;
+    text-align: center; /* if you want it centered as well */
+  }
+  
+  /* -------------------------------------
+     FORM STYLES
+  --------------------------------------*/
+  
+  /* Simple form container */
+  .form {
+    margin-top: 1rem;
+  }
+  
+  /* If you want a row with multiple fields horizontally:
+     use .formRow or .field to group them */
+  .formRow {
+    /* You can choose flex or column depending on your layout */
+    display: flex;
+    flex: 1;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* A field wrapper that organizes label + input */
+  .field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  /* Basic label style */
+  label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Inputs & selects share styles */
+  input,
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  /* 
+     If you want each .formRow to have columns or single lines,
+     you can adapt them. For single column, do:
+     .formRow { flex-direction: column; }
+  */
+  
+  /* -------------------------------------
+     BUTTONS
+  --------------------------------------*/
+  
+  /* A "Next →" or "Submit" style button */
+  .nextButton {
+    margin-top: 1rem;
+    padding: 0.75rem 1.5rem;
+    background-color: #b00;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+  
+  .nextButton:hover {
+    background-color: #d00;
+  }
+  
+  /* If you want the button bottom-right, wrap it in .buttonRow: */
+  
+  .buttonRow {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+  }
+  
