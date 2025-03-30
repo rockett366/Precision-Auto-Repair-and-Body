@@ -110,10 +110,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* map stuff */
+/* map stuff all below */
 .mapSection {
   background-color: #000000;
-  padding: 0.5rem 0;
+  width: 100%
 }
 
 .sectionLine {
@@ -124,14 +124,6 @@
   margin: 0.5rem auto 2rem;
 }
 
-.mapContainer {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%;
-  overflow: hidden;
-  background-color: #000000;
-}
-
 .mapIframe {
   position: absolute;
   top: 0;
@@ -140,4 +132,45 @@
   height: 100%;
   border: none;
   filter: grayscale(20%) invert(95%);
+}
+
+/* Dont touch took forever to get iframe to hug left while not spilling over */
+.mapGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+}
+
+.mapWrapper {
+  grid-column: 1;
+  margin-left: -2rem;
+}
+
+.rightBlock {
+  grid-column: 2;
+  background-color: #000;
+  height: 100%;
+  min-height: 400px;
+}
+
+.mapContainer {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+@media (max-width: 768px) {
+  .mapGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rightBlock {
+    display: none;
+  }
 }
