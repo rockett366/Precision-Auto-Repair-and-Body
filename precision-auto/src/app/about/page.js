@@ -130,6 +130,26 @@ export default function About() {
 {/* END OF CONTACT US */}
 
       </div>
+      <section className={styles.mapSection}>
+        <div className={styles.mapGrid}>
+          <div className={styles.mapWrapper}>
+            <div className={styles.mapContainer}>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1332.064621112172!2d-121.43439870658518!3d38.607761127638554!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x809ad9f0ab912def%3A0x11dbc3652556b601!2sPrecision%20Auto%20Repair%20%26%20Body!5e0!3m2!1sen!2sus!4v1743292844222!5m2!1sen!2sus&style=feature:all|element:labels|visibility:off&style=feature:all|element:geometry.fill|color:0x2d2d2d&style=feature:road|color:0xffffff&style=feature:poi|visibility:off"
+                width="600"
+                height="450"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Google Maps Location"
+                className={styles.mapIframe}
+              />
+            </div>
+          </div>
+          <div className={styles.rightBlock}></div>
+        </div>
+      </section>
     </div>
   );
 }
