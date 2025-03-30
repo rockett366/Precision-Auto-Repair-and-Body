@@ -91,6 +91,44 @@ export default function About() {
             className={styles.image}
           />
         </div>
+
+{/* ---ADDING CONTACT US--- */}
+
+
+<div className={styles.bottomSection}>
+  {/* Left column (blank) */}
+  <div className={styles.leftColumn}></div>
+
+  {/* Right column (contact info) */}
+  <div className={styles.rightColumn}>
+    <h3><u>Contact Us</u></h3>
+    
+    {/* Address Block */}
+    <div className={styles.contactBlock}>
+      <p>📍1234 Main Street, Anytown, USA 12345</p>
+    </div>
+
+    {/* Phone & Email Block */}
+    <div className={styles.contactBlock}>
+      <p>📞(916) - 123 - 4567</p>
+      {/* <p><i>✉support@collisionrepair.com</i></p> */}
+      <p><i><a href="mailto:support@collisionrepair.com">✉ support@collisionrepair.com </a></i></p>
+    </div>
+
+    {/* Operating Hours Block */}
+    <div className={styles.contactBlock}>
+      <p>⏰Monday: 9AM - 5PM</p>
+      <p>⏰Tuesday: 9AM - 5PM</p>
+      <p>⏰Wednesday: 9AM - 5PM</p>
+      <p>⏰Thursday: 9AM - 5PM</p>
+      <p>⏰Friday: 9AM - 5PM</p>
+    </div>
+  </div>
+</div>
+
+
+{/* END OF CONTACT US */}
+
       </div>
     </div>
   );
