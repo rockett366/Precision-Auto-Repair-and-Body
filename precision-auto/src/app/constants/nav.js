@@ -43,6 +43,10 @@ export default function Nav() {
           <li>
             <Link href="/signup">Sign-up</Link>
           </li>
+          
+          <li>
+            <Link href="/review">Review</Link>
+          </li>
         </ul>
       </nav>{" "}
     </div>
