@@ -1,41 +1,84 @@
 /* General container styles */
 .container {
-  background-color: #d9d9d9; /* Background color */
-  color: #000000; /* Text color */
+  background-color: #d9d9d9;
+  color: #000000;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px;
   padding-top: 120px;
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
 }
 
-/* Title for all sections */
-.title {
-  font-size: 36px;
-  font-weight: bold;
+/* Titles */
+.mainTitle {
+  font-size: 42px;
+  font-weight: 900;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Form container specific styles (vehicle/user info) */
+.subTitle {
+  font-size: 30px;
+  font-weight: bold;
+  margin: 0px 0 0px;
+  /*padding-bottom: 16px; /* space between title and line */
+  position: relative;
+  width: 100%; /* Take full width of the container */
+  text-align: center;
+  overflow: visible;
+}
+
+.serviceTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #931621;
+}
+
+/* Formatting Horizontal Lines */
+.mainTitleLine {
+  position: relative;
+  width: 100vw;
+  height: 8px;
+  background-color: black;
+  margin-top: -8px;
+  margin-left: calc(-50vw + 50%);
+  margin-bottom: 30px;
+}
+
+.subTitleLine {
+  height: 6px;
+  background-color: black;
+  margin-top: -8px;
+  margin-bottom: 30px;
+  width: 600px; /* or try 50%, 300px, etc. */
+  margin-left: auto;
+  margin-right: auto; /* centers the line */
+}
+
+/* Transparent section wrapper */
+.sectionContainer {
+  background-color: transparent;
+  max-width: 900px;
+  width: 100%;
+  padding: 30px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Form container used inside each section */
 .formContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto;
   gap: 20px;
-  max-width: 600px;
   width: 100%;
-  padding: 50px;
-  background-color: transparent;
-  border-radius: 8px;
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
-  border-top: 2px solid black; /* Adds a black horizontal line */
 }
 
-/* Input wrapper specific styles (vehicle/user info) */
+/* Input styles */
 .inputWrapper {
   display: flex;
   flex-direction: column;
@@ -55,47 +98,58 @@
   width: 100%;
 }
 
-/* Popular Services Section Styles */
-.popularServicesContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-top: 40px;
-  max-width: 600px;
-  width: 100%;
-  padding: 20px;
-  border-top: 2px solid black; /* Adds a black horizontal line */
-}
-
-.popularServiceItem {
+/* Popular Services Section */
+.popularServiceBox {
   display: flex;
   align-items: center;
-
-  justify-content: space-between;
   background-color: #f0f0f0;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-.popularServiceText {
+.popularServiceDetails {
   flex-grow: 1;
-  margin-left: 20px;
+  min-width: 350px;
 }
 
-.popularServiceTitle {
-  font-size: 24px;
-  font-weight: bold;
-  color: #931621; /* Red color */
-  margin-bottom: 10px;
+.popularServiceImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 .popularServiceDescription {
   color: black;
+  font-size: 14px;
+  padding-top: 10px;   /* More space inside the element */
 }
 
 .popularServiceCheckbox {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   background-color: #931621;
+}
+
+.popularServiceSelect {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.popularServicesGrid {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+}
+
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
