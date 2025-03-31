@@ -1,16 +1,25 @@
 
 .button {
   box-sizing: border-box;
-  padding: 3%;
-  margin-top: 2%;
-  margin-left: 70px;
-  width: 89.8%;
+  width: 100%;
+  height: 75px;
   border-radius: 8px;
+  margin-top: 10px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 16px;
+  font-size: 24px;
   border: 1px solid black;
-
+  transition: 150ms ease;
 }
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: left;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 
 .signup_button{
   background-color: #931621;
@@ -19,6 +28,8 @@
 
 .google_button{
   background-color: white;
+  color: black;
+  font-size: 16px;
 }
 
 .button:hover {
@@ -35,13 +46,6 @@
 }
 
 
-.google_button {
-  background-color: white;
-  border: none;
-  padding: 3%;
-  margin-top: 2%;
-  color:black
-}
 
 
 /*testing signup*/
@@ -67,7 +71,7 @@
   text-align: center;
   color:#931621;
   font-weight: bold;
-  width: 90%;
+  width: 70%;
   font-size: 32px;
 }
 
@@ -90,8 +94,8 @@
   display: flex;
   align-items: start;
   justify-content: left;
-  min-height: auto;
-  min-width: auto;
+  width: 100%;
+  height: 100%;
   flex-direction: column;
   padding-left: 70px;
   padding-top: 70px;
@@ -105,8 +109,7 @@
   gap: 10px;
   max-width: auto;
   width: 100%;
-  padding-top: 10px;
-  border-color: 8px solid green;
+  padding-top: 20px;
 }
 
 .inputWrapper {
@@ -114,7 +117,7 @@
   flex-direction: column;
 }
 
-.inputbox{
+.inputBox{
   width: 100%;
   padding: 12px 16px;
   border: 1px solid black;
@@ -123,9 +126,10 @@
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
   background-color: white; 
   color: #000000;
+  transition: 150ms ease;
 }
 
-.googlelogo{
+.google_logo{
   background-color: transparent;
   width: 20px;
   height: auto;
@@ -148,7 +152,6 @@
 }
 
 .loginContainer{
-  padding-left: 70px;
   padding-top: 10px;
   display: flex;
   gap: 5px;
@@ -158,4 +161,39 @@
 .login{
   color: #007AFF;
   text-decoration: underline;
+}
+
+.emailContainer{
+  width: 100%;
+}
+
+.phoneContainer{
+  width: 100%;
+}
+
+.errors{
+  padding-top: 10px;
+  color: #f06272;
+  font-weight: bold;
+}
+
+.passwordPopup{
+  background-color: white;
+  border: 1px solid black;
+  padding: 10px;
+  width: 250px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+
+.passwordPopup ul{
+  list-style-type: disc;
+  margin: 5px 0;
+  padding-left: 20px;
+  font-size: 14px;
+}
+
+.passwordPopup p{
+  font-weight: bold;
+  margin-bottom: 5px;
 }
