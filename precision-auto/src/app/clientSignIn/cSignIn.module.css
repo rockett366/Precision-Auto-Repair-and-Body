@@ -1,0 +1,164 @@
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --shop_red: #931621;
+  }
+  
+  /* Overall page container for the sign-in page */
+  .signupPage {
+    background-color: #d9d9d9; /* Gray background */
+    color: #000000;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+  
+  /* Left Container (form area) */
+  .leftContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: auto;
+  }
+  
+  /* Right Container (image & description) */
+  .rightContainer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Logo styling for the right container */
+  .logo {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Description styling */
+  .description {
+    text-align: center;
+    color: #931621;
+    font-weight: bold;
+    width: 90%;
+    font-size: 32px;
+  }
+  
+  /* Main inner container for sign-in form */
+  .container {
+    display: flex;
+    align-items: start;
+    justify-content: left;
+    flex-direction: column;
+    padding-left: 70px;
+    padding-top: 70px;
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  /* Headings */
+  .header1 {
+    color: black;
+    font-family: "Inknut Antiqua", serif;
+    font-size: 60px;
+    font-weight: bold;
+    padding-top: 70px;
+  }
+  
+  .header2 {
+    color: black;
+    font-family: "Inknut Antiqua", serif;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 70px;
+  }
+  
+  /* Form container for input fields (grid layout) */
+  .formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 60px;
+    width: 100%;
+    padding-top: 10px;
+  }
+  
+  /* Input wrapper */
+  .inputWrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Input boxes styling */
+  .inputbox {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid black;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    color: #000000;
+  }
+  
+  /* Buttons styling */
+  .button {
+    box-sizing: border-box;
+    padding: 3%;
+    margin-top: 2%;
+    margin-left: 45px;
+    width: 89.8%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-size: 16px;
+    border: 1px solid black;
+  }
+  
+  .signin_button {
+    background-color: #931621; /* Dark red similar to your signup button color */
+  }
+  
+  .google_button {
+    background-color: white;
+    border: none;
+    padding: 3%;
+    margin-top: 2%;
+    color: black;
+  }
+  
+  .button:hover {
+    background-color: white;
+    color: #1a1a1a;
+    cursor: pointer;
+  }
+  
+  /* Google logo inside the button */
+  .googlelogo {
+    background-color: transparent;
+    width: 20px;
+    height: auto;
+    margin-left: 0.5rem;
+  }
+  
+  /* Forgot Password Link */
+  .forgotPassword {
+    margin-left: 5px;
+    margin-top: 15px;
+    color: #007aff;
+    text-decoration: underline;
+    display: inline-block;
+  }
+  
+  /* Admin Sign In Link */
+  .adminSignIn {
+    margin-left: 50px;
+    margin-top: 1rem;
+    color: #007aff;
+    text-decoration: underline;
+    display: inline-block;
+  }
+  
