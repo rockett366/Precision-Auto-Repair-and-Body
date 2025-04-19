@@ -84,6 +84,8 @@ export default function Home() {
           </div>
         </div>
         {/* request an estimate */}
+        <div className={styles.fullDividerBar}> </div>
+
         <div className={styles.infoSection}>
           <Image
             className={styles.logo}
@@ -125,6 +127,50 @@ export default function Home() {
               {" "}
               <Link href="/">Book now</Link>
             </button>
+          </div>
+        </div>
+
+        <div className={styles.divider}>
+          <div className={styles.fullDividerBar}> </div>
+          <div className={styles.rotateBolt}>
+            <Image
+              src="/images/landing-page/bolt.png"
+              alt="bolt"
+              width={50}
+              height={50}
+            />
+          </div>
+
+          <div className={styles.fullDividerBar}> </div>
+        </div>
+
+        {/* learn our story section */}
+        <div className={styles.infoSection}>
+          <div className={styles.infoParagraph}>
+            <h2>Learn our story</h2>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim{" "}
+            </p>
+            <button className={styles.button}>
+              {" "}
+              <Link href="/about">About Us</Link>
+            </button>
+          </div>
+          <div className={styles.photoGroup}>
+            <Image
+              src="/images/mechanic-stock3.jpg"
+              alt="stock photo for car"
+              width={300}
+              height={200}
+            />
+            <Image
+              src="/images/mechanic-stock1.jpg"
+              alt="stock photo for car"
+              width={300}
+              height={200}
+            />
           </div>
         </div>
 
