@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../app/constants/nav";
+import Footer from "../app/constants/footer";
 import Link from "next/link";
 
 export default function Home() {
@@ -196,9 +197,164 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <div className={styles.ctas}></div>
+        {/* yelp reviews */}
+        <div className={styles.reviews}>
+          <div>
+            <span
+              className="yelp-review"
+              data-review-id="r64tSD1tqGWzHzs6XMKQSg"
+              data-hostname="www.yelp.com"
+            >
+              Read{" "}
+              <a
+                href="https://www.yelp.com/user_details?userid=AmyIHMi1P1zyGOhCWMjfPw"
+                rel="nofollow noopener"
+              >
+                Lucia M.
+              </a>
+              's{" "}
+              <a
+                href="https://www.yelp.com/biz/precision-auto-repair-and-body-sacramento?hrid=r64tSD1tqGWzHzs6XMKQSg"
+                rel="nofollow noopener"
+              >
+                review
+              </a>{" "}
+              of{" "}
+              <a
+                href="https://www.yelp.com/biz/XNgbRk52GjGXPlRvlNTD3Q"
+                rel="nofollow noopener"
+              >
+                Precision Auto Repair & Body
+              </a>{" "}
+              on{" "}
+              <a href="https://www.yelp.com" rel="nofollow noopener">
+                Yelp
+              </a>
+              <script
+                src="https://www.yelp.com/embed/widgets.js"
+                type="text/javascript"
+                async
+              ></script>
+            </span>
+          </div>
+
+          <div>
+            <span
+              className="yelp-review"
+              data-review-id="RyN4d-2BIGKyIhKwoImpZg"
+              data-hostname="www.yelp.com"
+            >
+              Read{" "}
+              <a
+                href="https://www.yelp.com/user_details?userid=chBGSA6tVMzTZUTIXc-3Uw"
+                rel="nofollow noopener"
+              >
+                Evelyn C.
+              </a>
+              's{" "}
+              <a
+                href="https://www.yelp.com/biz/precision-auto-repair-and-body-sacramento?hrid=RyN4d-2BIGKyIhKwoImpZg"
+                rel="nofollow noopener"
+              >
+                review
+              </a>{" "}
+              of{" "}
+              <a
+                href="https://www.yelp.com/biz/XNgbRk52GjGXPlRvlNTD3Q"
+                rel="nofollow noopener"
+              >
+                Precision Auto Repair & Body
+              </a>{" "}
+              on{" "}
+              <a href="https://www.yelp.com" rel="nofollow noopener">
+                Yelp
+              </a>
+              <script
+                src="https://www.yelp.com/embed/widgets.js"
+                type="text/javascript"
+                async
+              ></script>
+            </span>
+          </div>
+          <div>
+            <span
+              class="yelp-review"
+              data-review-id="MCWaUBsDFBFMFnLnPSTB-w"
+              data-hostname="www.yelp.com"
+            >
+              Read{" "}
+              <a
+                href="https://www.yelp.com/user_details?userid=57uwPNBXe6sXp22Zp0CYoQ"
+                rel="nofollow noopener"
+              >
+                SacKathy K.
+              </a>
+              's{" "}
+              <a
+                href="https://www.yelp.com/biz/precision-auto-repair-and-body-sacramento?hrid=MCWaUBsDFBFMFnLnPSTB-w"
+                rel="nofollow noopener"
+              >
+                review
+              </a>{" "}
+              of{" "}
+              <a
+                href="https://www.yelp.com/biz/XNgbRk52GjGXPlRvlNTD3Q"
+                rel="nofollow noopener"
+              >
+                Precision Auto Repair & Body
+              </a>{" "}
+              on{" "}
+              <a href="https://www.yelp.com" rel="nofollow noopener">
+                Yelp
+              </a>
+              <script
+                src="https://www.yelp.com/embed/widgets.js"
+                type="text/javascript"
+                async
+              ></script>
+            </span>
+          </div>
+          <div>
+            <span
+              className="yelp-review"
+              data-review-id="8hST1ToKi5PnLRBoyN8OUA"
+              data-hostname="www.yelp.com"
+            >
+              Read{" "}
+              <a
+                href="https://www.yelp.com/user_details?userid=cWh9jMEswVq1wBnICdqVUg"
+                rel="nofollow noopener"
+              >
+                Cyrus N.
+              </a>
+              's{" "}
+              <a
+                href="https://www.yelp.com/biz/precision-auto-repair-and-body-sacramento?hrid=8hST1ToKi5PnLRBoyN8OUA"
+                rel="nofollow noopener"
+              >
+                review
+              </a>{" "}
+              of{" "}
+              <a
+                href="https://www.yelp.com/biz/XNgbRk52GjGXPlRvlNTD3Q"
+                rel="nofollow noopener"
+              >
+                Precision Auto Repair & Body
+              </a>{" "}
+              on{" "}
+              <a href="https://www.yelp.com" rel="nofollow noopener">
+                Yelp
+              </a>
+              <script
+                src="https://www.yelp.com/embed/widgets.js"
+                type="text/javascript"
+                async
+              ></script>
+            </span>
+          </div>
+        </div>
+        <Footer />
       </main>
-      <footer className={styles.footer}></footer>
     </div>
   );
 }
