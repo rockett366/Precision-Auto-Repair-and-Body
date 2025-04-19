@@ -8,7 +8,7 @@ export default function Nav() {
   return (
     <div className={styles.navigation}>
       <nav>
-        <p>Contact Us: 916.111.1111</p>
+        <p>Contact Us: 916.333.2373</p>
 
         <ul>
           <li>
@@ -42,10 +42,6 @@ export default function Nav() {
           </li>
           <li>
             <Link href="/signup">Sign-up</Link>
-          </li>
-          
-          <li>
-            <Link href="/review">Review</Link>
           </li>
         </ul>
       </nav>{" "}

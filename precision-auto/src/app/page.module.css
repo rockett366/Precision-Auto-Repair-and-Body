@@ -7,9 +7,8 @@
   --button-secondary-hover: #f2f2f2;
 
   display: grid;
-  grid-template-rows: 20px 1fr 20px;
+  grid-template-rows: 20px 1fr 0px;
 
-  gap: 64px;
   font-family: var(--font-geist-sans);
 }
 .button {
@@ -35,6 +34,53 @@
   }
 }
 
+/* navigation */
+.navigation {
+  background-color: #1a1a1a;
+  position: fixed;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  width: 100%;
+}
+.navigation li,
+.footer li {
+  display: inline-block;
+  margin-right: 10px; /* Adjust as needed */
+  background-color: var(--LightBlue);
+  min-width: 80px;
+  padding: 7px 20px;
+  margin: 20px;
+  text-align: center;
+  margin: auto;
+}
+.navigation ul,
+.footer ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+.navigation li:hover,
+.footer li:hover {
+  color: #931621;
+  background-color: #f2f2f2;
+}
+
+/* footer */
+.footer {
+  background-color: #1a1a1a;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 80px;
+  width: 100%;
+}
+
+/* main page */
 .main {
   display: flex;
   flex-direction: column;
@@ -161,11 +207,21 @@
   justify-content: space-between;
 }
 
+/* learn our story section */
+.photoGroup {
+  display: flex;
+}
+.photoGroup img {
+  margin: 2%;
+}
+
 /* beccome a member */
 
 .infoBanner {
   background-color: #931621;
   padding: 2%;
+  margin-top: 2%;
+  margin-bottom: 2%;
 }
 .bannerTitle {
   display: flex;
@@ -193,45 +249,6 @@
   flex-direction: column;
 }
 
-/* learn our story section */
-.photoGroup {
-  display: flex;
-}
-.photoGroup img {
-  margin: 2%;
-}
-
-.navigation {
-  background-color: #1a1a1a;
-  position: fixed;
-  z-index: 99;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 80px;
-  width: 100%;
-}
-.navigation li {
-  display: inline-block;
-  margin-right: 10px; /* Adjust as needed */
-  background-color: var(--LightBlue);
-  min-width: 80px;
-  padding: 7px 20px;
-  margin: 20px;
-  text-align: center;
-  margin: auto;
-}
-.navigation ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-.navigation li:hover {
-  color: #931621;
-  background-color: #f2f2f2;
-}
-
 /* reviews */
 
 .reviews {
@@ -241,7 +258,8 @@
   align-items: center;
   width: 100%;
   overflow-x: scroll;
-  max-width: 1400px;
+  max-width: 1200px;
+  margin-bottom: 2%;
 }
 .reviews div {
   width: 500px !important;
