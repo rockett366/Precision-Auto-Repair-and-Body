@@ -231,3 +231,20 @@
   color: #931621;
   background-color: #f2f2f2;
 }
+
+/* reviews */
+
+.reviews {
+  display: flex;
+  margin: auto;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  overflow-x: scroll;
+  max-width: 1400px;
+}
+.reviews div {
+  width: 500px !important;
+  margin: 1%;
+  flex: 0 0 auto;
+}
