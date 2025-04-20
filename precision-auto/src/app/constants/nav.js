@@ -9,16 +9,15 @@ export default function Nav() {
     <div className={styles.navigation}>
       <nav>
         <p>Contact Us: 916.333.2373</p>
-
         <ul>
           <li>
-            <Link href="/">Rewards</Link>
+            <Link href="/loyalty-membership">Membership</Link>
           </li>
           <li>
-            <Link href="/select-service">Get Estimate</Link>
+            <Link href="/">Get Estimate</Link>
           </li>
           <li>
-            <Link href="/">Services</Link>
+            <Link href="/select-service">Services</Link>
           </li>
           <li>
             <Link href="/">
@@ -32,7 +31,7 @@ export default function Nav() {
             </Link>
           </li>
           <li>
-            <Link href="/">Contact us</Link>
+            <Link href="/about">Contact us</Link>
           </li>
           <li>
             <Link href="/about">About</Link>
