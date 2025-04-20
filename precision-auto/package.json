@@ -1,14 +1,14 @@
 {
     "dependencies": {
-      "next": "^15.2.2",
-      "react": "^19.0.0",
-      "react-dom": "^19.0.0"
+        "googleapis": "^148.0.0",
+        "next": "^15.2.2",
+        "react": "^19.0.0",
+        "react-dom": "^19.0.0"
     },
     "name": "precision-auto-repair-and-body",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "devDependencies": {},
     "scripts": {
         "dev": "next dev --turbopack",
         "build": "next build",
@@ -16,14 +16,14 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/rockett366/Precision-Auto-Repair-and-Body.git"
+        "type": "git",
+        "url": "git+https://github.com/rockett366/Precision-Auto-Repair-and-Body.git"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/rockett366/Precision-Auto-Repair-and-Body/issues"
+        "url": "https://github.com/rockett366/Precision-Auto-Repair-and-Body/issues"
     },
     "homepage": "https://github.com/rockett366/Precision-Auto-Repair-and-Body#readme"
-  }
+}
