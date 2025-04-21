@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Nav from "../constants/nav";
-import api from "../lib/api"; // API connection
+import api from "../../lib/api"; // API connection
 
 
 
@@ -45,21 +45,52 @@ export default function Home() {
 
     if (Object.keys(errors).length === 0) {
       try {
-        const response = await api.post('/auth/register', {
+        console.log("Submitting form data:", {
           email: formValues.email,
           password: formValues.password,
-          first_name: formValues.firstname,
-          last_name: formValues.lastname,
+          firstname: formValues.firstname,
+          lastname: formValues.lastname,
+          phone_number: formValues.phone_number
+        });
+        
+        // Use the custom registration endpoint
+        const response = await api.post('/auth/custom-register', {
+          email: formValues.email,
+          password: formValues.password,
+          firstname: formValues.firstname,
+          lastname: formValues.lastname,
           phone_number: formValues.phone_number
         });
 
-        if (response.status === 201) {
+        console.log("Registration response:", response);
+
+        if (response.status === 201 || response.status === 200) {
+          setShowPopup(false);
           router.push("/login");
         }
       } catch (error) {
-        setBackendError(
-          error.response?.data?.detail || "Registration failed. Please try again."
-        );
+        console.error("Registration error:", error);
+        let errorMessage = "Registration failed. Please try again.";
+        
+        if (error.response) {
+          console.log("Error response:", error.response);
+          
+          // Handle validation errors
+          if (error.response.data?.detail) {
+            if (typeof error.response.data.detail === 'object') {
+              // Format validation errors
+              errorMessage = Object.values(error.response.data.detail)
+                .map(err => typeof err === 'string' ? err : JSON.stringify(err))
+                .join(', ');
+            } else {
+              errorMessage = error.response.data.detail;
+            }
+          } else if (typeof error.response.data === 'string') {
+            errorMessage = error.response.data;
+          }
+        }
+        
+        setBackendError(errorMessage);
       }
     }
   };

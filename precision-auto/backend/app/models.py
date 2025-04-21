@@ -1,7 +1,9 @@
 from sqlalchemy import Column, String
-from .database import Base
+from fastapi_users.db import SQLAlchemyBaseUserTable
+from .base import Base  
+from typing import TYPE_CHECKING
 
-class User(Base):
+class User(SQLAlchemyBaseUserTable, Base):
     __tablename__ = "users"
 
     id = Column(String, primary_key=True, index=True)

@@ -42,3 +42,4 @@ package.json
 
 #Python
 .venv
+venv/
