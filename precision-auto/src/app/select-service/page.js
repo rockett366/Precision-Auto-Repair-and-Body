@@ -1,6 +1,8 @@
+"use client"
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
 import { Inknut_Antiqua } from 'next/font/google';
+import { useState } from "react";
 
 const inknut = Inknut_Antiqua({
   subsets: ['latin'],
@@ -53,6 +55,81 @@ export default function ScheduleServicePage() {
       image: "other.png",
     },
   ];
+  
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  
+  const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
+  const [year, setYear] = useState("");
+  const [vin, setVin] = useState("");
+  
+  const [vehicleInspection, setVehicleInspection] = useState(false);
+  const [oilChange, setOilChange] = useState(false);
+  const [brakes, setBrakes] = useState(false);
+  const [collisionInspection, setCollisionInspection] = useState(false);
+  const [tires, setTires] = useState(false);
+  const [heatAc, setHeatAc] = useState(false);
+  const [battery, setBattery] = useState(false);
+  const [other, setOther] = useState(false);
+  
+const handleCheckboxChange = (serviceName) => {
+  switch (serviceName) {
+    case "Vehicle Inspection":
+      setVehicleInspection(!vehicleInspection);
+      break;
+    case "Oil Change":
+      setOilChange(!oilChange);
+      break;
+    case "Brakes":
+      setBrakes(!brakes);
+      break;
+    case "Collision Inspection":
+      setCollisionInspection(!collisionInspection);
+      break;
+    case "Tires":
+      setTires(!tires);
+      break;
+    case "Heat or A/C":
+      setHeatAc(!heatAc);
+      break;
+    case "Battery":
+      setBattery(!battery);
+      break;
+    case "Other":
+      setOther(!other);
+      break;
+    default:
+      break;
+  }
+};
+  
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
+
+// When clicked, the 'submit' button calls this function.
+const handleSubmit = () => {
+	
+  if (!firstName || !lastName || !email || !phone || !make || !model || !year || !vin) {
+	setPopupMessage("Please fill out all fields.");
+	setShowPopup(true);
+    return;
+  }
+	
+  if (!(vehicleInspection || oilChange || brakes || collisionInspection || tires || heatAc || battery || other)) {
+	setPopupMessage("Please select at least one service.");
+	setShowPopup(true);
+    return;
+  }
+	
+	// Submit information to the database
+	
+	// After all checks, can then proceed to whatever step is next.
+  setPopupMessage("The request has been received.");
+  setShowPopup(true);
+};
 
   return (
     <div>
@@ -69,19 +146,19 @@ export default function ScheduleServicePage() {
           <div className={styles.formContainer}>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>First Name</label>
-              <input type="text" placeholder="Enter your first name" className={styles.inputField} />
+              <input type="text" placeholder="Enter your first name" className={styles.inputField} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Last Name</label>
-              <input type="text" placeholder="Enter your last name" className={styles.inputField} />
+              <input type="text" placeholder="Enter your last name" className={styles.inputField} value={lastName} onChange={(e) => setLastName(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Email</label>
-              <input type="email" placeholder="Enter your email" className={styles.inputField} />
+              <input type="email" placeholder="Enter your email" className={styles.inputField} value={email} onChange={(e) => setEmail(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Phone Number</label>
-              <input type="tel" placeholder="Enter your phone number" className={styles.inputField} />
+              <input type="tel" placeholder="Enter your phone number" className={styles.inputField} value={phone} onChange={(e) => setPhone(e.target.value)} />
             </div>
           </div>
         </div>
@@ -93,19 +170,19 @@ export default function ScheduleServicePage() {
           <div className={styles.formContainer}>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Make</label>
-              <input type="text" placeholder="Enter vehicle make" className={styles.inputField} />
+              <input type="text" placeholder="Enter vehicle make" className={styles.inputField} value={make} onChange={(e) => setMake(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Model</label>
-              <input type="text" placeholder="Enter vehicle model" className={styles.inputField} />
+              <input type="text" placeholder="Enter vehicle model" className={styles.inputField} value={model} onChange={(e) => setModel(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>Year</label>
-              <input type="number" placeholder="Enter vehicle year" className={styles.inputField} />
+              <input type="number" placeholder="Enter vehicle year" className={styles.inputField} value={year} onChange={(e) => setYear(e.target.value)} />
             </div>
             <div className={styles.inputWrapper}>
               <label className={styles.label}>VIN</label>
-              <input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} />
+              <input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} value={vin} onChange={(e) => setVin(e.target.value)} />
             </div>
           </div>
         </div>
@@ -127,7 +204,17 @@ export default function ScheduleServicePage() {
                   <div className={styles.serviceTitle}>{service.title}</div>
                   <p className={styles.popularServiceDescription}>{service.desc}</p>
                 </div>
-                <input type="checkbox" className={styles.popularServiceCheckbox} />
+				  <input
+					type="checkbox"
+					checked={
+					  service.title === "Vehicle Inspection" ? vehicleInspection :
+					  service.title === "Oil Change" ? oilChange :
+					  service.title === "Brakes" ? brakes :
+					  service.title === "Collision Inspection" ? collisionInspection : false
+					}
+					onChange={() => handleCheckboxChange(service.title)} // Simplify this line
+					className={styles.popularServiceCheckbox}
+				  />
               </div>
             ))}
           </div>
@@ -145,12 +232,38 @@ export default function ScheduleServicePage() {
                   <div className={styles.serviceTitle}>{service.title}</div>
                   <p className={styles.popularServiceDescription}>{service.desc}</p>
                 </div>
-                <input type="checkbox" className={styles.popularServiceCheckbox} />
+				  <input
+					type="checkbox"
+					checked={
+					  service.title === "Tires" ? tires :
+					  service.title === "Heat or A/C" ? heatAc :
+					  service.title === "Battery" ? battery :
+					  service.title === "Other" ? other : false
+					}
+					onChange={() => handleCheckboxChange(service.title)} // Simplify this line
+					className={styles.popularServiceCheckbox}
+				  />
               </div>
             ))}
           </div>
         </div>
+		
+		{/* Submission button */}
+			<div className={styles.mainTitleLine} />
+			
+			<button className={styles.button + " " + styles.signup_button}
+            onClick={handleSubmit}>
+			Submit
+			</button>
       </div>
+{showPopup && (
+  <div className={styles.popupOverlay} onClick={() => setShowPopup(false)}>
+    <div className={styles.popupBox}>
+      <p>{popupMessage}</p>
+      <button onClick={() => setShowPopup(false)}>Close</button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
