@@ -11,7 +11,6 @@ const inknut = Inknut_Antiqua({
   weight: ['400', '700', '900'],
 });
 
-
 //Visual & Descriptive list of services
 export default function ScheduleServicePage() {
   const servicesColumn1 = [
@@ -35,7 +34,6 @@ export default function ScheduleServicePage() {
       desc: "Damage Assessment, Repair Quote",
       image: "collision-inspection.png",
     },
-
   ];
 
   const servicesColumn2 = [
@@ -235,7 +233,7 @@ export default function ScheduleServicePage() {
         <hr className={styles.mainTitleLine} style={{ marginTop: '30px' }}/>
         <h2 className={`${styles.subTitle} ${inknut.className}`}>Book an Appointment</h2>
         <div className={styles.sectionContainer}>
-          <label className={styles.label}>Select a Day</label>
+          <label className={styles.label}>Select a Date</label>
           <input type="date" className={styles.inputField} 
           value={selectedDate} 
           onChange={(e) => setSelectedDate(e.target.value)} 
@@ -265,7 +263,7 @@ export default function ScheduleServicePage() {
                   : selectedSlot === slot
                   ? '#7a1120'
                   : '#931621',
-                border: selectedSlot === slot ? '2px solid black' : 'none',
+                border: selectedSlot === slot ? '1px solid black' : 'none',
                 color: 'white',
                 borderRadius: '4px',
                 cursor: bookedSlots.includes(slot) ? 'not-allowed' : 'pointer',
@@ -280,7 +278,7 @@ export default function ScheduleServicePage() {
         </div>
 
         {/* Embedded Google Calendar */}
-        <div className={styles.sectionContainer} style={{ marginTop: '0px' }}>
+        <div className={styles.sectionContainer} style={{ marginTop: '-30px' }}>
           <h2 className={`${styles.subTitle} ${inknut.className}`}>Currently Booked Calendar</h2>
           <iframe
             src="https://calendar.google.com/calendar/embed?src=223a18315a9653a0813a56da51a2d30bfdab0f4876ca369ba62ad9b88c3820a0@group.calendar.google.com&ctz=America%2FLos_Angeles&mode=WEEK"
