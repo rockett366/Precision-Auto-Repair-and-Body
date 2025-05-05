@@ -203,10 +203,10 @@ LANDING PAGE
 <img src="images/landingPage.png" alt="Precision-Auto-Landing" />
 
 CREATE AN ACCOUNT
-<img src="images/signUp.jgp" alt="Precision Auto Sign Up Page" />
+<img src="images/sign.up.jpg" alt="Precision Auto Sign Up Page" />
 
 SCHEDULE A SERVICE
-<img src="ScheduleService.jpg" alt="Scheduling a Service Page" />
+<img src="images/ScheduleService.jpg" alt="Scheduling a Service Page" />
 
 ## Future Timeline – Precision Auto Repair Portal Features
 
