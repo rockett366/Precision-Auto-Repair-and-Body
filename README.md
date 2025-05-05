@@ -1,12 +1,16 @@
 <h1 align="center">Precision Auto Repair and Body</h1>
 
-  
-
 <p align="center">
 
 <img src="images/logoBW.png" alt="Precision-Auto-Logo" />
 
 </p>
+
+---
+
+This project is a full-stack web application developed for Precision Auto Repair and Body, a full-service auto body and mechanic shop. The application streamlines customer interactions, service requests, and administrative tasks, enhancing operational efficiency and customer satisfaction.  
+
+---
 
   ## 📌 Table of Contents
 
@@ -21,12 +25,10 @@
   - [Backend Setup (Python)](#-backend-setup-python)
 - [Testing (Planned for CSC 191)](#-testing-planned-for-csc-191)
 - [Deployment Plan](#-deployment-planned-for-csc-191)
-- [ERD](#erd)
-- [Website Images](#website-images)
+- [Photos](#erd)
 - [Future Timeline – Portal Features](#future-timeline--precision-auto-repair-portal-features)
-
-This project is a full-stack web application developed for Precision Auto Repair and Body, a full-service auto body and mechanic shop. The application streamlines customer interactions, service requests, and administrative tasks, enhancing operational efficiency and customer satisfaction.  
   
+---
 ### Team Members  
 - Daryl Hammerburg – [dhammerburg@csus.edu](mailto:dhammerburg@csus.edu)
 
@@ -44,7 +46,7 @@ This project is a full-stack web application developed for Precision Auto Repair
 
 - Igor Romantsov - [iromantsov@csus.edu](mailto:iromantsov@csus.edu)
 
-  
+---
 ### Project Overview
 
 Users:
@@ -86,6 +88,7 @@ Admin:
 - About page with business info, photos, and location
 
   
+---
 
 ### Getting Started
 
@@ -107,8 +110,7 @@ Then you will see a simple web app with a page like this:
 
 <img src="images/landingPage.png" alt="Precision-Auto-Landing" />
 
-
-
+---
 
 ## 👨‍💻 Developer Instructions
 
@@ -191,21 +193,21 @@ Deployment Strategy:
 
 - CI/CD via GitHub Actions
 
+---
 
 ### ERD
 
  <img src="images/ERD.png" alt="ERD Diagram" />
   
-  
+---  
 
-### Website images
-LANDING PAGE
+<h2 align="center">LANDING PAGE</h2>
 <img src="images/landingPage.png" alt="Precision-Auto-Landing" />
 
-CREATE AN ACCOUNT
+<h2 align="center">CREATE AN ACCOUNT</h2>
 <img src="images/sign.up.jpg" alt="Precision Auto Sign Up Page" />
 
-SCHEDULE A SERVICE
+<h2 align="center">SCHEDULE A SERVICE</h2>
 <img src="images/ScheduleService.jpg" alt="Scheduling a Service Page" />
 
 ## Future Timeline – Precision Auto Repair Portal Features
