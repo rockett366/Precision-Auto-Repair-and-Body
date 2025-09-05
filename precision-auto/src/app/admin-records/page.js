@@ -2,11 +2,14 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
+import Sidebar from "@/app/constants/admin-sidebar";
+import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 
 export default function AdminRecords() {
   return (
-    <div>
+    <div className={SidebarStyles.container}>
       <Nav />
+      <Sidebar />
       <div className={styles.page}>
         <main className={styles.main}>
           <div className={styles.landing}>
