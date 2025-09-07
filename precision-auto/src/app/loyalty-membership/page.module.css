@@ -1,0 +1,87 @@
+.page {
+  background-size: 0.5em 0.5em;
+}
+
+.wholepage {
+  min-height: 100vh;
+  padding-top: 120px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+.wholepage * {
+  margin: 2%;
+}
+
+/* title */
+.title {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cards */
+
+.titleCard {
+  width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+.cardName {
+  background-color: #931621;
+  width: 250px;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  transition: 0.3s;
+}
+.cardName:hover {
+  box-shadow: 12px 12px 2px 1px rgba(255, 255, 255, 0.959);
+}
+
+.cardName h3 {
+  text-align: center;
+}
+
+/* our membership about section */
+
+.fullDividerBar {
+  background: #931621;
+  width: 80%;
+  height: 6px;
+  margin: auto;
+}
+.sectionInfo {
+  max-width: 1000px;
+  margin: auto;
+  margin-bottom: 3%;
+}
+
+.sectionTitle {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+.sectionTitle h2 {
+  width: 200px;
+}
+
+/* discounts */
+
+.discounts {
+  width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+.discounts h2 {
+  width: 300px;
+  text-decoration: underline #931621 8px;
+}
+.discountCategory li {
+  text-transform: capitalize;
+}

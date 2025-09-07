@@ -1,0 +1,132 @@
+:root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --shop_red: #931621;
+  }
+  
+  .page {
+    background: #d9d9d9;
+    min-height: 100vh;
+    font-family: "Inknut Antiqua", serif;
+  }
+  
+  /* overall wrapper—removed extra top padding now that navbar is gone */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  
+  /* page heading */
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    margin-left: 15rem;
+    font-weight: bold;
+  }
+  
+  /* flex layout */
+  .content {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  /* sidebar */
+  .sidebar {
+    width: 200px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+  }
+  
+  .menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .menuItem {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .menuItem:hover {
+    background: #d3d3d3;
+  }
+  
+  /* Only apply when an element has BOTH .menuItem and .active */
+  .menuItem.active {
+    background: var(--shop_red);
+    color: #fff;
+  }
+  
+  /* main panel */
+  .main {
+    flex: 1;
+  }
+  
+  /* profile card */
+  .profileCard {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 4rem;
+  }
+  
+  .profileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .profileHeader h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  
+  /* edit/save button */
+  .editButton {
+    background: var(--shop_red);
+    color: #fff;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .editButton:hover {
+    background: #b1202f;
+  }
+  
+  /* fields grid */
+  .profileFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .field label {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+  }
+  
+  .field input {
+    padding: 0.5rem;
+    border: 1px solid #999;
+    border-radius: 4px;
+    background: #f9f9f9;
+  }
+  
+  .field input:disabled {
+    background: #eee;
+  }
+  

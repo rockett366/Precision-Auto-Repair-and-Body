@@ -1,9 +1,37 @@
 //scrum 51
 "use client";
+import { useState } from "react";
 import React from "react";
 import "./onlineEstimate.css";
 
 export default function VehicleInfoPage() {
+// Information from the page
+	const [make, setMake] = useState("");
+	const [model, setModel] = useState("");
+	const [year, setYear] = useState("");
+	const [vin, setVin] = useState("");
+	const [color, setColor] = useState("");
+
+	const [showPopup, setShowPopup] = useState(false);
+	const [popupMessage, setPopupMessage] = useState("");
+// When clicked, the 'Next' button calls this function.
+const handleSubmit = () => {
+  if (!make || !model || !year || !vin || !color) {
+    setPopupMessage("Please fill in all fields.");
+    setShowPopup(true);
+    return;
+  }
+	
+	// Additional data checking would be here but
+	// The two text fields that can be inputted into can't really have any?
+	// Why are there only three colors of car that exist? Only three makes? 
+	
+	// Probably need another story to touch this page up.
+	
+	// And then whatever the 'next step' is can be implemented here.
+  setPopupMessage("Proceed to next step!");
+  setShowPopup(true);
+};
   return (
     <div className="pageContainer">
       {/* Header: top nav on first line, "Online estimate" on second line */}
@@ -52,7 +80,7 @@ export default function VehicleInfoPage() {
           <div className="formRow">
             <div className="field">
               <label htmlFor="make">Make</label>
-              <select id="make">
+              <select id="make" value={make} onChange={(e) => setMake(e.target.value)}>
                 <option value="">Select</option>
                 <option>Toyota</option>
                 <option>Ford</option>
@@ -62,12 +90,17 @@ export default function VehicleInfoPage() {
 
             <div className="field">
               <label htmlFor="model">Model</label>
-              <input id="model" placeholder="e.g. Camry" />
+              <input
+				  id="model"
+				  placeholder="e.g. Camry"
+				  value={model}
+				  onChange={(e) => setModel(e.target.value)}
+				/>
             </div>
 
             <div className="field">
               <label htmlFor="year">Year</label>
-              <select id="year">
+              <select id="year" value={year} onChange={(e) => setYear(e.target.value)}>
                 <option value="">Select</option>
                 <option>2023</option>
                 <option>2022</option>
@@ -80,12 +113,17 @@ export default function VehicleInfoPage() {
           <div className="formRow">
             <div className="field">
               <label htmlFor="vin">VIN</label>
-              <input id="vin" placeholder="Value" />
+              <input
+				  id="vin"
+				  placeholder="Value"
+				  value={vin}
+				  onChange={(e) => setVin(e.target.value)}
+				/>
             </div>
 
             <div className="field">
               <label htmlFor="color">Color</label>
-              <select id="color">
+              <select id="color" value={color} onChange={(e) => setColor(e.target.value)}>
                 <option value="">Select</option>
                 <option>Red</option>
                 <option>Black</option>
@@ -99,13 +137,21 @@ export default function VehicleInfoPage() {
             <button
               type="button"
               className="nextButton"
-              onClick={() => alert("Proceed to next step")}
+              onClick={handleSubmit}
             >
               Next →
             </button>
           </div>
         </form>
       </main>
+{showPopup && (
+        <div className="popupOverlay" onClick={() => setShowPopup(false)}>
+          <div className="popupBox" onClick={(e) => e.stopPropagation()}>
+            <p>{popupMessage}</p>
+            <button onClick={() => setShowPopup(false)}>Close</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 } //complete

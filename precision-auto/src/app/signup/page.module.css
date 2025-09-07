@@ -1,3 +1,4 @@
+/* Button CSS */
 
 .button {
   box-sizing: border-box;
@@ -20,13 +21,11 @@
   margin-top: 20px;
 }
 
-
-.signup_button{
+.signup_button {
   background-color: #931621;
 }
 
-
-.google_button{
+.google_button {
   background-color: white;
   color: black;
   font-size: 16px;
@@ -38,27 +37,18 @@
   cursor: pointer;
 }
 
-/* Sign up section */
-.signup{
-  justify-content: left;
-  background-color: #d9d9d9;
-  display: grid;
-}
+/* Left container contains sign up info */
 
-
-
-
-/*testing signup*/
-
-
-.leftContainer{
+.leftContainer {
   display: flex;
   flex-direction: column;
   width: 50%;
   height: auto;
+  padding-top: 70px;
 }
 
-.rightContainer{
+/* Right container contains logo and membership */
+.rightContainer {
   display: flex;
   flex-direction: column;
   width: 50%;
@@ -67,20 +57,23 @@
   align-items: center;
 }
 
-.description{
+/* Membership info under logo */
+.description {
   text-align: center;
-  color:#931621;
+  color: #931621;
   font-weight: bold;
   width: 70%;
   font-size: 32px;
 }
 
-.logo{
+/* Logo */
+.logo {
   width: 100%;
   height: auto;
 }
 
-.signupPage{
+/* Main Container */
+.signupPage {
   background-color: #d9d9d9; /* Background color */
   color: #000000; /* Text color */
   min-height: 100vh;
@@ -90,7 +83,8 @@
   justify-content: flex-start;
 }
 
-.container{
+/* Container with formatting */
+.container {
   display: flex;
   align-items: start;
   justify-content: left;
@@ -101,7 +95,7 @@
   padding-top: 70px;
 }
 
-
+/* Makes it so input boxes can be side to side */
 .formContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -112,72 +106,80 @@
   padding-top: 20px;
 }
 
+/* Makes it so label is on top of input */
 .inputWrapper {
   display: flex;
   flex-direction: column;
 }
 
-.inputBox{
+/* CSS for input boxes */
+.inputBox {
   width: 100%;
   padding: 12px 16px;
   border: 1px solid black;
   border-radius: 8px;
   font-size: 16px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  background-color: white; 
+  background-color: white;
   color: #000000;
   transition: 150ms ease;
 }
 
-.google_logo{
+/* CSS for google logo */
+.google_logo {
   background-color: transparent;
   width: 20px;
   height: auto;
 }
-/*testing signup*/
 
-
-.header1{
+/* Create your account text at the top */
+.header1 {
   color: black;
-  font-family: 'Inknut Antiqua';
+  font-family: "Inknut Antiqua";
   font-size: 70px;
   font-weight: bold;
 }
 
-.header2{
+/* to continue your experience text at the top */
+.header2 {
   color: black;
-  font-family: 'Inknut Antiqua';
+  font-family: "Inknut Antiqua";
   font-size: 32px;
   font-weight: bold;
 }
 
-.loginContainer{
+.loginContainer {
   padding-top: 10px;
   display: flex;
   gap: 5px;
   color: black;
 }
 
-.login{
-  color: #007AFF;
+/* login link at the bottom */
+.login {
+  color: #007aff;
   text-decoration: underline;
 }
 
-.emailContainer{
+/* Container for email input and label */
+.emailContainer {
   width: 100%;
 }
 
-.phoneContainer{
+/* Container for phone input and label */
+.phoneContainer {
   width: 100%;
 }
 
-.errors{
+/* CSS for errors that appear when input is wrong/missing */
+.errors {
   padding-top: 10px;
   color: #f06272;
   font-weight: bold;
 }
 
-.passwordPopup{
+/* Box for password requirements */
+.passwordPopup {
   background-color: white;
   border: 1px solid black;
   padding: 10px;
@@ -186,14 +188,16 @@
   border-radius: 8px;
 }
 
-.passwordPopup ul{
+/* Changes how the list in password popup looks */
+.passwordPopup ul {
   list-style-type: disc;
   margin: 5px 0;
   padding-left: 20px;
   font-size: 14px;
 }
 
-.passwordPopup p{
+/* Changes how the text in password popup looks */
+.passwordPopup p {
   font-weight: bold;
   margin-bottom: 5px;
 }
