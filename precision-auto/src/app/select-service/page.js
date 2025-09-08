@@ -11,6 +11,8 @@ const inknut = Inknut_Antiqua({
   weight: ['400', '700', '900'],
 });
 
+const currentYear = new Date().getFullYear();
+
 //Visual & Descriptive list of services
 export default function ScheduleServicePage() {
   const servicesColumn1 = [
@@ -62,7 +64,7 @@ export default function ScheduleServicePage() {
   //VARIABLES FOR API AND BACKEND
   //USER FORM DATA
   const [userInfo, setUserInfo] = useState({ firstName: '', lastName: '', email: '', phone: '' });
-  const [vehicleInfo, setVehicleInfo] = useState({ make: '', model: '', year: '', vin: '' });
+  const [vehicleInfo, setVehicleInfo] = useState({ make: '', model: '', year: currentYear, vin: '' });
   const [selectedService, setSelectedService] = useState('');
   //VARIABLES GOOGLE CALENDAR API INTEGRATION
   const [selectedDate, setSelectedDate] = useState((getTodayDate()));
@@ -173,15 +175,89 @@ export default function ScheduleServicePage() {
           <h2 className={`${styles.subTitle} ${inknut.className}`}>Vehicle Information</h2>
           <div className={styles.subTitleLine} />
           <div className={styles.formContainer}>
-            <div className={styles.inputWrapper}><label className={styles.label}>Make</label><input type="text" placeholder="Enter vehicle make" className={styles.inputField} 
-              value={vehicleInfo.make}
-              onChange={(e) => setVehicleInfo({ ...vehicleInfo, make: e.target.value })}/></div>
+
+            {/* Vehicle Make with Datalist for common makes */}
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>Make</label>
+              <input
+                type="text"
+                list="car-makes"
+                className={styles.inputField}
+                value={vehicleInfo.make}
+                onChange={(e) => setVehicleInfo({ ...vehicleInfo, make: e.target.value })}  />
+            </div>
+            {/* Datalist for common car makes */}
+            <datalist id="car-makes">
+              <option value="Acura" />
+              <option value="Alfa Romeo" />
+              <option value="Audi" />
+              <option value="BMW" />
+              <option value="Buick" />
+              <option value="Cadillac" />
+              <option value="Chevrolet" />
+              <option value="Chrysler" />
+              <option value="Citroën" />
+              <option value="Dodge" />
+              <option value="Ferrari" />
+              <option value="Fiat" />
+              <option value="Ford" />
+              <option value="Genesis" />
+              <option value="GMC" />
+              <option value="Honda" />
+              <option value="Hyundai" />
+              <option value="Infiniti" />
+              <option value="Jaguar" />
+              <option value="Jeep" />
+              <option value="Kia" />
+              <option value="Lamborghini" />
+              <option value="Land Rover" />
+              <option value="Lexus" />
+              <option value="Lincoln" />
+              <option value="Maserati" />
+              <option value="Mazda" />
+              <option value="McLaren" />
+              <option value="Mercedes-Benz" />
+              <option value="Mini" />
+              <option value="Mitsubishi" />
+              <option value="Nissan" />
+              <option value="Peugeot" />
+              <option value="Porsche" />
+              <option value="Ram" />
+              <option value="Renault" />
+              <option value="Rolls-Royce" />
+              <option value="Saab" />
+              <option value="Subaru" />
+              <option value="Suzuki" />
+              <option value="Tesla" />
+              <option value="Toyota" />
+              <option value="Volkswagen" />
+              <option value="Volvo" />
+            </datalist>
+
+            {/* Vehicle Model */}
             <div className={styles.inputWrapper}><label className={styles.label}>Model</label><input type="text" placeholder="Enter vehicle model" className={styles.inputField} 
               value={vehicleInfo.model}
               onChange={(e) => setVehicleInfo({ ...vehicleInfo, model: e.target.value })}/></div>
-            <div className={styles.inputWrapper}><label className={styles.label}>Year</label><input type="number" placeholder="Enter vehicle year" className={styles.inputField} 
-              value={vehicleInfo.year}
-              onChange={(e) => setVehicleInfo({ ...vehicleInfo, year: e.target.value })}/></div>
+
+            {/* Drop Down For Vehicle Year */}
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>Year</label>
+              <input
+                type="number"
+                placeholder="Enter vehicle year"
+                className={styles.inputField}
+                value={vehicleInfo.year}
+                min="1900"
+                max={currentYear + 1}  // allow next-year models
+                step="1"
+                onChange={(e) =>
+                  setVehicleInfo({
+                    ...vehicleInfo,
+                    year: e.target.value === '' ? '' : Math.max(1900, Math.min(currentYear + 1, parseInt(e.target.value, 10)))
+                  })
+                }  />
+            </div>
+            {/* Vehicle VIN */}
             <div className={styles.inputWrapper}><label className={styles.label}>VIN</label><input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} 
              value={vehicleInfo.vin}
              onChange={(e) => setVehicleInfo({ ...vehicleInfo, vin: e.target.value })}/></div>
