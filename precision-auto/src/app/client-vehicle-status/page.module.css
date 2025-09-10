@@ -107,11 +107,42 @@
   font-weight: bold;
 }
 
+/* Makes it so label is under circle*/
+.inputWrapper2 {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 16px;
+  font-family: "Inknut Antiqua";
+  font-weight: normal;
+  align-items: center;
+}
+
+
+/* Line between circle */
+.line{
+  margin-top: 3.5%;
+  width: 20%;
+  height: 1%;
+  border: 1px solid black;
+}
+
+/* Makes it so label is on top of text*/
+.statusOverview {
+  display: flex;
+  flex-direction: row;
+  padding-top: 5%;
+  font-size: 25px;
+  font-family: "Inknut Antiqua";
+  font-weight: bold;
+}
+
 /* Information text */
 .info{
   font-size: 20px;
   font-weight: normal;
 }
+
 
 /* Profile in the big box */
 .profileHeader {
@@ -154,5 +185,14 @@
   padding-left: 30px;
   align-items: center;
   justify-content: end;
-  border: 4px black solid;
+}
+
+/* Circle for Vehicle Status */
+.circle{
+  height: 25px;
+  width: 25px;
+  background-color: white;
+  border-radius: 50%;
+  display: inline-block;
+  border: 1px solid black;
 }
