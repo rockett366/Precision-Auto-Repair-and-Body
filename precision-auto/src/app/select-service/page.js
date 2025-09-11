@@ -235,7 +235,9 @@ export default function ScheduleServicePage() {
             </datalist>
 
             {/* Vehicle Model */}
-            <div className={styles.inputWrapper}><label className={styles.label}>Model</label><input type="text" placeholder="Enter vehicle model" className={styles.inputField} 
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>Model</label>
+              <input type="text" placeholder="Enter vehicle model" className={styles.inputField} 
               value={vehicleInfo.model}
               onChange={(e) => setVehicleInfo({ ...vehicleInfo, model: e.target.value })}/></div>
 
@@ -258,7 +260,9 @@ export default function ScheduleServicePage() {
                 }  />
             </div>
             {/* Vehicle VIN */}
-            <div className={styles.inputWrapper}><label className={styles.label}>VIN</label><input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} 
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>VIN</label>
+              <input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} 
              value={vehicleInfo.vin}
              onChange={(e) => setVehicleInfo({ ...vehicleInfo, vin: e.target.value })}/></div>
           </div>
