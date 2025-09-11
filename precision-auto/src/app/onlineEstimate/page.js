@@ -1,48 +1,27 @@
 //scrum 51
 "use client";
-import { useState } from "react";
+
 import React from "react";
 import "./onlineEstimate.css";
 import Nav from "../constants/nav.js";
 import Footer from "../constants/footer";
+import { useRouter } from "next/navigation";
 
-export default function VehicleInfoPage() {
-  // Information from the page
-  const [make, setMake] = useState("");
-  const [model, setModel] = useState("");
-  const [year, setYear] = useState("");
-  const [vin, setVin] = useState("");
-  const [color, setColor] = useState("");
+export default function OnlineEstimate() {
+  const router = useRouter();
 
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-  // When clicked, the 'Next' button calls this function.
-  const handleSubmit = () => {
-    if (!make || !model || !year || !vin || !color) {
-      setPopupMessage("Please fill in all fields.");
-      setShowPopup(true);
-      return;
-    }
-
-    // Additional data checking would be here but
-    // The two text fields that can be inputted into can't really have any?
-    // Why are there only three colors of car that exist? Only three makes?
-
-    // Probably need another story to touch this page up.
-
-    // And then whatever the 'next step' is can be implemented here.
-    setPopupMessage("Proceed to next step!");
-    setShowPopup(true);
+  const handleClick = () => {
+    router.push("/onlineEstimate/vehicle");
   };
+
   return (
     <div className="pageContainer">
       <Nav />
-
-      {/* 4-step progress bar (all circles #ddd, with lines between) */}
+      {/* Steps (progress indicator) */}
       <div className="steps">
         <div className="step">
           <div className="circle">1</div>
-          <span>Your info</span>
+          <span>Your Info</span>
         </div>
         <div className="step">
           <div className="circle">2</div>
@@ -58,103 +37,53 @@ export default function VehicleInfoPage() {
         </div>
       </div>
 
-      {/* Main content */}
+      {/* Main section */}
       <main className="mainSection">
-        {/* Red, centered subheading */}
-        <h2 className="redHeading centerText">
-          Step 1/2: Tell us about your vehicle
-        </h2>
-        <p className="subText centerText">
-          Please enter your vehicle’s make, model, year, and color or VIN
-        </p>
+        <div className="questionSection">
+          {/* Red, centered heading */}
+          <h2 className="redHeading">
+            Who are we speaking to and how should we follow up?
+          </h2>
 
-        {/* Form */}
-        <form className="form">
-          {/* Row 1: Make / Model / Year */}
-          <div className="formRow">
-            <div className="field">
-              <label htmlFor="make">Make</label>
-              <select
-                id="make"
-                value={make}
-                onChange={(e) => setMake(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>Toyota</option>
-                <option>Ford</option>
-                <option>Honda</option>
-              </select>
+          {/* Center-aligned paragraph */}
+          <p className="center-text">
+            We know getting your car repaired can be a big decision, and we want
+            to equip you with the information you need. Please tell us who you
+            are and how we can best reach you—but don’t worry, your data is safe
+            with us and we won’t send you anything unsolicited without your
+            consent.
+          </p>
+
+          {/* Form */}
+          <form className="form">
+            <div className="formRow">
+              <label htmlFor="firstName">First Name</label>
+              <input id="firstName" name="firstName" placeholder="Value" />
             </div>
 
-            <div className="field">
-              <label htmlFor="model">Model</label>
-              <input
-                id="model"
-                placeholder="e.g. Camry"
-                value={model}
-                onChange={(e) => setModel(e.target.value)}
-              />
+            <div className="formRow">
+              <label htmlFor="lastName">Last Name</label>
+              <input id="lastName" name="lastName" placeholder="Value" />
             </div>
 
-            <div className="field">
-              <label htmlFor="year">Year</label>
-              <select
-                id="year"
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Row 2: VIN / Color */}
-          <div className="formRow">
-            <div className="field">
-              <label htmlFor="vin">VIN</label>
-              <input
-                id="vin"
-                placeholder="Value"
-                value={vin}
-                onChange={(e) => setVin(e.target.value)}
-              />
+            <div className="formRow">
+              <label htmlFor="email">Email</label>
+              <input id="email" name="email" placeholder="Value" />
             </div>
 
-            <div className="field">
-              <label htmlFor="color">Color</label>
-              <select
-                id="color"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>Red</option>
-                <option>Black</option>
-                <option>Silver</option>
-              </select>
+            <div className="formRow">
+              <label htmlFor="phone">Phone Number</label>
+              <input id="phone" name="phone" placeholder="Value" />
             </div>
-          </div>
 
-          {/* Bottom-right button */}
-          <div className="buttonRow">
-            <button type="button" className="nextButton" onClick={handleSubmit}>
+            {/* Next button (no real submission, just an alert) */}
+            <button type="button" className="nextButton" onClick={handleClick}>
               Next →
             </button>
-          </div>
-        </form>
-      </main>
-      {showPopup && (
-        <div className="popupOverlay" onClick={() => setShowPopup(false)}>
-          <div className="popupBox" onClick={(e) => e.stopPropagation()}>
-            <p>{popupMessage}</p>
-            <button onClick={() => setShowPopup(false)}>Close</button>
-          </div>
+          </form>
         </div>
-      )}
+      </main>
       <Footer />
     </div>
   );
-} //complete
+}

@@ -87,10 +87,6 @@ label {
   border-radius: 6px;
 }
 
-.questionSection {
-  max-width: 1100px;
-  margin: auto;
-}
 /* -------------------------------------
      HEADINGS & TEXT
   --------------------------------------*/
@@ -120,9 +116,12 @@ label {
 /* -------------------------------------
      FORM STYLES
   --------------------------------------*/
+
+/* Simple form container */
 .form {
-  margin: auto;
+  margin-top: 1rem;
 }
+
 /* If you want a row with multiple fields horizontally:
      use .formRow or .field to group them */
 .formRow {
