@@ -17,6 +17,23 @@ export default function AdminRecords() {
   const [viewModalVisible, setViewModalVisible] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [fileUrl, setFileUrl] = useState(null);
+  const [sortKey, setSortKey] = useState('');
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  
+  const getComparator = (key, order = 'asc') => (a, b) => {
+    if (!key) return 0;
+    const av = (a?.[key] ?? '').toString();
+    const bv = (b?.[key] ?? '').toString();
+    let cmp = 0;
+    if (key === 'date') {
+      cmp = av.localeCompare(bv);
+    } else {
+      cmp = av.localeCompare(bv, undefined, { sensitivity: 'base' });
+    }
+    return order === 'desc' ? -cmp : cmp;
+  };
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
@@ -35,7 +52,10 @@ export default function AdminRecords() {
       date: formDate,
       file: formFile,
     };
-    setEstimates([...estimates, newEstimate]);
+    setEstimates((prev) => {
+      const next = [...prev, newEstimate];
+      return sortKey ? next.sort(getComparator(sortKey, sortOrder)) : next;
+    });
     closeModal();
   };
 
@@ -57,6 +77,36 @@ export default function AdminRecords() {
     setSelectedRecord(null);
   };
   
+  const handleSortChange = (e) => {
+    const key = e.target.value;
+    setSortKey(key);
+    if (key) {
+      setEstimates((prev) => [...prev].sort(getComparator(key, sortOrder)));
+    }
+  };
+
+  const toggleSortOrder = () => {
+    setSortOrder((prev) => {
+      const next = prev === 'asc' ? 'desc' : 'asc';
+      if (sortKey) {
+        setEstimates((list) => [...list].sort(getComparator(sortKey, next)));
+      }
+      return next;
+    });
+  };
+  
+  const filteredEstimates = searchQuery
+    ? estimates.filter((item) => {
+        const q = searchQuery.trim().toLowerCase();
+        if (!q) return true;
+        return (
+          item.name?.toLowerCase().includes(q) ||
+          item.description?.toLowerCase().includes(q) ||
+          item.date?.toString().toLowerCase().includes(q)
+        );
+      })
+    : estimates;
+  
   return (
     <div className={SidebarStyles.container}>
       <Nav />
@@ -74,18 +124,28 @@ export default function AdminRecords() {
                 type="text"
                 placeholder="Search Item Name"
                 className={styles.searchInput}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className={styles.uploadBtn} onClick={openModal}>
                 Upload
               </button>
 
               {/* Sort Dropdown */}
-              <select className={styles.sortDropdown}>
+              <select className={styles.sortDropdown} value={sortKey} onChange={handleSortChange}>
                 <option value="">Sort By</option>
                 <option value="name">Name</option>
                 <option value="date">Date</option>
                 <option value="description">Description</option>
               </select>
+              <button
+                type="button"
+                className={styles.sortOrderBtn}
+                onClick={toggleSortOrder}
+                title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
+              >
+                {sortOrder === 'asc' ? '↑' : '↓'}
+              </button>
             </div>
 
             {modalVisible && (
@@ -153,8 +213,12 @@ export default function AdminRecords() {
                     <tr>
                       <td colSpan="4">No records yet. Use Upload to add one.</td>
                     </tr>
+                  ) : filteredEstimates.length === 0 ? (
+                    <tr>
+                      <td colSpan="4">No matching records.</td>
+                    </tr>
                   ) : (
-                    estimates.map((item, index) => (
+                    filteredEstimates.map((item, index) => (
                       <tr key={index}>
                         <td>{item.name}</td>
                         <td>{item.description}</td>

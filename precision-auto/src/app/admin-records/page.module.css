@@ -59,6 +59,20 @@
   color: #333;
 }
 
+.searchBtn {
+  padding: 8px 12px;
+  border: 1px solid #28a745;
+  border-radius: 5px;
+  background: #28a745;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.searchBtn:hover {
+  background: #1e7e34;
+}
+
 /* Upload Button */
 .uploadBtn {
   padding: 8px 12px;
@@ -86,6 +100,21 @@
 
 .sortDropdown:hover {
   background: #0056b3;
+}
+
+/* Sort Order Toggle */
+.sortOrderBtn {
+  padding: 8px 12px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sortOrderBtn:hover {
+  background: #e6f0ff;
 }
 
 /* Table Container */
