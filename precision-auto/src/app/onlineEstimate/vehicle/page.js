@@ -2,11 +2,14 @@
 "use client";
 import { useState } from "react";
 import React from "react";
-import "./vehicleEstimate.css";
+import "../onlineEstimate.css";
 import Nav from "../../constants/nav.js";
 import Footer from "../../constants/footer";
+import { useRouter } from "next/navigation";
 
 export default function VehicleInfoPage() {
+  const router = useRouter();
+
   // Information from the page
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -31,8 +34,7 @@ export default function VehicleInfoPage() {
     // Probably need another story to touch this page up.
 
     // And then whatever the 'next step' is can be implemented here.
-    setPopupMessage("Proceed to next step!");
-    setShowPopup(true);
+    router.push("/onlineEstimate/damage");
   };
   return (
     <div className="pageContainer">
