@@ -5,8 +5,11 @@ import React from "react";
 import "../onlineEstimate.css";
 import Nav from "../../constants/nav.js";
 import Footer from "../../constants/footer";
+import { useRouter } from "next/navigation";
 
 export default function VehicleInfoPage() {
+  const router = useRouter();
+
   // Information from the page
   const [file1, setFile1] = useState(null);
   const [preview1, setPreview1] = useState(null);
@@ -56,8 +59,7 @@ export default function VehicleInfoPage() {
       return;
     }
 
-    setPopupMessage("Proceed to next step!");
-    setShowPopup(true);
+    router.push("/onlineEstimate/confirmation");
   };
 
   return (
@@ -272,7 +274,7 @@ export default function VehicleInfoPage() {
           {/* Bottom-right button */}
           <div className="buttonRow">
             <button type="button" className="nextButton" onClick={handleSubmit}>
-              Next →
+              Complete
             </button>
           </div>
         </form>
