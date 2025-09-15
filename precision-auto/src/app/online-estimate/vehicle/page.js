@@ -34,7 +34,7 @@ export default function VehicleInfoPage() {
     // Probably need another story to touch this page up.
 
     // And then whatever the 'next step' is can be implemented here.
-    router.push("/onlineEstimate/damage");
+    router.push("/online-estimate/damage");
   };
   return (
     <div className="pageContainer">

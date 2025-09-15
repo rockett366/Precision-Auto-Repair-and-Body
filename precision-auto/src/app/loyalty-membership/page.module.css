@@ -1,7 +1,9 @@
 .page {
   background-size: 0.5em 0.5em;
 }
-
+.page h2 {
+  text-align: center;
+}
 .wholepage {
   min-height: 100vh;
   padding-top: 120px;
@@ -24,7 +26,6 @@
 /* Cards */
 
 .titleCard {
-  width: 1100px;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -73,7 +74,6 @@
 /* discounts */
 
 .discounts {
-  width: 1100px;
   margin: auto;
   display: flex;
   justify-content: space-around;
@@ -84,4 +84,37 @@
 }
 .discountCategory li {
   text-transform: capitalize;
+}
+
+.sectionPlanOptions {
+  max-width: 1100px;
+  margin: auto;
+  display: block;
+}
+.planOptions {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+@media screen and (max-width: 800px) {
+  .titleCard {
+    margin: auto;
+    display: block;
+  }
+  .cardName {
+    width: 350px;
+    height: 100px;
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .cardName img {
+    width: 50px;
+  }
+  .discounts {
+    display: block;
+  }
+  .discountCategory {
+    margin-bottom: 30px;
+  }
 }

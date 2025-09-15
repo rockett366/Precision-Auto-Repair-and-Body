@@ -59,7 +59,7 @@ export default function VehicleInfoPage() {
       return;
     }
 
-    router.push("/onlineEstimate/confirmation");
+    router.push("/online-estimate/confirmation");
   };
 
   return (

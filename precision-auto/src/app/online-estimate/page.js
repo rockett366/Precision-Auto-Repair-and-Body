@@ -44,7 +44,7 @@ export default function OnlineEstimate() {
     }
 
     //Passes the validation-> next page
-    router.push("/onlineEstimate/vehicle");
+    router.push("/online-estimate/vehicle");
   };
 
   return (

@@ -3,6 +3,7 @@
   padding: 20px;
   padding-top: 130px;
   min-height: 100vh;
+  min-width: 80%;
   text-align: center;
   background-color: #f4f4f4; /* Light gray background */
   color: #333; /* Dark gray text */
@@ -14,6 +15,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;    /* prevents flex overflow shrinking issues */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Landing Section */
@@ -51,6 +59,20 @@
   color: #333;
 }
 
+.searchBtn {
+  padding: 8px 12px;
+  border: 1px solid #28a745;
+  border-radius: 5px;
+  background: #28a745;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.searchBtn:hover {
+  background: #1e7e34;
+}
+
 /* Upload Button */
 .uploadBtn {
   padding: 8px 12px;
@@ -78,6 +100,21 @@
 
 .sortDropdown:hover {
   background: #0056b3;
+}
+
+/* Sort Order Toggle */
+.sortOrderBtn {
+  padding: 8px 12px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background: #ffffff;
+  color: #007bff;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.sortOrderBtn:hover {
+  background: #e6f0ff;
 }
 
 /* Table Container */
@@ -139,4 +176,85 @@
 
 .reviewBtn:hover {
   color: #0056b3;
+}
+
+/* Modal Overlay */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Container */
+.modal {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 500px;
+}
+
+/* Form inside Modal */
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.modalForm label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #333;
+}
+
+.modalForm input[type="text"],
+.modalForm input[type="date"],
+.modalForm input[type="file"] {
+  margin-top: 5px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Form Buttons */
+.formButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.formButtons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.formButtons button[type="submit"] {
+  background: #007bff;
+  color: #fff;
+}
+
+.formButtons button[type="submit"]:hover {
+  background: #0056b3;
+}
+
+.formButtons button[type="button"] {
+  background: #ccc;
+  color: #333;
+}
+
+.formButtons button[type="button"]:hover {
+  background: #aaa;
 }

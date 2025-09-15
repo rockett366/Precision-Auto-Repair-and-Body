@@ -3,6 +3,8 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
+import Sidebar from "@/app/constants/admin-sidebar";
+import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 
 export default function AdminInventory() {
   // Sample Inventory Data
@@ -44,22 +46,9 @@ export default function AdminInventory() {
   return (
     <div>
       <Nav />
-      <div className={styles.layoutContainer}>
-  
-        {/* Sidebar */}
-        <div className={styles.sidebar}>
-          <h1 className={styles.adminTitle}>Admin</h1>
-          <ul className={styles.adminList}>
-            <li className={styles.adminItem}><a href="/admin-profile">Profile</a></li>
-            <li className={styles.adminCurSelect}><a href="/admin-inventory">Inventory</a></li>
-            <li className={styles.adminItem}><a href="/admin-appointments">Appointments</a></li>
-            <li className={styles.adminItem}><a href="/adminEstimates">Review Estimates</a></li>
-            <li className={styles.adminItem}><a href="/admin-pastRecords">Past Records</a></li>
-            <li className={styles.adminItem}><a href="/admin-changePhotos">Change Photos</a></li>
-            <li className={styles.adminItem}><a href="/admin-customerVehicles">Customer Vehicles</a></li>
-          </ul>
-        </div>
-  
+      <div className={SidebarStyles.container}>
+        <Sidebar />
+        <div style={{ flex: 1, minWidth: 0 }}>
         {/* Inventory Section */}
         <div className={styles.inventoryContainer}>
           <h1 className={styles.title}>Inventory</h1>
@@ -191,7 +180,7 @@ export default function AdminInventory() {
             </table>
           </div>
         </div>
-  
+      </div>
       </div>
     </div>
   );
