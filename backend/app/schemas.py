@@ -45,3 +45,26 @@ class UserOut(BaseModel):
 class SignupResponse(BaseModel):
     message: str
     user: UserOut
+
+
+
+class ReviewCreate(BaseModel):
+    rating: int = Field(ge=1, le=5)
+    content: str = Field() 
+
+    @field_validator("content")
+    @classmethod
+    def content_min_three(cls, v: str) -> str:
+        s = v.strip()
+        if len(s) < 3:
+            # <<< your custom message
+            raise ValueError("Minimum three characters required!")
+        return s
+    
+
+class ReviewOut(BaseModel):
+    id: int
+    needs_followup: bool
+
+    class Config:
+        from_attributes = True
