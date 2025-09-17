@@ -71,7 +71,6 @@ class ReviewCreate(BaseModel):
             # <<< your custom message
             raise ValueError("Minimum three characters required!")
         return s
-    
 
 class ReviewOut(BaseModel):
     id: int

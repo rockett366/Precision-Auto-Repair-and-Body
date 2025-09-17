@@ -16,3 +16,16 @@ def get_estimate_history(db: Session = Depends(get_db)):
         .order_by(models.Estimate.date.desc(), models.Estimate.created_at.desc())
         .all()
     )
+
+# data seeder for testing
+@router.post("/seed-dev", response_model=int)
+def seed_dev(db: Session = Depends(get_db)):
+    demo = [
+        models.Estimate(name="Front Bumper Repair", description="Replace bumper cover; paint match", date="2025-09-10"),
+        models.Estimate(name="Windshield Replace", description="OEM glass, sensor recalibration", date="2025-09-12"),
+        models.Estimate(name="Door Dent PDR", description="Paintless dent removal, driver door", date="2025-09-14"),
+    ]
+    for e in demo:
+        db.add(e)
+    db.commit()
+    return len(demo)
