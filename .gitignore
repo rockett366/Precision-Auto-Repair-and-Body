@@ -7,13 +7,21 @@ yarn-error.log*
 # Build output
 build/
 dist/
+.next/
 
 # Environment variables
+*.env
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
 
 # Editor settings
 .vscode/
@@ -27,8 +35,6 @@ dist/
 # Log files
 logs/
 *.log
-yarn.lock
-package-lock.json
 
 # Coverage reports
 coverage/
@@ -36,6 +42,3 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
-
-package.json
-.next/
