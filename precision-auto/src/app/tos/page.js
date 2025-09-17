@@ -1,4 +1,3 @@
-// src/app/tos/page.js
 "use client";
 
 import styles from "./page.module.css";
