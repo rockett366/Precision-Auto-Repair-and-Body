@@ -1,0 +1,73 @@
+
+.container {
+  background-color: #d9d9d9;
+  padding: 20px;
+  padding-top: 100px;
+  height: 100%;
+}
+
+.header {
+  font-size: 36px;
+  font-weight: 700;
+  color: black;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.line {
+  flex-grow: 1;
+  height: 3px;
+  background-color: #333;
+  margin-left: 10px;
+}
+
+.TOSframe {
+  margin: auto;
+  width: 75%;
+  height: 600px;
+  border: 3px solid #000000;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.fill {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.table {
+	margin: auto;
+	width: 75%;
+	border-radius: 5px;
+	background-color: #a3a3a3;
+	border: 2px solid black;
+}
+
+.agreetext {
+	color: #931621;
+	font-family: var(--font-geist-sans);
+}
+
+.checkbox {
+	width: 40px;
+	height: 40px;
+}
+
+.button{
+	color: #931621;
+	width: 100%;
+	height: 40px;
+	font-family: var(--font-geist-sans);
+}
+
+.buttontable {
+	width: 20%;
+}
+
+.texttable {
+	width: 50%;
+	text-align: right;
+}

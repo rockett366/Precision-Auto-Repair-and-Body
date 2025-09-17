@@ -8,7 +8,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
-COPY .env ./.env
+#COPY .env ./.env
+#echo "DATABASE_URL=postgresql://app_user:app_password@db:5432/precision_db" > ./.env
 
 EXPOSE 8000
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

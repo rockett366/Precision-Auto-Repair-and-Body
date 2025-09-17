@@ -11,6 +11,7 @@ const inknut = Inknut_Antiqua({
   weight: ['400', '700', '900'],
 });
 
+const currentYear = new Date().getFullYear();
 
 //Visual & Descriptive list of services
 export default function ScheduleServicePage() {
@@ -35,7 +36,6 @@ export default function ScheduleServicePage() {
       desc: "Damage Assessment, Repair Quote",
       image: "collision-inspection.png",
     },
-
   ];
 
   const servicesColumn2 = [
@@ -64,7 +64,7 @@ export default function ScheduleServicePage() {
   //VARIABLES FOR API AND BACKEND
   //USER FORM DATA
   const [userInfo, setUserInfo] = useState({ firstName: '', lastName: '', email: '', phone: '' });
-  const [vehicleInfo, setVehicleInfo] = useState({ make: '', model: '', year: '', vin: '' });
+  const [vehicleInfo, setVehicleInfo] = useState({ make: '', model: '', year: currentYear, vin: '' });
   const [selectedService, setSelectedService] = useState('');
   //VARIABLES GOOGLE CALENDAR API INTEGRATION
   const [selectedDate, setSelectedDate] = useState((getTodayDate()));
@@ -175,15 +175,89 @@ export default function ScheduleServicePage() {
           <h2 className={`${styles.subTitle} ${inknut.className}`}>Vehicle Information</h2>
           <div className={styles.subTitleLine} />
           <div className={styles.formContainer}>
-            <div className={styles.inputWrapper}><label className={styles.label}>Make</label><input type="text" placeholder="Enter vehicle make" className={styles.inputField} 
-              value={vehicleInfo.make}
-              onChange={(e) => setVehicleInfo({ ...vehicleInfo, make: e.target.value })}/></div>
+
+            {/* Vehicle Make with Datalist for common makes */}
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>Make</label>
+              <input
+                type="text"
+                list="car-makes"
+                className={styles.inputField}
+                value={vehicleInfo.make}
+                onChange={(e) => setVehicleInfo({ ...vehicleInfo, make: e.target.value })}  />
+            </div>
+            {/* Datalist for common car makes */}
+            <datalist id="car-makes">
+              <option value="Acura" />
+              <option value="Alfa Romeo" />
+              <option value="Audi" />
+              <option value="BMW" />
+              <option value="Buick" />
+              <option value="Cadillac" />
+              <option value="Chevrolet" />
+              <option value="Chrysler" />
+              <option value="Citroën" />
+              <option value="Dodge" />
+              <option value="Ferrari" />
+              <option value="Fiat" />
+              <option value="Ford" />
+              <option value="Genesis" />
+              <option value="GMC" />
+              <option value="Honda" />
+              <option value="Hyundai" />
+              <option value="Infiniti" />
+              <option value="Jaguar" />
+              <option value="Jeep" />
+              <option value="Kia" />
+              <option value="Lamborghini" />
+              <option value="Land Rover" />
+              <option value="Lexus" />
+              <option value="Lincoln" />
+              <option value="Maserati" />
+              <option value="Mazda" />
+              <option value="McLaren" />
+              <option value="Mercedes-Benz" />
+              <option value="Mini" />
+              <option value="Mitsubishi" />
+              <option value="Nissan" />
+              <option value="Peugeot" />
+              <option value="Porsche" />
+              <option value="Ram" />
+              <option value="Renault" />
+              <option value="Rolls-Royce" />
+              <option value="Saab" />
+              <option value="Subaru" />
+              <option value="Suzuki" />
+              <option value="Tesla" />
+              <option value="Toyota" />
+              <option value="Volkswagen" />
+              <option value="Volvo" />
+            </datalist>
+
+            {/* Vehicle Model */}
             <div className={styles.inputWrapper}><label className={styles.label}>Model</label><input type="text" placeholder="Enter vehicle model" className={styles.inputField} 
               value={vehicleInfo.model}
               onChange={(e) => setVehicleInfo({ ...vehicleInfo, model: e.target.value })}/></div>
-            <div className={styles.inputWrapper}><label className={styles.label}>Year</label><input type="number" placeholder="Enter vehicle year" className={styles.inputField} 
-              value={vehicleInfo.year}
-              onChange={(e) => setVehicleInfo({ ...vehicleInfo, year: e.target.value })}/></div>
+
+            {/* Drop Down For Vehicle Year */}
+            <div className={styles.inputWrapper}>
+              <label className={styles.label}>Year</label>
+              <input
+                type="number"
+                placeholder="Enter vehicle year"
+                className={styles.inputField}
+                value={vehicleInfo.year}
+                min="1900"
+                max={currentYear + 1}  // allow next-year models
+                step="1"
+                onChange={(e) =>
+                  setVehicleInfo({
+                    ...vehicleInfo,
+                    year: e.target.value === '' ? '' : Math.max(1900, Math.min(currentYear + 1, parseInt(e.target.value, 10)))
+                  })
+                }  />
+            </div>
+            {/* Vehicle VIN */}
             <div className={styles.inputWrapper}><label className={styles.label}>VIN</label><input type="text" placeholder="Enter vehicle VIN" className={styles.inputField} 
              value={vehicleInfo.vin}
              onChange={(e) => setVehicleInfo({ ...vehicleInfo, vin: e.target.value })}/></div>
@@ -235,7 +309,7 @@ export default function ScheduleServicePage() {
         <hr className={styles.mainTitleLine} style={{ marginTop: '30px' }}/>
         <h2 className={`${styles.subTitle} ${inknut.className}`}>Book an Appointment</h2>
         <div className={styles.sectionContainer}>
-          <label className={styles.label}>Select a Day</label>
+          <label className={styles.label}>Select a Date</label>
           <input type="date" className={styles.inputField} 
           value={selectedDate} 
           onChange={(e) => setSelectedDate(e.target.value)} 
@@ -265,7 +339,7 @@ export default function ScheduleServicePage() {
                   : selectedSlot === slot
                   ? '#7a1120'
                   : '#931621',
-                border: selectedSlot === slot ? '2px solid black' : 'none',
+                border: selectedSlot === slot ? '1px solid black' : 'none',
                 color: 'white',
                 borderRadius: '4px',
                 cursor: bookedSlots.includes(slot) ? 'not-allowed' : 'pointer',
@@ -280,7 +354,7 @@ export default function ScheduleServicePage() {
         </div>
 
         {/* Embedded Google Calendar */}
-        <div className={styles.sectionContainer} style={{ marginTop: '0px' }}>
+        <div className={styles.sectionContainer} style={{ marginTop: '-30px' }}>
           <h2 className={`${styles.subTitle} ${inknut.className}`}>Currently Booked Calendar</h2>
           <iframe
             src="https://calendar.google.com/calendar/embed?src=223a18315a9653a0813a56da51a2d30bfdab0f4876ca369ba62ad9b88c3820a0@group.calendar.google.com&ctz=America%2FLos_Angeles&mode=WEEK"
