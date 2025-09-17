@@ -238,7 +238,7 @@ export default function Home() {
 
               <div className={styles.loginContainer}>
                 <p>Have an account already?</p>
-                <a href="../">
+                <a href="../clientSignIn">
                   <p className={styles.login}>Log in</p>
                 </a>
               </div>
