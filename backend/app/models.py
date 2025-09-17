@@ -17,6 +17,20 @@ class User(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+
+class Estimate(Base):
+    __tablename__ = "estimates"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(200), nullable=False)
+    description = Column(String(1000), nullable=False)
+    # store date as ISO string "YYYY-MM-DD"
+    date = Column(String(10), nullable=False)
+    file_url = Column(String(1000), nullable=True)
+
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
+    
 class Review(Base):
     __tablename__ = "reviews"
 

@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
 import phonenumbers
+from typing import Optional
+
 
 MIN_PASSWORD_LEN = 8
 
@@ -47,6 +49,15 @@ class SignupResponse(BaseModel):
     user: UserOut
 
 
+class EstimateOut(BaseModel):
+    id: int
+    name: str
+    description: str
+    date: str = Field(..., description="YYYY-MM-DD")
+    file_url: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 class ReviewCreate(BaseModel):
     rating: int = Field(ge=1, le=5)
