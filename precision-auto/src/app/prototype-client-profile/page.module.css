@@ -1,0 +1,172 @@
+:root {
+  /* THEME */
+  --background: #ffffff;
+  --foreground: #171717;
+  --page-bg: #d9d9d9;
+
+  --accent: #931621;         
+  --accent-hover: #b1202f;
+
+  --surface: #ffffff;
+  --border: #cccccc;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  --card-padding: 4rem;
+
+  --ok: #2e7d32;
+  --err: #c62828;
+}
+
+/* PAGE SHELL */
+.page {
+  background: var(--page-bg);
+  min-height: 100vh;
+  font-family: "Inknut Antiqua", serif;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  margin-left: 15rem;
+  font-weight: bold;
+}
+
+/* LAYOUT */
+.content {
+  display: flex;
+  gap: 2rem;
+}
+.sidebar {
+  width: 200px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.menuItem {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+}
+.menuItem:hover { background: #d3d3d3; }
+/* Active item: add styles.active alongside styles.menuItem */
+.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* MAIN PANEL */
+.main { flex: 1; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--card-padding);
+}
+
+.profileCard {}
+
+/* HEADERS */
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.profileHeader h2 { margin: 0; font-size: 1.5rem; }
+
+/* BUTTONS */
+.btn {
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.btnPrimary {
+  background: var(--accent);
+  color: #fff;
+}
+.btnPrimary:hover { background: var(--accent-hover); }
+.btnSecondary {
+  background: #d3d3d3;
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+.btnRed {
+  background: #c62828;
+  color: #fff;
+}
+
+/* FIELDS */
+.profileFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.field label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+}
+.field input {
+  padding: 0.5rem;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+}
+.field input:disabled { background: #eee; }
+.fullRow { grid-column: 1 / -1; }
+
+.buttonRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ALERTS */
+.alert {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}
+.alertError {
+  color: var(--err);
+  border-color: var(--err);
+  background: #ffecec;
+}
+.alertSuccess {
+  color: var(--ok);
+  border-color: var(--ok);
+  background: #e9f6ec;
+}
+
+/* helper text colors */
+.textOk { color: var(--ok); }
+.textErr { color: var(--err); }
+
+/* optional read-only list (light style) */
+.readList {}
+.readRow { margin: 0.25rem 0; }
+.readLabel { font-weight: 600; }
+.readValue { }
+
+
+
+
+
