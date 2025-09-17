@@ -104,6 +104,48 @@ export default function Loyalty() {
             </ul>
           </div>
         </div>
+        {/* info about the membership plan options */}
+        <div className={styles.fullDividerBar}> </div>
+        <h2>Membership Plan Options</h2>
+        <div className={styles.sectionPlanOptions}>
+          <div className={styles.planOptions}>
+            <ul>
+              <li>
+                Standard Single Vehicle Plan
+                <ul>
+                  <li>$159 (Yearly) or $17.95 (Monthly)</li>
+                </ul>
+              </li>
+              <li>
+                Standard Multi Vehicle Plan
+                <ul>
+                  <li>$295 (Yearly) or $29.95 (Monthly)</li>
+                </ul>
+              </li>
+              <li>
+                Euro/Luxury Single Vehicle Plan
+                <ul>
+                  <li>$239 (Yearly) or $24.95 (Monthly)</li>
+                </ul>
+              </li>
+              <li>
+                Euro/Luxury Multi Vehicle Plan
+                <ul>
+                  <li>$395 (Yearly) or $39.95 (Monthly)</li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p>
+              You can sign up for our customer loyalty membership in person
+              during our regular business hours. Memberships may be limited, so
+              we encourage you to stop by soon to secure your spot. Our hours of
+              operation are Monday through Friday from 8:30 AM to 5:30 PM, and
+              Saturday from 9:00 AM to 3:00 PM. We are closed on Sundays.
+            </p>
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

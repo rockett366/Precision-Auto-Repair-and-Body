@@ -1,0 +1,216 @@
+/* -------------------------------------
+     PAGE CONTAINERS
+  --------------------------------------*/
+
+/* If one page uses a gray background (#ccc, 1200px width) */
+.pageContainer {
+  background-color: #ccc;
+  min-height: 100vh;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainSection {
+  width: 100%;
+  margin: auto;
+}
+/* -------------------------------------
+     STEP INDICATOR / PROGRESS BAR
+  --------------------------------------*/
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  position: relative; /* needed for the line behind circles */
+  margin-top: 150px;
+}
+
+/* Thin horizontal line behind circles, linking them (1→2, 2→3, 3→4) */
+.steps::before {
+  content: "";
+  position: absolute;
+  top: 15px; /* half the circle's height (30px / 2) */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4d4d4d;
+  z-index: 0;
+}
+
+.step {
+  text-align: center;
+  flex: 1;
+  position: relative;
+  z-index: 1; /* circles above the line */
+}
+
+/* Circles (by default, gray #ddd) */
+.circle {
+  width: 30px;
+  height: 30px;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin: 0 auto 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step span {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* If you want an active step in red, you could use .circle.active { background: #b00; color: #fff; } */
+
+/* -------------------------------------
+     MAIN CONTENT BLOCKS
+  --------------------------------------*/
+
+/* Larger light-gray block (like #eee) */
+.mainSection {
+  background-color: #eee;
+  border-radius: 4px;
+  padding: 2rem;
+}
+.mainSection p,
+label {
+  color: #333;
+}
+/* Another option for a white block with borders */
+.main {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 6px;
+}
+
+.questionSection {
+  max-width: 1100px;
+  margin: auto;
+}
+/* -------------------------------------
+     HEADINGS & TEXT
+  --------------------------------------*/
+
+/* Red heading class (center if desired) */
+.redHeading {
+  color: #b00;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+/* For center-aligned paragraphs */
+.centerText,
+.center-text {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Example subtext style, for smaller or secondary paragraphs */
+.subText {
+  margin-bottom: 2rem;
+  color: #333;
+  text-align: center; /* if you want it centered as well */
+}
+
+/* -------------------------------------
+     FORM STYLES
+  --------------------------------------*/
+.form {
+  margin: auto;
+}
+/* If you want a row with multiple fields horizontally:
+     use .formRow or .field to group them */
+.formRow {
+  /* You can choose flex or column depending on your layout */
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* A field wrapper that organizes label + input */
+.field {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Basic label style */
+label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+/* Inputs & selects share styles */
+input,
+select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 
+     If you want each .formRow to have columns or single lines,
+     you can adapt them. For single column, do:
+     .formRow { flex-direction: column; }
+  */
+
+/* -------------------------------------
+     BUTTONS
+  --------------------------------------*/
+
+/* A "Next →" or "Submit" style button */
+.nextButton {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #b00;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.nextButton:hover {
+  background-color: #d00;
+}
+
+/* If you want the button bottom-right, wrap it in .buttonRow: */
+
+.buttonRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* Popup window */
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popupBox {
+  background-color: #fff;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.w-h {
+  width: 150px;
+}

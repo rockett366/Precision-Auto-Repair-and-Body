@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from ..db import get_db
-from .. import models
-from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN
+from .. import models, schemas
+from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, ReviewCreate, ReviewOut
 from ..utils import hash_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -47,3 +47,28 @@ def signup(payload: SignupRequest, db: Session = Depends(get_db)):
         "message": f"Welcome, {user.first_name}!",
         "user": UserOut.model_validate(user)
     }
+
+
+
+
+#-----for review page-----
+@router.post("/reviews", response_model=ReviewOut, status_code=status.HTTP_201_CREATED)
+def create_review(payload: ReviewCreate, db: Session = Depends(get_db)):
+    try:
+        models.Review.__table__.create(bind=db.get_bind(), checkfirst=True)
+    except Exception:
+        pass  # okay if it already exists
+
+    review = models.Review(
+        rating=payload.rating,
+        content=(payload.content or None),
+        needs_followup=(payload.rating <= 3),
+    )
+    db.add(review)
+    try:
+        db.commit()
+        db.refresh(review)
+        return review  # matches schemas.ReviewOut (id, needs_followup)
+    except Exception:
+        db.rollback()
+        raise HTTPException(status_code=500, detail="Failed to save review")
