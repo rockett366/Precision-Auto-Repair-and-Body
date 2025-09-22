@@ -19,8 +19,7 @@ export default function AdminRecords() {
   const [fileUrl, setFileUrl] = useState(null);
   const [sortKey, setSortKey] = useState('');
   const [sortOrder, setSortOrder] = useState('asc');
-  const [searchInput, setSearchInput] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   
   const getComparator = (key, order = 'asc') => (a, b) => {
     if (!key) return 0;
