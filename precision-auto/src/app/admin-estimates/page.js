@@ -3,6 +3,8 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
 import { useState } from 'react';
+import Sidebar from "@/app/constants/admin-sidebar";
+import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 
 export default function AdminEstiamtes() {
   const [estimates, setEstimates] = useState([]);
@@ -34,8 +36,9 @@ export default function AdminEstiamtes() {
   };
 
   return (
-    <div>
+    <div className={SidebarStyles.container}>
       <Nav />
+      <Sidebar />
       <div className={styles.page}>
         <main className={styles.main}>
           <div className={styles.landing}>
