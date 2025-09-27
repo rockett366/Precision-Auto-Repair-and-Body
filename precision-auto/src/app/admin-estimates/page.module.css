@@ -19,7 +19,7 @@
 
 .content {
   flex: 1;
-  min-width: 0;    /* prevents flex overflow shrinking issues */
+  min-width: 0; /* prevents flex overflow shrinking issues */
   display: flex;
   flex-direction: column;
 }

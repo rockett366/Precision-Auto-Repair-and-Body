@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -13,6 +13,19 @@ def get_estimate_history(db: Session = Depends(get_db)):
     """Return estimates ordered by most recent date, then creation time."""
     return (
         db.query(models.Estimate)
+        .order_by(models.Estimate.date.desc(), models.Estimate.created_at.desc())
+        .all()
+    )
+
+@router.get("/search", response_model=List[EstimateOut])
+def search_estimates(
+    name: str = Query(..., min_length=1),
+    db: Session = Depends(get_db)
+):
+    term = f"%{name}%"
+    return (
+        db.query(models.Estimate)
+        .filter(models.Estimate.name.ilike(term))
         .order_by(models.Estimate.date.desc(), models.Estimate.created_at.desc())
         .all()
     )

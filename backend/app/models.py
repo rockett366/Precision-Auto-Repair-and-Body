@@ -30,7 +30,15 @@ class Estimate(Base):
 
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now(), nullable=False)
-    
+
+class Inventory(Base):
+    __tablename__ = "inventory"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(200), nullable=False)
+    description = Column(String(1000), nullable=False)
+    quantity = Column(Integer, nullable=False)
+
 class Review(Base):
     __tablename__ = "reviews"
 

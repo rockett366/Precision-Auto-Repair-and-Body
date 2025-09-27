@@ -1,25 +1,26 @@
-'use client';
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
-import { useState } from 'react';
+import { useState } from "react";
 import Sidebar from "@/app/constants/admin-sidebar";
 import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 
 export default function AdminEstiamtes() {
   const [estimates, setEstimates] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [formName, setFormName] = useState('');
-  const [formDescription, setFormDescription] = useState('');
-  const [formDate, setFormDate] = useState('');
+  const [formName, setFormName] = useState("");
+  const [formDescription, setFormDescription] = useState("");
+  const [formDate, setFormDate] = useState("");
   const [formFile, setFormFile] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
     setModalVisible(false);
-    setFormName('');
-    setFormDescription('');
-    setFormDate('');
+    setFormName("");
+    setFormDescription("");
+    setFormDate("");
     setFormFile(null);
   };
   const handleFileSelect = (e) => setFormFile(e.target.files[0]);
@@ -34,6 +35,21 @@ export default function AdminEstiamtes() {
     setEstimates([...estimates, newEstimate]);
     closeModal();
   };
+  async function handleSearch() {
+    try {
+      const res = await fetch(
+        `http://localhost:8000/api/estimates/search?name=${encodeURIComponent(
+          searchQuery
+        )}`
+      );
+      if (!res.ok) throw new Error("Search failed");
+      const data = await res.json();
+      setEstimates(data); // replace table with results from backend
+    } catch (err) {
+      console.error(err);
+      setEstimates([]);
+    }
+  }
 
   return (
     <div className={SidebarStyles.container}>
@@ -50,12 +66,14 @@ export default function AdminEstiamtes() {
               <input
                 type="text"
                 placeholder="Search Item Name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className={styles.searchInput}
               />
-              <button
-                className={styles.uploadBtn}
-                onClick={openModal}
-              >
+              <button className={styles.uploadBtn} onClick={handleSearch}>
+                Search
+              </button>
+              <button className={styles.uploadBtn} onClick={openModal}>
                 Upload
               </button>
 
@@ -72,7 +90,10 @@ export default function AdminEstiamtes() {
               <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
                   <h2>New Estimate</h2>
-                  <form onSubmit={handleFormSubmit} className={styles.modalForm}>
+                  <form
+                    onSubmit={handleFormSubmit}
+                    className={styles.modalForm}
+                  >
                     <label>
                       Name:
                       <input
@@ -102,15 +123,13 @@ export default function AdminEstiamtes() {
                     </label>
                     <label>
                       File:
-                      <input
-                        type="file"
-                        onChange={handleFileSelect}
-                        required
-                      />
+                      <input type="file" onChange={handleFileSelect} required />
                     </label>
                     <div className={styles.formButtons}>
                       <button type="submit">Add</button>
-                      <button type="button" onClick={closeModal}>Cancel</button>
+                      <button type="button" onClick={closeModal}>
+                        Cancel
+                      </button>
                     </div>
                   </form>
                 </div>
@@ -135,7 +154,9 @@ export default function AdminEstiamtes() {
                       <td>{item.description}</td>
                       <td>{item.date}</td>
                       <td>
-                        <a href="#" className={styles.reviewBtn}>View</a>
+                        <a href="#" className={styles.reviewBtn}>
+                          View
+                        </a>
                       </td>
                     </tr>
                   ))}
