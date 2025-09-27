@@ -7,7 +7,7 @@ This project uses **Docker** and a **Makefile** to manage the development enviro
 For the project to run properly, two `.env` files are required:
 
 1. **Backend**  
-   Place a `.env` file inside the `backend/app/` directory.
+   Place a `.env` file inside the `backend/` directory.
 
 2. **Frontend**  
    Place a `.env` file inside the `precision-auto/` directory.
