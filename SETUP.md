@@ -2,6 +2,19 @@
 
 This project uses **Docker** and a **Makefile** to manage the development environment.
 
+## Prerequisite
+
+For the project to run properly, two `.env` files are required:
+
+1. **Backend**  
+   Place a `.env` file inside the `backend/app/` directory.
+
+2. **Frontend**  
+   Place a `.env` file inside the `precision-auto/` directory.
+
+Make sure both `.env` files contain the necessary environment variables for their respective services. You can find the .env credentials within discord directory.
+
+
 ## What Docker Does
 
 Docker is used to containerize the application and its dependencies so the project runs consistently across different environments.  
