@@ -1,3 +1,10 @@
+"""
+This file tests the rules in our schemas (data models).
+- It checks that phone numbers get changed into the correct +1 format.
+- It makes sure passwords have to match each other.
+- It makes sure reviews cannot be too short.
+"""
+
 import pytest
 from pydantic import ValidationError
 from app.schemas import SignupRequest, ReviewCreate

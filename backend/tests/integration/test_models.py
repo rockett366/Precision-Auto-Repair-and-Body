@@ -1,3 +1,13 @@
+"""
+This file tests rules in our database models directly.
+- It checks that the email column on the User model must be unique.
+- Trying to add two users with the same email should raise an error.
+This shows how to test database constraints:
+1. Create a record with db_session.add() and commit().
+2. Try to create another record that breaks a rule (like duplicate email).
+3. Catch the error (IntegrityError) and roll back the session.
+"""
+
 from sqlalchemy.exc import IntegrityError
 from app.models import User
 

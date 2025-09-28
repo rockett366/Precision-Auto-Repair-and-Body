@@ -1,3 +1,14 @@
+"""
+This file tests the signup feature of our API.
+- It checks that a normal signup works (happy path).
+- It checks that too-short passwords are rejected.
+- It checks that duplicate emails or phone numbers are not allowed.
+Use this as an example of how to write new endpoint tests:
+1. Build a payload (like with the _payload helper).
+2. Send a request with client.post() or client.get().
+3. Check the response code and data with assert statements.
+"""
+
 def _payload(email="u1@example.com", phone="+14155551212", pw="abcd1234"):
     return {
         "first_name": "Ada",
