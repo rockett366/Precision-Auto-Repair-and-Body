@@ -1,6 +1,6 @@
 # ==== Config ====
 COMPOSE := docker compose
-PGHOST_PORT ?= 5433
+PGHOST_PORT ?= 5432
 PGADMIN_PORT ?= 5050
 
 # start full stack (DB, API, pgAdmin)
