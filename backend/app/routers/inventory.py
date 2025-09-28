@@ -27,16 +27,3 @@ def search_inventory(
         .filter(models.Inventory.name.ilike(term))
         .all()
     )
-
-# data seeder for testing
-@router.post("/seed-dev", response_model=int)
-def seed_dev(db: Session = Depends(get_db)):
-    demo = [
-        models.Inventory(name="Screws", description="Size 10 philips screws", quantity="200"),
-        models.Inventory(name="Wrench", description="adjsutable wrench", quantity="5"),
-        models.Inventory(name="Impact Drill", description="Milkwakee impact drill", quantity="2"),
-    ]
-    for e in demo:
-        db.add(e)
-    db.commit()
-    return len(demo)
