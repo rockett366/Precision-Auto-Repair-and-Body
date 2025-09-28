@@ -46,3 +46,6 @@ seed-user:
 # rebuild API (no cache)
 rebuild-api:
 	@$(COMPOSE) build --no-cache api
+
+seed-inventory:
+	@docker compose exec api python app/scripts/seed_inventory.py
