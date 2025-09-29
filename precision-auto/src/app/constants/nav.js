@@ -37,7 +37,7 @@ export default function Nav() {
             <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/clientSignIn">Login</Link>
+            <Link href="/client-sign-in">Login</Link>
           </li>
           <li>
             <Link href="/signup">Sign-up</Link>
