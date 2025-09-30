@@ -1,36 +1,36 @@
-'use client';
-import Image from "next/image";
+"use client";
+
 import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
-import { useState } from 'react';
+import { useState } from "react";
+import useInvoicesHistory from "./hooks/useInvoicesHistory";
+import PlaceholderJSON from "./components/placeholderJSON";
+import InvoicesTable from "./components/invoicesTable";
 
-export default function AdminEstiamtes() {
-  const [estimates, setEstimates] = useState([]);
+export default function AdminInvoices() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [formName, setFormName] = useState('');
-  const [formDescription, setFormDescription] = useState('');
-  const [formDate, setFormDate] = useState('');
+  const [formName, setFormName] = useState("");
+  const [formDescription, setFormDescription] = useState("");
+  const [formDate, setFormDate] = useState("");
   const [formFile, setFormFile] = useState(null);
+
+  const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory();
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
     setModalVisible(false);
-    setFormName('');
-    setFormDescription('');
-    setFormDate('');
+    setFormName("");
+    setFormDescription("");
+    setFormDate("");
     setFormFile(null);
   };
   const handleFileSelect = (e) => setFormFile(e.target.files[0]);
-  const handleFormSubmit = (e) => {
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const newEstimate = {
-      name: formName,
-      description: formDescription,
-      date: formDate,
-      file: formFile,
-    };
-    setEstimates([...estimates, newEstimate]);
+    // TODO: implement real upload
     closeModal();
+    // await refetch();
   };
 
   return (
@@ -39,8 +39,8 @@ export default function AdminEstiamtes() {
       <div className={styles.page}>
         <main className={styles.main}>
           <div className={styles.landing}>
-            <h1>Review Estiamtes</h1>
-            <p>Manage and review customer repair estimates.</p>
+            <h1>Review Invoices</h1>
+            <p>Manage and review customer repair invoices.</p>
 
             {/* Controls: Search Bar, Upload Button, and Sort Dropdown */}
             <div className={styles.controlsContainer}>
@@ -49,10 +49,7 @@ export default function AdminEstiamtes() {
                 placeholder="Search Item Name"
                 className={styles.searchInput}
               />
-              <button
-                className={styles.uploadBtn}
-                onClick={openModal}
-              >
+              <button className={styles.uploadBtn} onClick={openModal}>
                 Upload
               </button>
 
@@ -68,7 +65,7 @@ export default function AdminEstiamtes() {
             {modalVisible && (
               <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
-                  <h2>New Estimate</h2>
+                  <h2>New Invoice</h2>
                   <form onSubmit={handleFormSubmit} className={styles.modalForm}>
                     <label>
                       Name:
@@ -99,46 +96,56 @@ export default function AdminEstiamtes() {
                     </label>
                     <label>
                       File:
-                      <input
-                        type="file"
-                        onChange={handleFileSelect}
-                        required
-                      />
+                      <input type="file" onChange={handleFileSelect} />
                     </label>
                     <div className={styles.formButtons}>
                       <button type="submit">Add</button>
-                      <button type="button" onClick={closeModal}>Cancel</button>
+                      <button type="button" onClick={closeModal}>
+                        Cancel
+                      </button>
                     </div>
                   </form>
                 </div>
               </div>
             )}
 
-            {/* Table */}
-            <div className={styles.tableContainer}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>DESCRIPTION</th>
-                    <th>Date</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {estimates.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item.name}</td>
-                      <td>{item.description}</td>
-                      <td>{item.date}</td>
-                      <td>
-                        <a href="#" className={styles.reviewBtn}>View</a>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            {/* Loading state */}
+            {isLoading && <p>Loading invoices…</p>}
+
+            {/* Error state (show message + placeholder data ONLY on error) */}
+            {isError && (
+              <div className={styles.errorBox}>
+                <p>Could not load invoices.</p>
+                <pre className={styles.errorPre}>{error?.message}</pre>
+                <button onClick={refetch} className={styles.retryBtn}>
+                  Retry
+                </button>
+
+                {/* Placeholder JSON renders ONLY on error */}
+                <PlaceholderJSON
+                  data={[
+                    {
+                      id: 0,
+                      name: "Example Invoice",
+                      description: "Placeholder item (shown on error)",
+                      date: "2025-09-01",
+                    },
+                  ]}
+                />
+              </div>
+            )}
+
+            {/* Success state: render ONLY real backend data */}
+            {!isLoading && !isError && (
+              <div className={styles.tableContainer}>
+                <InvoicesTable items={invoices} />
+                {(!invoices || invoices.length === 0) && (
+                  <p style={{ textAlign: "center", marginTop: 12 }}>
+                    No invoices found.
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         </main>
       </div>

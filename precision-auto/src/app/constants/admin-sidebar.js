@@ -18,8 +18,8 @@ export default function Sidebar() {
                 <li className={pathname === "/admin-appointments" ? styles.adminCurSelect : styles.adminItem}>
                     <a href="/admin-appointments">Appointments</a>
                 </li>
-                <li className={pathname === "/admin-estimates" ? styles.adminCurSelect : styles.adminItem}>
-                    <a href="/admin-estimates">Review Estimates</a>
+                <li className={pathname === "/admin-invoices" ? styles.adminCurSelect : styles.adminItem}>
+                    <a href="/admin-invoices">Review Invoices</a>
                 </li>
                 <li className={pathname === "/admin-records" ? styles.adminCurSelect : styles.adminItem}>
                     <a href="/admin-records">Past Records</a>

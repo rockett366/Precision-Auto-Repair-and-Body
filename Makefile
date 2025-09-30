@@ -1,6 +1,6 @@
 # ==== Config ====
 COMPOSE := docker compose
-PGHOST_PORT ?= 5433
+PGHOST_PORT ?= 5432
 PGADMIN_PORT ?= 5050
 
 # start full stack (DB, API, pgAdmin)
@@ -11,7 +11,7 @@ dev-up:
 	@echo "pgAdmin => http://localhost:$(PGADMIN_PORT)"
 	@echo "Web     => http://localhost:3000"
 
-# remove contaienrs (data persists)
+# remove containers (data persists)
 dev-down:
 	@$(COMPOSE) down
 
@@ -46,3 +46,17 @@ seed-user:
 # rebuild API (no cache)
 rebuild-api:
 	@$(COMPOSE) build --no-cache api
+
+
+# ======== TEST CONFIG ========
+-include backend/.env
+
+test:
+	@$(COMPOSE) up -d db
+	@$(COMPOSE) exec -T db psql -U app_user -d postgres -c "DROP DATABASE IF EXISTS precision_test_db WITH (FORCE);"
+	@$(COMPOSE) exec -T db psql -U app_user -d postgres -c "CREATE DATABASE precision_test_db;"
+	@$(COMPOSE) run --rm \
+	  -v $$PWD/backend:/app \
+	  -w /app \
+	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest --cov=app --cov-report=term-missing --cov-report=xml"
+	@echo "Coverage report -> backend/coverage.xml"
