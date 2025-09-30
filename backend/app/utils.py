@@ -11,7 +11,6 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, hashed: str) -> bool:
     return pwd_ctx.verify(password, hashed)
 
-#--- ezra: JWT token utils ---
 
 # --- JWT settings ---
 JWT_SECRET = os.getenv("JWT_SECRET", "dev-secret-key")
