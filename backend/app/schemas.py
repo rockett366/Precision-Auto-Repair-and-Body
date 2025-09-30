@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from datetime import date
 import phonenumbers
 from typing import Optional
 
@@ -78,3 +79,11 @@ class ReviewOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ClientRecordBase(BaseModel):
+    vehicle: str
+    description: str
+    date: date
+    
+    class Config:
+        orm_mode = True
