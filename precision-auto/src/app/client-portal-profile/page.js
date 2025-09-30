@@ -81,7 +81,7 @@ export default function AdminProfile() {
   }
 };
 
-  //Real backend call to load user profile
+  // backend call to load user profile
 useEffect(() => {
   (async () => {
     try {
@@ -146,17 +146,29 @@ useEffect(() => {
     setPwdBannerKind("error");
   };
   const verifyPwd = async () => {
-    setPwdSaving(true);
-    setPwdBanner("");
-    setPwdBannerKind("error");
-    try {
-      setPwdMode("reset");
-    } catch (e) {
-      setPwdBanner("Current password is incorrect.");
-    } finally {
-      setPwdSaving(false);
+  setPwdSaving(true);
+  setPwdBanner("");
+  setPwdBannerKind("error");
+  try {
+    const res = await fetch(api(`/users/me/verify-password`), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...authHeaders() },
+      body: JSON.stringify({ current_password: pwd.current }),
+    });
+    if (!res.ok) {
+      const j = await res.json().catch(() => ({}));
+      throw new Error(j.detail || "Current password is incorrect.");
     }
-  };
+    setPwdBannerKind("success");
+    setPwdBanner("Password verified.");
+    setPwdMode("reset"); // reveal new/confirm fields
+  } catch (e) {
+    setPwdBannerKind("error");
+    setPwdBanner(e.message || "Unable to verify password.");
+  } finally {
+    setPwdSaving(false);
+  }
+};
 
   // backend call to update password
 const updatePwd = async () => {

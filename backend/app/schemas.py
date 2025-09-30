@@ -112,3 +112,11 @@ class UserUpdate(BaseModel):
 class PasswordChange(BaseModel):
     current_password: str
     new_password: str = Field(min_length=MIN_PASSWORD_LEN)
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=MIN_PASSWORD_LEN)
+
+# NEW: used by POST /users/me/verify-password
+class PasswordVerify(BaseModel):
+    current_password: str
