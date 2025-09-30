@@ -1,12 +1,13 @@
 fastapi
 uvicorn[standard]
 sqlalchemy
-pydantic[email]
-passlib[bcrypt]
-python-dotenv
+pydantic[email]             #email validation
+passlib[bcrypt]             #password hashing
+python-dotenv       
 phonenumbers
-psycopg2-binary
+psycopg2-binary             #postgres driver
 passlib==1.7.4
 bcrypt==3.2.2
-phonenumbers
-python-multipart
+python-multipart            #for form data
+
+PyJWT                      #for JWT token creation and verification (ezra)      

@@ -1,51 +1,54 @@
-from fastapi import APIRouter, Depends, HTTPException, Path
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-
 from ..db import get_db
 from .. import models, schemas
+from ..routers.auth import get_current_user
 from ..utils import hash_password, verify_password
 
 router = APIRouter(prefix="/users", tags=["users"])
 
-# Get a user by id
-@router.get("/{user_id}", response_model=schemas.UserOut)
-def get_user(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+# --- existing /users/{user_id} routes stay as-is ---
 
-# Update profile (first/last/phone)
-@router.put("/{user_id}", response_model=schemas.UserOut)
-def update_user(user_id: int, payload: schemas.UserUpdate, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+# NEW: GET /users/me
+@router.get("/me", response_model=schemas.UserOut)
+def get_me(current: models.User = Depends(get_current_user)):
+    return current
 
-    # enforce unique phone
+# NEW: PUT /users/me
+@router.put("/me", response_model=schemas.UserOut)
+def update_me(
+    payload: schemas.UserUpdate,
+    db: Session = Depends(get_db),
+    current: models.User = Depends(get_current_user),
+):
+    # enforce unique phone (if present on another account)
     conflict = db.query(models.User).filter(
-        (models.User.phone == payload.phone) & (models.User.id != user_id)
+        (models.User.phone == payload.phone) & (models.User.id != current.id)
     ).first()
     if conflict:
         raise HTTPException(status_code=409, detail="Phone already in use")
 
-    user.first_name = payload.first_name
-    user.last_name = payload.last_name
-    user.phone = payload.phone
+    current.first_name = payload.first_name
+    current.last_name = payload.last_name
+    current.phone = payload.phone
     db.commit()
-    db.refresh(user)
-    return user
+    db.refresh(current)
+    return current
 
-# Change password
-@router.put("/{user_id}/password")
-def change_password(user_id: int, payload: schemas.PasswordChange, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    if not verify_password(payload.current_password, user.password_hash):
+# NEW: PUT /users/me/password
+@router.put("/me/password")
+def change_my_password(
+    payload: schemas.PasswordChange,
+    db: Session = Depends(get_db),
+    current: models.User = Depends(get_current_user),
+):
+    if not verify_password(payload.current_password, current.password_hash):
         raise HTTPException(status_code=400, detail="Current password is incorrect")
-
-    user.password_hash = hash_password(payload.new_password)
+    if len(payload.new_password) < schemas.MIN_PASSWORD_LEN:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Password must be at least {schemas.MIN_PASSWORD_LEN} characters.",
+        )
+    current.password_hash = hash_password(payload.new_password)
     db.commit()
     return {"message": "Password updated"}

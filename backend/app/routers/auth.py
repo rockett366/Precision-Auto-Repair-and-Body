@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from sqlalchemy import select
 from ..db import get_db
 from .. import models, schemas
-from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, ReviewCreate, ReviewOut
-from ..utils import hash_password
+from ..schemas import (SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, 
+ReviewCreate, ReviewOut, LoginRequest, TokenOut)
+from ..utils import hash_password, create_access_token, verify_password, decode_token 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -72,3 +74,27 @@ def create_review(payload: ReviewCreate, db: Session = Depends(get_db)):
     except Exception:
         db.rollback()
         raise HTTPException(status_code=500, detail="Failed to save review")
+    
+# ----- login + current user -----
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+    email = decode_token(token)  # should validate signature & exp and return email (sub)
+    if not email:
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
+    user = db.query(models.User).filter(models.User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found")
+    return user
+
+@router.post("/login", response_model=TokenOut)
+def login(payload: LoginRequest, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.email == payload.email.lower()).first()
+    if not user or not verify_password(payload.password, user.password_hash):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    token = create_access_token(subject=user.email)
+    return {"access_token": token, "token_type": "bearer"}
+
+@router.get("/me", response_model=UserOut)
+def me(current_user: models.User = Depends(get_current_user)):
+    return UserOut.model_validate(current_user)
