@@ -50,7 +50,7 @@ class SignupResponse(BaseModel):
     user: UserOut
 
 
-class EstimateOut(BaseModel):
+class InvoiceOut(BaseModel):
     id: int
     name: str
     description: str

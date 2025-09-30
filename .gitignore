@@ -42,3 +42,8 @@ coverage/
 # Misc
 .DS_Store
 Thumbs.db
+
+# Coverage reports
+coverage.xml
+htmlcov/
+.coverage
