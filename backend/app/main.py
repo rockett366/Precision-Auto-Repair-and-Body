@@ -29,5 +29,3 @@ def health():
 #----api routers for auth token here----
 app.include_router(auth.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
-# not yet sure how this one will work
-# app.include_router(estimates_router.router, prefix="/api")
