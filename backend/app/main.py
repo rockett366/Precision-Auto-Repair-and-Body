@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .db import Base, engine
 from . import models
 from .routers import auth
-from .routers import estimates as estimates_router
+from .routers import invoices as invoices_router
 
 
 # Create tables automatically
@@ -26,4 +26,4 @@ def health():
     return {"ok": True}
 
 app.include_router(auth.router, prefix="/api")
-app.include_router(estimates_router.router, prefix="/api")
+app.include_router(invoices_router.router, prefix="/api")

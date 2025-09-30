@@ -8,7 +8,7 @@ import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 
 export default function AdminRecords() {
   
-  const [estimates, setEstimates] = useState([]);
+  const [invoices, setInvoices] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [formName, setFormName] = useState('');
   const [formDescription, setFormDescription] = useState('');
@@ -45,14 +45,14 @@ export default function AdminRecords() {
   const handleFileSelect = (e) => setFormFile(e.target.files[0]);
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const newEstimate = {
+    const newInvoice = {
       name: formName,
       description: formDescription,
       date: formDate,
       file: formFile,
     };
-    setEstimates((prev) => {
-      const next = [...prev, newEstimate];
+    setInvoices((prev) => {
+      const next = [...prev, newInvoice];
       return sortKey ? next.sort(getComparator(sortKey, sortOrder)) : next;
     });
     closeModal();
@@ -80,7 +80,7 @@ export default function AdminRecords() {
     const key = e.target.value;
     setSortKey(key);
     if (key) {
-      setEstimates((prev) => [...prev].sort(getComparator(key, sortOrder)));
+      setInvoices((prev) => [...prev].sort(getComparator(key, sortOrder)));
     }
   };
 
@@ -88,14 +88,14 @@ export default function AdminRecords() {
     setSortOrder((prev) => {
       const next = prev === 'asc' ? 'desc' : 'asc';
       if (sortKey) {
-        setEstimates((list) => [...list].sort(getComparator(sortKey, next)));
+        setInvoices((list) => [...list].sort(getComparator(sortKey, next)));
       }
       return next;
     });
   };
   
-  const filteredEstimates = searchQuery
-    ? estimates.filter((item) => {
+  const filteredInvoices = searchQuery
+    ? invoices.filter((item) => {
         const q = searchQuery.trim().toLowerCase();
         if (!q) return true;
         return (
@@ -104,7 +104,7 @@ export default function AdminRecords() {
           item.date?.toString().toLowerCase().includes(q)
         );
       })
-    : estimates;
+    : invoices;
   
   return (
     <div className={SidebarStyles.container}>
@@ -150,7 +150,7 @@ export default function AdminRecords() {
             {modalVisible && (
               <div className={styles.modalOverlay}>
                 <div className={styles.modal}>
-                  <h2>New Estimate</h2>
+                  <h2>New Invoice</h2>
                   <form onSubmit={handleFormSubmit} className={styles.modalForm}>
                     <label>
                       Name:
@@ -208,16 +208,16 @@ export default function AdminRecords() {
                   </tr>
                 </thead>
                 <tbody>
-                  {estimates.length === 0 ? (
+                  {invoices.length === 0 ? (
                     <tr>
                       <td colSpan="4">No records yet. Use Upload to add one.</td>
                     </tr>
-                  ) : filteredEstimates.length === 0 ? (
+                  ) : filteredInvoices.length === 0 ? (
                     <tr>
                       <td colSpan="4">No matching records.</td>
                     </tr>
                   ) : (
-                    filteredEstimates.map((item, index) => (
+                    filteredInvoices.map((item, index) => (
                       <tr key={index}>
                         <td>{item.name}</td>
                         <td>{item.description}</td>

@@ -18,8 +18,8 @@ class User(Base):
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
-class Estimate(Base):
-    __tablename__ = "estimates"
+class Invoice(Base):
+    __tablename__ = "invoices"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(200), nullable=False)
