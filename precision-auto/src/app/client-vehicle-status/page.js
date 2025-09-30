@@ -1,8 +1,55 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../constants/nav";
 
-export default function Home() {
+export default function VehicleStatus() {
+  const stages = ["In Service", "Repairing", "Ready"];
+  const [status, setStatus] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStatus = async () => {
+      try {
+        {
+          /* Option 1
+            For testing on other computers
+        */}
+
+        
+        const res = await fetch("api/vehicle-status-seed", {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Failed to fetch records from mock API");
+        const data = await res.json();
+
+        
+
+        {
+          /* Option 2
+          For testing on local db
+
+        const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+        const res = await fetch(`${base}/api/vehicle-status/`, { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch records");
+        const data = await res.json();
+        */}
+
+        setStatus(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStatus();
+  }, []);
+
+  const vehicle = status[0] // In the future, add a dropdown menu so user can pick which car to see vehicle status of
+
   return (
     <div>
       <Nav />
@@ -47,46 +94,58 @@ export default function Home() {
                 <p className={styles.profileHeader}>Vehicle Status</p>
               </div>
             </div>
-            <div className={styles.smallContainer}>
-              <div className={styles.inputWrapper}>
-                <p>Status Overview:</p>
-                <div className={styles.statusOverview}>
-                  <div className={styles.inputWrapper2}>
-                  <span className={styles.circle}></span>
-                  <p>In Service</p>
+
+            {loading ? (
+              <p>Loading status...</p>
+            ) : error ? (
+              <p style={{ color: "red" }}>{error}</p>
+            ) : vehicle ? (
+              <div className={styles.smallContainer}>
+                <div className={styles.inputWrapper}>
+                  <p>Status Overview:</p>
+                  <div className={styles.statusOverview}>
+                    {stages.map((stage, index) => (
+                      <div key={index} className={styles.stageWrapper}>
+                        <div className={styles.inputWrapper2}>
+                          <span
+                            className={`${styles.circle} ${
+                              vehicle.status >= index + 1
+                                ? styles.activeCircle
+                                : ""
+                            }`}
+                          ></span>
+                          <p>{stage}</p>
+                        </div>
+                        {index < stages.length - 1 && (
+                          <p className={styles.line}></p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                  <p className={styles.line}></p>
-                <div className={styles.inputWrapper2}>
-                  <span className={styles.circle}></span>
-                  <p>Repairing</p>
+
+                <div className={styles.inputWrapper}>
+                  <p>Vehicle Info:</p>
+                  <p className={styles.info}>Make: {vehicle.make}</p>
+                  <p className={styles.info}>Model: {vehicle.model}</p>
+                  <p className={styles.info}>Year: {vehicle.year}</p>
+                  <p className={styles.info}>VIN: {vehicle.vin}</p>
                 </div>
-                  <p className={styles.line}></p>
-                <div className={styles.inputWrapper2}>
-                  <span className={styles.circle}></span>
-                  <p>Ready for</p>
-                  <p>Pickup</p>
+
+                <div className={styles.inputWrapper}>
+                  <p>Design Consideration:</p>
+                  <p className={styles.info}>Color: {vehicle.color}</p>
+                  <p className={styles.info}>Design: {vehicle.design}</p>
+                </div>
+
+                <div className={styles.inputWrapper}>
+                  <p>Additional Details:</p>
+                  <p className={styles.info}>{vehicle.additional_details}</p>
                 </div>
                 </div>
-              </div>
-              <div className={styles.inputWrapper}>
-                <p>Vehicle Info:</p>
-                <p className={styles.info}>Make: Toyota</p>
-                <p className={styles.info}>Model: Camry</p>
-                <p className={styles.info}>Year: 2012</p>
-                <p className={styles.info}>VIN: 12345678</p>
-              </div>
-              <div className={styles.inputWrapper}>
-                <p>Design Consideration:</p>
-                <p className={styles.info}>Color: Red</p>
-                <p className={styles.info}>Design: Yes</p>
-              </div>
-              <div className={styles.inputWrapper}>
-                <p>Additional Details:</p>
-                <p className={styles.info}>notes from technician</p>
-                <p className={styles.info}>upgrades</p>
-                <p className={styles.info}>...</p>
-              </div>
-            </div>
+                ) : (
+                  <p>No vehicle found.</p>
+                  )}
           </div>
         </div>
       </div>

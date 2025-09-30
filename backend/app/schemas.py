@@ -78,3 +78,17 @@ class ReviewOut(BaseModel):
 
     class Config:
         from_attributes = True
+        
+class VehicleStatus(BaseModel):
+    id: int
+    status: int
+    make: str
+    model: str
+    year: int
+    vin: str
+    color: str
+    design: str
+    additional_details: str
+    
+    class Config:
+        from_attributes = True
