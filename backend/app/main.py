@@ -4,7 +4,7 @@ from .db import Base, engine
 from . import models
 from .routers import auth
 from .routers import invoices as invoices_router
-
+from .routers import s3_online_estimates
 
 # Create tables automatically
 Base.metadata.create_all(bind=engine)
@@ -27,3 +27,4 @@ def health():
 
 app.include_router(auth.router, prefix="/api")
 app.include_router(invoices_router.router, prefix="/api")
+app.include_router(s3_online_estimates.router, prefix="/api")
