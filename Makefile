@@ -79,3 +79,14 @@ fe-coverage: fe-install
 	docker compose run --rm web sh -lc "npm run test:coverage"
 
 .PHONY: fe-install fe-test fe-coverage
+
+# ======== CI TARGETS (no docker compose) ========
+ci-backend:
+	@echo "Using TEST_DB_URL=$(TEST_DB_URL)"
+	@pip install -r backend/requirements.txt
+	@cd backend && DATABASE_URL=$(TEST_DB_URL) pytest -q --cov=app --cov-report=xml --cov-report=term-missing
+	@echo "Coverage report -> backend/coverage.xml"
+
+ci-frontend:
+	@cd precision-auto && npm ci
+	@cd precision-auto && npm run test:coverage -- --ci
