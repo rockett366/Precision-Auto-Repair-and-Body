@@ -1,8 +1,5 @@
-import * as React from 'react';
 import { render } from '@testing-library/react';
-
 export * from '@testing-library/react';
-
-export function renderWithProviders(ui: React.ReactElement, options?: any) {
+export function renderWithProviders(ui, options) {
   return render(ui, options);
 }

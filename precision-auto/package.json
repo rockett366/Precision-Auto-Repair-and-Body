@@ -6,16 +6,17 @@
         "react-dom": "^19.0.0"
     },
     "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.0",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^14.6.1",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "whatwg-fetch": "^3.6.20",
-    "@types/jest": "^29.5.12"
+        "@testing-library/jest-dom": "^6.9.0",
+        "@testing-library/react": "^16.3.0",
+        "@testing-library/user-event": "^14.6.1",
+        "@types/jest": "^29.5.12",
+        "identity-obj-proxy": "^3.0.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "jest-fixed-jsdom": "^0.0.10",
+        "msw": "^2.11.3",
+        "whatwg-fetch": "^3.6.20"
     },
-
     "name": "precision-auto-repair-and-body",
     "version": "1.0.0",
     "description": "",
@@ -24,7 +25,6 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-
         "test": "jest",
         "test:unit": "jest --selectProjects unit",
         "test:integration": "jest --selectProjects integration",
