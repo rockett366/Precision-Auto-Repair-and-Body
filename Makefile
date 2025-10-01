@@ -84,12 +84,9 @@ fe-coverage: fe-install
 ci-backend:
 	@echo "Using TEST_DB_URL=$(TEST_DB_URL)"
 	@pip install -r backend/requirements.txt
-	# If you use Alembic, uncomment the next line:
-	# @cd backend && DATABASE_URL=$(TEST_DB_URL) alembic upgrade head || true
 	@cd backend && DATABASE_URL=$(TEST_DB_URL) pytest -q --cov=app --cov-report=xml --cov-report=term-missing
 	@echo "Coverage report -> backend/coverage.xml"
 
 ci-frontend:
 	@cd precision-auto && npm ci
-	# expects a "test:coverage" script in package.json (or replace with `npm test -- --ci --coverage`)
 	@cd precision-auto && npm run test:coverage -- --ci
