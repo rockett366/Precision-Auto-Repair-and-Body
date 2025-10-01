@@ -7,6 +7,35 @@ import Nav from "../../constants/nav.js";
 import Footer from "../../constants/footer";
 import { useRouter } from "next/navigation";
 
+// --- Hardcode backend endpoint here ---
+const S3_BACKEND_URL = "http://localhost:8000/api/s3/online-estimates-put";
+
+//helper methods for the page
+//uploadImageViaApiPut will get the url needed to upload to the s3 bucket than PUT to the s3 bucket
+async function uploadImageViaApiPut(file) {
+  if (!file) throw new Error("No file provided");
+
+  const form = new FormData();
+  form.append("file", file); // UploadFile in backend
+  let res;
+  try {
+    res = await fetch(`${S3_BACKEND_URL}`, {
+      header: { Accept: "multipart/form-data" },
+      method: "PUT",
+      body: form,
+    });
+  } catch {
+    console.log("err");
+  }
+  if (!res.ok) {
+    const msg = await res.text();
+    throw new Error(`API upload failed: ${msg}`);
+  }
+  // Return { key, public_url, uploaded: true } might need for future sprints
+  console.log("successful image upload");
+  return await res.json();
+}
+
 export default function VehicleInfoPage() {
   const router = useRouter();
 
@@ -38,7 +67,7 @@ export default function VehicleInfoPage() {
   const [popupMessage, setPopupMessage] = useState("");
 
   // When clicked, the 'Next' button calls this function.
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (
       !file1 ||
       !file2 ||
@@ -59,7 +88,28 @@ export default function VehicleInfoPage() {
       return;
     }
 
-    router.push("/online-estimate/confirmation");
+    try {
+      const files = [file1, file2, file3, file4, file5, file6, file7];
+
+      const queue = [...files];
+      const results = [];
+      let q_len = queue.length;
+
+      //upload all images
+      while (q_len > 0) {
+        const f = queue.shift();
+        const { key, public_url, uploaded } = await uploadImageViaApiPut(f);
+        results.push({ key, public_url, uploaded });
+        console.log(results);
+        q_len -= 1;
+      }
+
+      router.push("/online-estimate/confirmation");
+    } catch (err) {
+      console.error(err);
+      setPopupMessage(err?.message ?? "Upload failed.");
+      setShowPopup(true);
+    }
   };
 
   return (

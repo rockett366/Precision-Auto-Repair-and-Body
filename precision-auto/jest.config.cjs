@@ -25,6 +25,10 @@ module.exports = createJestConfig({
   coverageReporters: ['text', 'text-summary', 'html', 'lcov'],
 
   coverageThreshold: {
+<<<<<<< HEAD
     //global: { branches: 70, functions: 75, lines: 80, statements: 80 }
+=======
+    global: { branches: 70, functions: 75, lines: 80, statements: 80 }
+>>>>>>> 86507055c349dd43be3634a4cc142b54000eb3e6
   },
 });

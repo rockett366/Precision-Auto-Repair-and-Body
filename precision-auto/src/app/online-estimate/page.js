@@ -43,6 +43,12 @@ export default function OnlineEstimate() {
       return;
     }
 
+    // Store data in sessionStorage
+    sessionStorage.setItem("firstName", firstName);
+    sessionStorage.setItem("lastName", lastName);
+    sessionStorage.setItem("email", email);
+    sessionStorage.setItem("phoneNumber", phoneNumber);
+
     //Passes the validation-> next page
     router.push("/online-estimate/vehicle");
   };
