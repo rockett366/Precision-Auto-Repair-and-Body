@@ -121,7 +121,6 @@ class PasswordChange(BaseModel):
 # NEW: used by POST /users/me/verify-password
 class PasswordVerify(BaseModel):
     current_password: str
-=======
 
 class LoginRequest(BaseModel):
     email: EmailStr
