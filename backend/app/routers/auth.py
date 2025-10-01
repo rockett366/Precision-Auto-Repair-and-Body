@@ -8,6 +8,9 @@ from ..schemas import (SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN,
 ReviewCreate, ReviewOut, LoginRequest, TokenOut)
 from ..utils import hash_password, create_access_token, verify_password, decode_token 
 
+from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, ReviewCreate, ReviewOut
+from ..utils import hash_password, verify_password
+
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/signup", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
@@ -75,6 +78,7 @@ def create_review(payload: ReviewCreate, db: Session = Depends(get_db)):
         db.rollback()
         raise HTTPException(status_code=500, detail="Failed to save review")
     
+
 # ----- login + current user -----
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
 
@@ -94,3 +98,24 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     token = create_access_token(subject=user.email)
     return {"access_token": token, "token_type": "bearer"}
+
+#------for login pg-------
+@router.post("/login")
+def login(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
+    # Lookup by email (lowercase to match signup storage)
+    user = db.execute(
+        select(models.User).where(models.User.email == payload.email.lower())
+    ).scalar_one_or_none()
+
+    # Generic message so we don't leak which field was wrong
+    if not user or not verify_password(payload.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password."
+        )
+
+    return {
+        "message": "Login successful",
+        "user": schemas.UserOut.model_validate(user)
+    }
+

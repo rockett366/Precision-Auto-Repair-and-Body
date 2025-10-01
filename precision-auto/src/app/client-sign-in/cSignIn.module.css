@@ -162,3 +162,20 @@
     display: inline-block;
   }
   
+
+  .fieldError {
+  color: #f06272;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.errorBanner {
+  color: #f06272;
+  font-weight: 700;
+  margin: 8px 0 12px;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

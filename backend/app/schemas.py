@@ -79,6 +79,7 @@ class ReviewOut(BaseModel):
     class Config:
         from_attributes = True
 
+
 #----Authentication Tokens----
 class LoginRequest(BaseModel):
     email: EmailStr
@@ -120,3 +121,8 @@ class PasswordChange(BaseModel):
 # NEW: used by POST /users/me/verify-password
 class PasswordVerify(BaseModel):
     current_password: str
+=======
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=1)

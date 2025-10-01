@@ -14,7 +14,7 @@ export default function Nav() {
             <Link href="/loyalty-membership">Membership</Link>
           </li>
           <li>
-            <Link href="/onlineEstimate">Get Estimate</Link>
+            <Link href="/online-estimate">Get Estimate</Link>
           </li>
           <li>
             <Link href="/select-service">Services</Link>
@@ -37,7 +37,7 @@ export default function Nav() {
             <Link href="/about">About</Link>
           </li>
           <li>
-            <Link href="/clientSignIn">Login</Link>
+            <Link href="/client-sign-in">Login</Link>
           </li>
           <li>
             <Link href="/signup">Sign-up</Link>
