@@ -4,7 +4,7 @@ from sqlalchemy import select
 from ..db import get_db
 from .. import models, schemas
 from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, ReviewCreate, ReviewOut
-from ..utils import hash_password
+from ..utils import hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -72,3 +72,23 @@ def create_review(payload: ReviewCreate, db: Session = Depends(get_db)):
     except Exception:
         db.rollback()
         raise HTTPException(status_code=500, detail="Failed to save review")
+    
+#------for login pg-------
+@router.post("/login")
+def login(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
+    # Lookup by email (lowercase to match signup storage)
+    user = db.execute(
+        select(models.User).where(models.User.email == payload.email.lower())
+    ).scalar_one_or_none()
+
+    # Generic message so we don't leak which field was wrong
+    if not user or not verify_password(payload.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password."
+        )
+
+    return {
+        "message": "Login successful",
+        "user": schemas.UserOut.model_validate(user)
+    }
