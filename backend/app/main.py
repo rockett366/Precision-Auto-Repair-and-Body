@@ -5,6 +5,7 @@ from . import models
 from .routers import auth, users
 from .routers import estimates as estimates_router
 from .routers import invoices as invoices_router
+from .routers import client_record as client_record
 from .routers import vehicle_status as vehicle_status
 
 from .routers import s3_online_estimates
@@ -32,6 +33,7 @@ def health():
 #----api routers for auth token here----
 app.include_router(auth.router, prefix="/api")
 app.include_router(invoices_router.router, prefix="/api")
+app.include_router(client_record.router, prefix="/api")
 app.include_router(vehicle_status.router, prefix="/api")
 #client-profile-backend
 app.include_router(users.router, prefix="/api")

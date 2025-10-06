@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Integer, String, DateTime, func, UniqueConstraint
+from sqlalchemy import Boolean, Column, Integer, String, Date, DateTime, func, UniqueConstraint
 from .db import Base
 
 class User(Base):
@@ -39,6 +39,14 @@ class Review(Base):
     content = Column(String(500), nullable=True)
     needs_followup = Column(Boolean, nullable=False, default=False, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class ClientRecord(Base):
+    __tablename__= "client_records"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    vehicle = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    date = Column(Date, nullable=False)
     
 class VehicleStatus(Base):
     __tablename__ = "status"

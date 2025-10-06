@@ -1,27 +1,61 @@
-"use client"; 
+"use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
 import Nav from "../constants/nav";
 
 export default function Home() {
+  const [records, setRecords] = useState([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("latest");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Example records
-  const records = [
-    { vehicle: "Civic", desc: "Fix Bumper", date: "2025-01-01" },
-    { vehicle: "Outback", desc: "Oil Change", date: "2024-12-15" },
-    { vehicle: "Corolla", desc: "Replace Tires", date: "2023-06-05" },
-    { vehicle: "CR-V", desc: "Engine Repair", date: "2025-02-10" },
-    { vehicle: "NAME", desc: "DESCRIPTION", date: "1001-01-01" },
-  ];
+  {
+    /* Get records from the database */
+  }
+  useEffect(() => {
+    const fetchRecords = async () => {
+      try {
+        {
+          /* Option 1: */
+        }
+        {
+          /* For testing on other computers */
+        }
+        const res = await fetch("/api/client_records_seed", {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Failed to fetch records from mock API");
+        const data = await res.json();
+
+        {
+          /* Option 2: */
+        }
+        {
+          /* For testing on local 
+        const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+        const res = await fetch(`${base}/api/client-records/`, { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to fetch records");
+        const data = await res.json();
+        */
+        }
+
+        setRecords(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRecords();
+  }, []);
 
   // Filter and sort records based on search and sort state
   let filteredRecords = records.filter(
     (rec) =>
       rec.vehicle.toLowerCase().includes(search.toLowerCase()) ||
-      rec.desc.toLowerCase().includes(search.toLowerCase())
+      rec.description.toLowerCase().includes(search.toLowerCase())
   );
 
   // Sort records
@@ -80,65 +114,73 @@ export default function Home() {
 
         {/* Right Content Area */}
         <div className={styles.rightContainer}>
-          <div className={styles.container}>
-            <p className={styles.header}>Past Services/Records</p>
-            <div className={styles.controlsContainer}>
-              {/* Search and Sort Dropdown */}
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search by vehicle or description"
-                className={styles.searchInput}
-              />
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                className={styles.sortDropdown}
-              >
-                <option value="latest">Latest</option>
-                <option value="oldest">Oldest</option>
-                <option value="a-z">A-Z</option>
-                <option value="z-a">Z-A</option>
-              </select>
-            </div>
+          {/* Show that the program is loading records */}
+          {/* If it fails, show that it couldn't load records from db */}
+          {loading ? (
+            <p>Loading records...</p>
+          ) : error ? (
+            <p style={{ color: "red" }}>{error}</p>
+          ) : (
+            <div className={styles.container}>
+              <p className={styles.header}>Past Services/Records</p>
+              <div className={styles.controlsContainer}>
+                {/* Search and Sort Dropdown */}
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search by vehicle or description"
+                  className={styles.searchInput}
+                />
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value)}
+                  className={styles.sortDropdown}
+                >
+                  <option value="latest">Latest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="a-z">A-Z</option>
+                  <option value="z-a">Z-A</option>
+                </select>
+              </div>
 
-            {/* Records Table */}
-            <div className={styles.tableContainer}>
-              <table id="myTable" className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Vehicle</th>
-                    <th>Description of Service/Repair</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredRecords.map((rec, idx) => (
-                    <tr key={idx}>
-                      <td>{rec.vehicle}</td>
-                      <td>{rec.desc}</td>
-                      <td>
-                        {new Date(rec.date).toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "2-digit",
-                          day: "2-digit",
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-                  {/* Show message if no records found */}
-                  {filteredRecords.length === 0 && (
+              {/* Records Table */}
+              <div className={styles.tableContainer}>
+                <table id="myTable" className={styles.table}>
+                  <thead>
                     <tr>
-                      <td colSpan={3} style={{ textAlign: "center" }}>
-                        No matching records found
-                      </td>
+                      <th>Vehicle</th>
+                      <th>Description of Service/Repair</th>
+                      <th>Date</th>
                     </tr>
-                  )}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {filteredRecords.map((rec, idx) => (
+                      <tr key={idx}>
+                        <td>{rec.vehicle}</td>
+                        <td>{rec.description}</td>
+                        <td>
+                          {new Date(rec.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                    {/* Show message if no records found */}
+                    {filteredRecords.length === 0 && (
+                      <tr>
+                        <td colSpan={3} style={{ textAlign: "center" }}>
+                          No matching records found
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
