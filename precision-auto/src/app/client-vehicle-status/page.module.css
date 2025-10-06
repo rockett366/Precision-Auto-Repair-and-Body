@@ -118,11 +118,18 @@
   align-items: center;
 }
 
+.stageWrapper{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1px;
+}
+
 
 /* Line between circle */
 .line{
-  margin-top: 3.5%;
-  width: 20%;
+  margin-top: 10%;
+  width: 44%;
   height: 1%;
   border: 1px solid black;
 }
@@ -195,4 +202,8 @@
   border-radius: 50%;
   display: inline-block;
   border: 1px solid black;
+}
+
+.activeCircle{
+  background-color: var(--shop_red);
 }

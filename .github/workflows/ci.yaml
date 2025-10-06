@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: {}
+
+jobs:
+  backend:
+    name: Backend (pytest + coverage)
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: precision_test_db
+          POSTGRES_USER: app_user
+          POSTGRES_PASSWORD: app_password
+        ports:
+          - "5432:5432"
+        options: >-
+          --health-cmd="pg_isready -U app_user -d precision_test_db"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+
+    env:
+      TEST_DB_URL: postgresql://app_user:app_password@localhost:5432/precision_test_db
+      PYTHONUNBUFFERED: "1"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Backend tests via Makefile (XML + HTML coverage)
+        run: |
+          make ci-backend
+          # Ensure HTML coverage exists
+          if [ ! -d backend/htmlcov ]; then
+            cd backend && coverage html || true
+            cd ..
+          fi
+
+      - name: Show backend files (debug)
+        if: always()
+        run: |
+          echo "== backend dir =="
+          ls -la backend || true
+          echo "== backend/htmlcov =="
+          ls -la backend/htmlcov || true
+
+      - name: Upload backend coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: |
+            backend/coverage.xml
+            backend/htmlcov/**
+          if-no-files-found: warn
+
+  frontend:
+    name: Frontend (Jest + coverage)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: precision-auto/package-lock.json
+
+      - name: Install & test (coverage) via Makefile
+        run: make ci-frontend
+
+      - name: Show frontend files (debug)
+        if: always()
+        run: |
+          echo "== precision-auto =="
+          ls -la precision-auto || true
+          echo "== precision-auto/coverage =="
+          ls -la precision-auto/coverage || true
+
+      - name: Upload frontend coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: precision-auto/coverage/**
+          if-no-files-found: warn

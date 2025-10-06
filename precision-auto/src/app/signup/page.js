@@ -6,6 +6,37 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../constants/nav";
 
+// ---- One source of truth for the API base ----
+const BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const api = (path) => `${BASE_URL}/api${path}`;
+
+// Generic JSON fetch with good error messages
+async function jsonFetch(url, options = {}) {
+  const res = await fetch(url, {
+    headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+    ...options,
+  });
+  const text = await res.text();
+  let data = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    // ignore parse errors; we'll use status text
+  }
+  if (!res.ok) {
+    const msg =
+      (typeof data?.detail === "string" && data.detail) ||
+      (Array.isArray(data?.detail) && data.detail[0]?.msg) ||
+      `Request failed (${res.status})`;
+    const err = new Error(msg);
+    err.status = res.status;
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
+
 export default function Home() {
   const router = useRouter();
 
@@ -41,11 +72,15 @@ export default function Home() {
     if (!values.firstname) errors.firstname = "First Name is required!";
     if (!values.lastname) errors.lastname = "Last Name is required!";
     if (!values.email) errors.email = "Email is required!";
-    else if (!regex.test(values.email)) errors.email = "This is not a valid email format!";
+    else if (!regex.test(values.email))
+      errors.email = "This is not a valid email format!";
     if (!values.password) errors.password = "Password is required!";
-    else if (values.password.length < 8) errors.password = "Password must be more than 8 characters!";
-    if (!values.confirm_password) errors.confirm_password = "Confirm Password is required!";
-    else if (values.password !== values.confirm_password) errors.confirm_password = "Passwords do no match!";
+    else if (values.password.length < 8)
+      errors.password = "Password must be more than 8 characters!";
+    if (!values.confirm_password)
+      errors.confirm_password = "Confirm Password is required!";
+    else if (values.password !== values.confirm_password)
+      errors.confirm_password = "Passwords do not match!";
     if (!values.phone_number) errors.phone_number = "Phone Number is required!";
     return errors;
   };
@@ -60,10 +95,9 @@ export default function Home() {
 
     setIsSubmitting(true);
     try {
-      const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
-      const res = await fetch(`${base}/api/auth/signup`, {
+      // 1) SIGNUP
+      await jsonFetch(api("/auth/signup"), {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           first_name: formValues.firstname,
           last_name: formValues.lastname,
@@ -74,19 +108,25 @@ export default function Home() {
         }),
       });
 
-      if (res.ok) {
-        // if good go to page below
-        router.push("/client-portal-profile");
-        return;
+      // 2) LOGIN
+      const login = await jsonFetch(api("/auth/login"), {
+        method: "POST",
+        body: JSON.stringify({
+          email: formValues.email,
+          password: formValues.password,
+        }),
+      });
+
+      if (!login?.access_token) {
+        throw new Error("No access token returned from login");
       }
 
-      // show backend error
-      const err = await res.json().catch(() => ({}));
-      if (typeof err?.detail === "string") setServerError(err.detail);
-      else if (Array.isArray(err?.detail) && err.detail[0]?.msg) setServerError(err.detail[0].msg);
-      else setServerError("Signup failed");
-    } catch (e) {
-      setServerError(e?.message || "Network error");
+      // 3) SAVE TOKEN + REDIRECT
+      localStorage.setItem("token", login.access_token);
+      router.push("/client-portal-profile");
+    } catch (err) {
+      setServerError(err?.message || "Network error");
+      console.error("Auth error:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -102,13 +142,14 @@ export default function Home() {
             <h1 className={styles.header1}>Create your Account</h1>
             <h4 className={styles.header2}>to continue your experience</h4>
 
-            {/* server error (e.g., duplicate email/phone) */}
             {serverError && <p className={styles.errors}>{serverError}</p>}
 
             <div className={styles.formContainer}>
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="firstname"><b>First Name</b></label>
+                  <label htmlFor="firstname">
+                    <b>First Name</b>
+                  </label>
                   <input
                     className={styles.inputBox}
                     id="firstname"
@@ -124,7 +165,9 @@ export default function Home() {
 
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="lastname"><b>Last Name</b></label>
+                  <label htmlFor="lastname">
+                    <b>Last Name</b>
+                  </label>
                   <input
                     className={styles.inputBox}
                     id="lastname"
@@ -140,7 +183,9 @@ export default function Home() {
             </div>
 
             <div className={styles.emailContainer}>
-              <label htmlFor="email"><b>Email</b></label>
+              <label htmlFor="email">
+                <b>Email</b>
+              </label>
               <input
                 className={styles.inputBox}
                 id="email"
@@ -157,7 +202,9 @@ export default function Home() {
             <div className={styles.formContainer}>
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="password"><b>Password</b></label>
+                  <label htmlFor="password">
+                    <b>Password</b>
+                  </label>
                   <input
                     className={styles.inputBox}
                     id="password"
@@ -174,11 +221,21 @@ export default function Home() {
                     <div className={styles.passwordPopup}>
                       <p>Password must contain:</p>
                       <ul>
-                        <li style={{ color: isValidLength ? "green" : "red" }}>At least 8 characters</li>
-                        <li style={{ color: hasUpperCase ? "green" : "red" }}>One uppercase letter</li>
-                        <li style={{ color: hasLowerCase ? "green" : "red" }}>One lowercase letter</li>
-                        <li style={{ color: hasNumber ? "green" : "red" }}>One number</li>
-                        <li style={{ color: hasSpecialChar ? "green" : "red" }}>One special character</li>
+                        <li style={{ color: isValidLength ? "green" : "red" }}>
+                          At least 8 characters
+                        </li>
+                        <li style={{ color: hasUpperCase ? "green" : "red" }}>
+                          One uppercase letter
+                        </li>
+                        <li style={{ color: hasLowerCase ? "green" : "red" }}>
+                          One lowercase letter
+                        </li>
+                        <li style={{ color: hasNumber ? "green" : "red" }}>
+                          One number
+                        </li>
+                        <li style={{ color: hasSpecialChar ? "green" : "red" }}>
+                          One special character
+                        </li>
                       </ul>
                     </div>
                   )}
@@ -189,7 +246,9 @@ export default function Home() {
 
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="confirm_password"><b>Confirm Password</b></label>
+                  <label htmlFor="confirm_password">
+                    <b>Confirm Password</b>
+                  </label>
                   <input
                     className={styles.inputBox}
                     id="confirm_password"
@@ -205,7 +264,9 @@ export default function Home() {
             </div>
 
             <div className={styles.phoneContainer}>
-              <label htmlFor="phone_number"><b>Phone Number</b></label>
+              <label htmlFor="phone_number">
+                <b>Phone Number</b>
+              </label>
               <input
                 className={styles.inputBox}
                 id="phone_number"
@@ -227,7 +288,10 @@ export default function Home() {
                 {isSubmitting ? "Signing up..." : "Sign Up"}
               </button>
 
-              <button className={styles.button + " " + styles.google_button} type="button">
+              <button
+                className={styles.button + " " + styles.google_button}
+                type="button"
+              >
                 Sign in with Google
                 <img
                   src="/images/signup/google-logo.jpg"
@@ -253,7 +317,8 @@ export default function Home() {
             className={styles.logo}
           />
           <p className={styles.description}>
-            Subscribe to our membership and have instant access to exclusive rewards, and savings!
+            Subscribe to our membership and have instant access to exclusive
+            rewards, and savings!
           </p>
         </div>
       </div>

@@ -47,3 +47,18 @@ class ClientRecord(Base):
     vehicle = Column(String, nullable=False)
     description = Column(String, nullable=False)
     date = Column(Date, nullable=False)
+    
+class VehicleStatus(Base):
+    __tablename__ = "status"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    # Status Code: 1 = In Service, 2 = Repairing, 3 = Ready for Pickup
+    status = Column(Integer, nullable=False)
+    make = Column(String(50), nullable=False)
+    model = Column(String(50), nullable=False)
+    year = Column(Integer, nullable=False)
+    vin = Column(String(20), nullable=False)
+    color = Column(String(30), nullable=False)
+    design = Column(String(200), nullable=True)
+    additional_details = Column(String(200), nullable=True)
+    
