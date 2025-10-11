@@ -10,6 +10,10 @@ import { useRouter } from "next/navigation";
 // --- Hardcode backend endpoint here ---
 const S3_BACKEND_URL = "http://localhost:8000/api/s3/online-estimates-put";
 
+// Define API base URL and user ID (in real app, get from auth context)
+const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const api = (path) => `${base}/api${path}`;
+
 //helper methods for the page
 //uploadImageViaApiPut will get the url needed to upload to the s3 bucket than PUT to the s3 bucket
 async function uploadImageViaApiPut(file) {
@@ -94,6 +98,51 @@ export default function VehicleInfoPage() {
     //save the description
     sessionStorage.setItem("description", description);
 
+    // Grab all the previously saved session data
+    const first_name = sessionStorage.getItem("firstName");
+    const last_name = sessionStorage.getItem("lastName");
+    const email = sessionStorage.getItem("email");
+    const phone = sessionStorage.getItem("phoneNumber");
+    const make = sessionStorage.getItem("make");
+    const model = sessionStorage.getItem("model");
+    const year = parseInt(sessionStorage.getItem("year"), 10);
+    const vin = sessionStorage.getItem("vin");
+    const color = sessionStorage.getItem("color");
+    const descriptionFromSession = sessionStorage.getItem("description");
+
+    // Build the payload for the database
+    const payload = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      make,
+      model,
+      year,
+      vin,
+      color,
+      description: descriptionFromSession,
+    };
+
+    //save to the database
+    try {
+      setIsLoading(true);
+      const res = await fetch(api(`/online-estimates/create/`), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit estimate.");
+      setIsLoading(false);
+
+      return;
+    }
+
+    //save the images into s3 bucket
     try {
       //set loading true
       setIsLoading(true);
@@ -112,7 +161,6 @@ export default function VehicleInfoPage() {
         console.log(results);
         q_len -= 1;
       }
-
       //stop loading symbol
       setIsLoading(false);
     } catch (err) {
