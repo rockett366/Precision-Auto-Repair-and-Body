@@ -16,15 +16,19 @@ const api = (path) => `${base}/api${path}`;
 
 //helper methods for the page
 //uploadImageViaApiPut will get the url needed to upload to the s3 bucket than PUT to the s3 bucket
-async function uploadImageViaApiPut(file) {
+async function uploadImageViaApiPut(file, label, first_name, last_name, vin) {
   if (!file) throw new Error("No file provided");
 
   const form = new FormData();
   form.append("file", file); // UploadFile in backend
+  form.append("label", label); //label: front,rear,left,right,damage1,damage2,damage3
+  form.append("full_name", `${first_name}_${last_name}`);
+  form.append("vin", vin);
+
   let res;
   try {
     res = await fetch(`${S3_BACKEND_URL}`, {
-      header: { Accept: "multipart/form-data" },
+      headers: { Accept: "multipart/form-data" },
       method: "PUT",
       body: form,
     });
@@ -148,15 +152,29 @@ export default function VehicleInfoPage() {
       setIsLoading(true);
 
       const files = [file1, file2, file3, file4, file5, file6, file7];
-
+      const label = [
+        "front_right",
+        "front_left",
+        "rear_left",
+        "rear_right",
+        "damage1",
+        "damage2",
+        "damage3",
+      ];
       const queue = [...files];
       const results = [];
       let q_len = queue.length;
 
       //upload all images
-      while (q_len > 0) {
+      for (let i = 0; i < 7; i++) {
         const f = queue.shift();
-        const { key, public_url, uploaded } = await uploadImageViaApiPut(f);
+        const { key, public_url, uploaded } = await uploadImageViaApiPut(
+          f,
+          label[i],
+          first_name,
+          last_name,
+          vin
+        );
         results.push({ key, public_url, uploaded });
         console.log(results);
         q_len -= 1;

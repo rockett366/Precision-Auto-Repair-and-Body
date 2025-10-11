@@ -278,7 +278,7 @@ export default function Home() {
           </div>
           <div>
             <span
-              class="yelp-review"
+              className="yelp-review"
               data-review-id="MCWaUBsDFBFMFnLnPSTB-w"
               data-hostname="www.yelp.com"
             >
