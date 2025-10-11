@@ -5,7 +5,7 @@ from fastapi import APIRouter, Form, HTTPException, status, UploadFile
 
 
 #Get images from online-estimates page and upload them to the S# bucket once they are ready
-S3_BUCKET= os.getenv("S3_BUCKET_ONLINE_ESTIMATES")
+S3_BUCKET= os.getenv("S3_BUCKET")
 S3_REGION= os.getenv("S3_REGION")
 
 #only image types we will take into the s3 bucket

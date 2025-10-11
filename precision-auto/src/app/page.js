@@ -1,22 +1,48 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import Nav from "../app/constants/nav";
 import Footer from "../app/constants/footer";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+
+// Define API base URL and user ID (in real app, get from auth context)
+const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const api = (path) => `${base}/api${path}`;
 
 export default function Home() {
+  const [landingImages, setLandingImages] = useState([]);
+
+  useEffect(() => {
+    async function fetchImages() {
+      try {
+        const res = await fetch(api(`/landing-page/load-images/`));
+        const data = await res.json();
+        setLandingImages(data.images);
+      } catch (err) {
+        console.error("Failed to fetch images:", err);
+      }
+    }
+
+    fetchImages();
+  }, []);
   return (
     <div className={styles.page}>
       <Nav />
       <main className={styles.main}>
         <div className={styles.landing}>
-          <Image
-            className={styles.logo}
-            src="/images/stockPhoto1.jpg"
-            alt="stock photo for car"
-            fill
-            style={{ objectFit: "cover" }}
-          />
+          {landingImages[0] ? (
+            <Image
+              className={styles.logo}
+              src={landingImages[0]}
+              alt="Landing hero"
+              fill
+              style={{ objectFit: "cover" }}
+            />
+          ) : (
+            <div className={styles.logoPlaceholder}>Loading...</div>
+          )}
+
           <div className={styles.paragraph}>
             <h1>
               <span>Precision auto repair and body </span> <br></br>
@@ -34,53 +60,77 @@ export default function Home() {
         <div className={styles.gridPhoto}>
           <div className={styles.gridLayer}>
             <div>
-              <Image
-                src="/images/mechanic-stock1.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[1] ? (
+                <Image
+                  src={landingImages[1]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
             <div>
-              <Image
-                src="/images/mechanic-stock4.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[2] ? (
+                <Image
+                  src={landingImages[2]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
             <div>
-              <Image
-                src="/images/mechanic-stock1.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[3] ? (
+                <Image
+                  src={landingImages[3]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
 
             <div>
-              <Image
-                src="/images/mechanic-stock3.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[4] ? (
+                <Image
+                  src={landingImages[4]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
             <div>
-              <Image
-                src="/images/mechanic-stock1.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[3] ? (
+                <Image
+                  src={landingImages[3]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
             <div>
-              <Image
-                src="/images/mechanic-stock2.jpg"
-                alt="stock photo for car"
-                width={300}
-                height={200}
-              />
+              {landingImages[2] ? (
+                <Image
+                  src={landingImages[2]}
+                  alt="stock photo for car"
+                  width={300}
+                  height={200}
+                />
+              ) : (
+                <div className={styles.logoPlaceholder}>Loading...</div>
+              )}
             </div>
           </div>
         </div>
@@ -160,18 +210,26 @@ export default function Home() {
             </button>
           </div>
           <div className={styles.photoGroup}>
-            <Image
-              src="/images/mechanic-stock3.jpg"
-              alt="stock photo for car"
-              width={300}
-              height={200}
-            />
-            <Image
-              src="/images/mechanic-stock1.jpg"
-              alt="stock photo for car"
-              width={300}
-              height={200}
-            />
+            {landingImages[0] ? (
+              <Image
+                src={landingImages[0]}
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <div className={styles.logoPlaceholder}>Loading...</div>
+            )}
+            {landingImages[1] ? (
+              <Image
+                src={landingImages[1]}
+                alt="stock photo for car"
+                width={300}
+                height={200}
+              />
+            ) : (
+              <div className={styles.logoPlaceholder}>Loading...</div>
+            )}
           </div>
         </div>
 
