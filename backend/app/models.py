@@ -62,3 +62,18 @@ class VehicleStatus(Base):
     design = Column(String(200), nullable=True)
     additional_details = Column(String(200), nullable=True)
     
+class OnlineEstimatesForm(Base):
+    __tablename__ = "online_estimates_form"
+    
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    email = Column(String(255), nullable=False, index=True)
+    phone = Column(String(32), nullable=False)
+    make = Column(String(50), nullable=False)
+    model = Column(String(50), nullable=False)
+    year = Column(Integer, nullable=False)
+    vin = Column(String(20), nullable=False)
+    color = Column(String(30), nullable=False)
+    description = Column(String(200), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())

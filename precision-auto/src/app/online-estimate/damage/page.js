@@ -10,17 +10,25 @@ import { useRouter } from "next/navigation";
 // --- Hardcode backend endpoint here ---
 const S3_BACKEND_URL = "http://localhost:8000/api/s3/online-estimates-put";
 
+// Define API base URL and user ID (in real app, get from auth context)
+const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const api = (path) => `${base}/api${path}`;
+
 //helper methods for the page
 //uploadImageViaApiPut will get the url needed to upload to the s3 bucket than PUT to the s3 bucket
-async function uploadImageViaApiPut(file) {
+async function uploadImageViaApiPut(file, label, first_name, last_name, vin) {
   if (!file) throw new Error("No file provided");
 
   const form = new FormData();
   form.append("file", file); // UploadFile in backend
+  form.append("label", label); //label: front,rear,left,right,damage1,damage2,damage3
+  form.append("full_name", `${first_name}_${last_name}`);
+  form.append("vin", vin);
+
   let res;
   try {
     res = await fetch(`${S3_BACKEND_URL}`, {
-      header: { Accept: "multipart/form-data" },
+      headers: { Accept: "multipart/form-data" },
       method: "PUT",
       body: form,
     });
@@ -66,6 +74,9 @@ export default function VehicleInfoPage() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
+  //loading symbol for submitting
+  const [isLoading, setIsLoading] = useState(false);
+
   // When clicked, the 'Next' button calls this function.
   const handleSubmit = async () => {
     if (
@@ -88,28 +99,95 @@ export default function VehicleInfoPage() {
       return;
     }
 
-    try {
-      const files = [file1, file2, file3, file4, file5, file6, file7];
+    //save the description
+    sessionStorage.setItem("description", description);
 
+    // Grab all the previously saved session data
+    const first_name = sessionStorage.getItem("firstName");
+    const last_name = sessionStorage.getItem("lastName");
+    const email = sessionStorage.getItem("email");
+    const phone = sessionStorage.getItem("phoneNumber");
+    const make = sessionStorage.getItem("make");
+    const model = sessionStorage.getItem("model");
+    const year = parseInt(sessionStorage.getItem("year"), 10);
+    const vin = sessionStorage.getItem("vin");
+    const color = sessionStorage.getItem("color");
+    const descriptionFromSession = sessionStorage.getItem("description");
+
+    // Build the payload for the database
+    const payload = {
+      first_name,
+      last_name,
+      email,
+      phone,
+      make,
+      model,
+      year,
+      vin,
+      color,
+      description: descriptionFromSession,
+    };
+
+    //save to the database
+    try {
+      setIsLoading(true);
+      const res = await fetch(api(`/online-estimates/create/`), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to submit estimate.");
+      setIsLoading(false);
+
+      return;
+    }
+
+    //save the images into s3 bucket
+    try {
+      //set loading true
+      setIsLoading(true);
+
+      const files = [file1, file2, file3, file4, file5, file6, file7];
+      const label = [
+        "front_right",
+        "front_left",
+        "rear_left",
+        "rear_right",
+        "damage1",
+        "damage2",
+        "damage3",
+      ];
       const queue = [...files];
       const results = [];
       let q_len = queue.length;
 
       //upload all images
-      while (q_len > 0) {
+      for (let i = 0; i < 7; i++) {
         const f = queue.shift();
-        const { key, public_url, uploaded } = await uploadImageViaApiPut(f);
+        const { key, public_url, uploaded } = await uploadImageViaApiPut(
+          f,
+          label[i],
+          first_name,
+          last_name,
+          vin
+        );
         results.push({ key, public_url, uploaded });
         console.log(results);
         q_len -= 1;
       }
-
-      router.push("/online-estimate/confirmation");
+      //stop loading symbol
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
       setPopupMessage(err?.message ?? "Upload failed.");
       setShowPopup(true);
+      return;
     }
+    router.push("/online-estimate/confirmation");
   };
 
   return (
@@ -144,7 +222,7 @@ export default function VehicleInfoPage() {
         </h2>
         <p className="subText centerText">
           <strong>
-            Upload a four photos of your car, one of eacch corner of the car:
+            Upload a four photos of your car, one of each corner of the car:
           </strong>
         </p>
 
@@ -153,7 +231,7 @@ export default function VehicleInfoPage() {
           {/* Row 1: Four courners of the car */}
           <div className="formRow">
             <div className="field">
-              <label htmlFor="photo1">Image 1</label>
+              <label htmlFor="photo1">Front Left (Driver Front)</label>
               <input
                 id="photo1"
                 type="file"
@@ -174,7 +252,7 @@ export default function VehicleInfoPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="photo2">Image 2</label>
+              <label htmlFor="photo2">Front Right (Passenger Front)</label>
               <input
                 id="photo2"
                 type="file"
@@ -195,7 +273,7 @@ export default function VehicleInfoPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="photo3">Image 3</label>
+              <label htmlFor="photo3">Rear Left (Driver Rear)</label>
               <input
                 id="photo3"
                 type="file"
@@ -216,7 +294,7 @@ export default function VehicleInfoPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="photo4">Image 4</label>
+              <label htmlFor="photo4">Rear Right (Passenger Rear)</label>
               <input
                 id="photo4"
                 type="file"
@@ -244,7 +322,7 @@ export default function VehicleInfoPage() {
           </p>
           <div className="formRow">
             <div className="field">
-              <label htmlFor="photo5">Image 5</label>
+              <label htmlFor="photo5">Damage 1</label>
               <input
                 id="photo5"
                 type="file"
@@ -265,7 +343,7 @@ export default function VehicleInfoPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="photo6">Image 6</label>
+              <label htmlFor="photo6">Damage 2</label>
               <input
                 id="photo6"
                 type="file"
@@ -286,7 +364,7 @@ export default function VehicleInfoPage() {
             </div>
 
             <div className="field">
-              <label htmlFor="photo7">Image 7</label>
+              <label htmlFor="photo7">Damage 3</label>
               <input
                 id="photo7"
                 type="file"
@@ -321,11 +399,18 @@ export default function VehicleInfoPage() {
               />
             </div>
           </div>
-          {/* Bottom-right button */}
-          <div className="buttonRow">
-            <button type="button" className="nextButton" onClick={handleSubmit}>
-              Complete
-            </button>
+          {/* Comfirm upload --loading symbol*/}
+          <div>
+            {isLoading ? (
+              <div className="loader-container">
+                <div className="loader"></div>
+                <p>Uploading Form</p>
+              </div>
+            ) : (
+              <button className="nextButton" onClick={handleSubmit}>
+                Complete
+              </button>
+            )}
           </div>
         </form>
       </main>
