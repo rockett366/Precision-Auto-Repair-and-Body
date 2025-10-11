@@ -185,6 +185,7 @@ export default function VehicleInfoPage() {
       console.error(err);
       setPopupMessage(err?.message ?? "Upload failed.");
       setShowPopup(true);
+      return;
     }
     router.push("/online-estimate/confirmation");
   };
