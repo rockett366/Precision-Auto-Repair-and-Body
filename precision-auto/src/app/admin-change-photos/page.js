@@ -63,12 +63,12 @@ const table = [];
 		  <input
 			type="file"
 			accept="image/*"
-			id={"file-${imageName}"}
+			id={`file-${imageName}`}
 			style={{ display: 'none' }}
 			onChange={(e) => handleFileChange(e, PageIndex, i)}
 		  />
 		  <button
-			onClick={() => document.getElementById("file-${imageName}").click()}
+			onClick={() => document.getElementById(`file-${imageName}`).click()}
 		  >
 			Upload
 		  </button>
