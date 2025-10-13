@@ -1,14 +1,57 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./adminProfile.module.css";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { handleLogout } from "../utils/authUtils";
 
 export default function AdminProfile() {
+  const router = useRouter();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
-    firstName: "Lorem",
-    lastName: "Ipsum",
-    email: "lore@email.com",
-    phone: "(324) 943‑2321",
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
   });
+
+  useEffect(() => {
+    async function verifyAdmin() {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/admin/me`,
+          { credentials: "include" }
+        );
+
+        if (!res.ok) {
+          router.push("/client-sign-in");
+          return;
+        }
+
+        const data = await res.json();
+        if (!data.is_admin) {
+          router.push("/client-portal-profile");
+          return;
+        }
+
+        setUser(data);
+        setFormData({
+          firstName: data.first_name,
+          lastName: data.last_name,
+          email: data.email,
+          phone: data.phone,
+        });
+        setLoading(false);
+      } catch (err) {
+        console.error("Error verifying admin:", err);
+        router.push("/client-sign-in");
+      }
+    }
+
+    verifyAdmin();
+  }, [router]);
+
   const [isEditing, setIsEditing] = useState(false);
 
   const handleChange = (e) =>
@@ -26,9 +69,13 @@ export default function AdminProfile() {
     { key: "request", label: "Request New Service" },
     { key: "review", label: "Leave a Review" },
     { key: "records", label: "Past Records" },
-    { key: "signout", label: "Signout" },
+    { key: "signout", label: "Sign Out", action: () => handleLogout(true) },
   ];
   const [active, setActive] = useState("profile");
+
+  if (loading) {
+    return <p className="text-center mt-8">Loading admin profile...</p>;
+  }
 
   return (
     <div className={styles.page}>

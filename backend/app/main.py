@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .db import Base, engine
 from . import models
 from .routers import auth, users
-from .routers import estimates as estimates_router
+from .routers import client_record as estimates_router
 from .routers import invoices as invoices_router
 from .routers import client_record as client_record
 from .routers import vehicle_status as vehicle_status
@@ -16,10 +16,9 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Precision Auto API")
 
 # Allow your Next.js dev origin / CORS
-origins = ["http://localhost:3000"]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
