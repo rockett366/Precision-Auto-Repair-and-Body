@@ -20,12 +20,14 @@
   min-height: 100vh;
 }
 
+/* Main container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
+/* TITLE */
 .title {
   font-size: 4rem;
   font-weight: bold;
@@ -44,6 +46,7 @@
   align-items: flex-start;
   gap: 2rem;
 }
+/* SIDEBAR */
 .sidebar {
   width: 200px;
   background: var(--surface);
@@ -54,6 +57,7 @@
   position: sticky;
   top: 2rem;
 }
+/* Navigation Menu */
 .menu {
   list-style: none;
   margin: 0;
@@ -61,6 +65,7 @@
   font-family: "Inknut Antiqua", serif;
   font-size: 18;
 }
+/* Individual Menu Item */
 .menuItem {
   padding: 0.5rem 1rem;
   cursor: pointer;
@@ -69,6 +74,7 @@
   transition: background 0.2s, color 0.2s;
   color: #382828;
 }
+/* Hover effect */
 .menuItem:hover { background: #d3d3d3; }
 /* Active item: add styles.active alongside styles.menuItem */
 .active {
@@ -130,31 +136,6 @@
   color: white;
   cursor: pointer;
   font-weight: bold;
-}
-
-/* Highlights which tab is active */
-.activeTab {
-  background-color: var(--shop_red);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  border: 1px solid black;
-  color: white;
-  padding: 8px 38px 8px 8px;
-  width: 100px;
-  font-size: 20px;
-}
-
-/* Tabs that are not active */
-.inactiveTab {
-  padding-left: 8px;
-  font-size: 20px;
-  width: 100%;
-}
-
-/* Underline tabs when you hover over them */
-.inactiveTab:hover,
-.activeTab:hover {
-  text-decoration: underline;
 }
 
 /* Table container for responsiveness */
