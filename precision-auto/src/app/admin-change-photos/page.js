@@ -15,31 +15,32 @@ const pageImages = [
 ["PageName2","Example2"]
 ];
 
-async function handleFileChange(e, imageName) {
+async function handleFileChange(e, PageIndex, i) {
   const file = e.target.files[0];
   if (!file) return;
 
   try {
-	console.log("file handler!");
-    // Ask your backend for a presigned S3 URL
-    const res = await fetch('/api/s3url?filename=' + encodeURIComponent(imageName), {
-      method: 'GET',
-    });
+    const res = await fetch('/api/s3url?filename=' + encodeURIComponent(pageImages[PageIndex][i]));
     const { url } = await res.json();
 
-    // Upload the file directly to S3
-    const uploadRes = await fetch(url, {
+    // Upload file to S3
+    await fetch(url, {
       method: 'PUT',
       headers: { 'Content-Type': file.type },
       body: file,
     });
 
-    if (!uploadRes.ok) throw new Error('Upload failed');
+    // Update the image src directly
+    const img = document.getElementById(`img-${PageIndex}-${i}`);
+    if (img) {
+      // Strip query from presigned URL and add timestamp to bypass cache
+      img.src = `${url.split("?")[0]}?t=${Date.now()}`;
+    }
 
-    alert(`Uploaded ${imageName} successfully!`);
+    alert("Upload successful!");
   } catch (err) {
     console.error(err);
-    alert('Error uploading image.');
+    alert("Upload failed");
   }
 }
 
@@ -51,7 +52,12 @@ const table = [];
 		table[table.length+1]=(
 	  <tr className={styles.tableRow} key={imageName}>
 		<td className={styles.tableCell}>
-		  <img className={styles.tableImg} src={"images/"+pageImages[PageIndex][i]+".jpg"} alt={imageName}/>
+			<img
+				className={styles.tableImg}
+				src={`images/${pageImages[PageIndex][i]}.jpg`}
+				alt={pageImages[PageIndex][i]}
+				id={`img-${PageIndex}-${i}`} // give it a unique ID
+			/>
 		</td>
 		<td className={styles.tableCell}>
 		  <input
@@ -59,7 +65,7 @@ const table = [];
 			accept="image/*"
 			id={"file-${imageName}"}
 			style={{ display: 'none' }}
-			onChange={(e) => handleFileChange(e, imageName)}
+			onChange={(e) => handleFileChange(e, PageIndex, i)}
 		  />
 		  <button
 			onClick={() => document.getElementById("file-${imageName}").click()}
