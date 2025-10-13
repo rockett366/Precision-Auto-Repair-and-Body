@@ -1,63 +1,115 @@
 :root {
-  --shop_red: #931621;
+  --background: #ffffff;
+  --page-bg: #d9d9d9;
+
+  --accent: #931621;
+  --accent-hover: #b1202f;
+
+  --surface: #ffffff;
+  --border: #cccccc;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  --ok: #2e7d32;
+  --err: #c62828;
 }
 
 /* Main container */
-.mainPage {
-  background-color: #d9d9d9; /* Background color */
-  color: #000000; /* Text color */
+.page {
+  background: var(--page-bg);
   min-height: 100vh;
-  padding-top: 20px;
-  padding-bottom: 20px;;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
 }
 
-/* Left container contains navigation tabs */
-.leftContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 20%;
-  height: auto;
-  padding-left: 80px;
-  gap: 20px;
-}
-
-/* Right container contains record information */
-.rightContainer {
-  display: flex;
-  flex-direction: column;
-  padding-top: 5%;
-  width: 80%;
-  height: auto;
-  justify-content: center;
-  align-items: center;
-}
-
-/* White box that contains the record information */
 .container {
-  background: #ffffff; /* White background for the section */
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 900px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-/* Controls: Search and Sort Dropdown */
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: "Inknut Antiqua", serif;
+  margin-left: 12rem;
+  margin-bottom: 2rem;
+  margin-top: 6rem;
+  color: #382828;
+  position: relative;
+  z-index: 1;
+}
+
+/* LAYOUT */
+.content {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.sidebar {
+  width: 200px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+  height: auto;
+  align-self: flex-start;
+  position: sticky;
+  top: 2rem;
+}
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18;
+}
+.menuItem {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+  color: #382828;
+}
+.menuItem:hover { background: #d3d3d3; }
+/* Active item: add styles.active alongside styles.menuItem */
+.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* MAIN PANEL */
+.main { flex: 1; }
+
+/* CARD */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 3rem;
+  color: #382828;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18;
+}
+
+/* Header */
+.header {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #382828;
+}
+
+/* Search + Sort Controls */
 .controlsContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin-bottom: 15px;
+  margin-bottom: 1rem;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: var(--radius);
   background: #f8f8f8;
-  width: 100%;
 }
 
 /* Search Input */
@@ -67,16 +119,15 @@
   border: 1px solid #aaa;
   border-radius: 5px;
   font-size: 14px;
-  background-color: white;
-  color: #333;
 }
 
 /* Sort Dropdown */
 .sortDropdown {
   padding: 8px 12px;
-  border: 1px solid #007bff;
+  border: 1px solid var(--accent);
   border-radius: 5px;
-  background: #007bff;
+  background: var(--accent);
+  color: white;
   cursor: pointer;
   font-weight: bold;
 }
@@ -106,25 +157,10 @@
   text-decoration: underline;
 }
 
-
-/* Past Services/Records at the top */
-.header {
-  font-size: 32px;
-  font-family: "Inknut Antiqua";
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #000000;
-}
-
 /* Table container for responsiveness */
 .tableContainer {
   margin-top: 20px;
   width: 100%;
-  max-width: 900px;
-  background: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
 }
 
@@ -133,29 +169,35 @@
   width: 100%;
   border-collapse: collapse;
   background-color: #ffffff;
-  border-radius: 10px;
-  overflow: hidden;
 }
 
 /* Table header styles */
 .table th {
-  background: #007bff; /* Blue header */
+  background: var(--accent);
   color: white;
   padding: 12px;
   text-align: center;
-  font-weight: bold;
-  border-bottom: 2px solid #0056b3;
+  border-bottom: 2px solid var(--accent-hover);
 }
 
 /* Table cell styles */
 .table td {
   padding: 12px;
   text-align: center;
-  font-weight: bold;
   color: #333;
+  font-weight: 500;
 }
 
 /* Zebra striping for rows */
 .table tbody tr:nth-child(even) {
   background-color: #f8f9fa; 
+}
+
+/* Alerts */
+.alertError {
+  color: var(--err);
+  border: 1px solid var(--err);
+  background: #ffecec;
+  padding: 10px;
+  border-radius: 6px;
 }
