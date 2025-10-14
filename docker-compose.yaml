@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: app_password
 
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -20,7 +20,7 @@ services:
     env_file:
       - ./backend/.env
     volumes:
-      - ${USERPROFILE}/.aws:/root/.aws:ro
+      - ${AWS_HOST_DIR}:/root/.aws:ro
     ports:
       - "8000:8000"
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
