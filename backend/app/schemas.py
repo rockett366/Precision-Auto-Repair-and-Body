@@ -111,6 +111,7 @@ class LoginRequest(BaseModel):
 class TokenOut(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    is_admin: bool
 
 #----Update User Profile----
 

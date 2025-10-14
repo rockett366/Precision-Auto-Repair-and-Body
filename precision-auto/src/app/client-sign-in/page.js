@@ -4,7 +4,8 @@ import styles from "./cSignIn.module.css";
 import Nav from "../constants/nav";
 import { useRouter } from "next/navigation";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const API_BASE =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
 export default function SignInPage() {
   const router = useRouter();
@@ -67,9 +68,9 @@ export default function SignInPage() {
         return;
       }
 
-      // success → go to client portal
-      await res.json().catch(() => null);
-      router.push("/client-portal-profile");
+      const data = await res.json().catch(() => null);
+      if (data?.is_admin) router.push("/admin-profile");
+      else router.push("/client-portal-profile");
     } catch (err) {
       setServerError("Network error. Please try again.");
       setSubmitting(false);
@@ -142,7 +143,10 @@ export default function SignInPage() {
             </form>
 
             {/* Optional: keep Google for later */}
-            <button className={`${styles.button} ${styles.google_button}`} type="button">
+            <button
+              className={`${styles.button} ${styles.google_button}`}
+              type="button"
+            >
               Sign in with Google
               <img
                 src="/images/signup/google-logo.jpg"
