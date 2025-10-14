@@ -111,6 +111,7 @@ class LoginRequest(BaseModel):
 class TokenOut(BaseModel):
     access_token: str
     token_type: str = "bearer"
+    is_admin: bool
 
 #----Update User Profile----
 
@@ -148,3 +149,16 @@ class PasswordVerify(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=1)
+
+# online-estimates page
+class OnlineEstimaesCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    phone: str
+    make: str
+    model: str
+    year: int
+    vin: str
+    color: str
+    description: str

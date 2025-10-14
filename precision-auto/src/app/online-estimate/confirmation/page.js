@@ -4,9 +4,11 @@ import "../onlineEstimate.css";
 import Nav from "../../constants/nav.js";
 import Footer from "../../constants/footer";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function VehicleInfoPage() {
   const router = useRouter();
+  const [showPopup, setShowPopup] = useState(true);
 
   // When clicked, the 'Home' button calls this function.
   const handleSubmit = () => {
@@ -38,6 +40,14 @@ export default function VehicleInfoPage() {
 
       {/* Main content */}
       <main className="mainSection">
+        {showPopup && (
+          <div className="popupOverlay" onClick={() => setShowPopup(false)}>
+            <div className="popupBox" onClick={(e) => e.stopPropagation()}>
+              <p>Submission Successfully Sent!</p>
+              <button onClick={() => setShowPopup(false)}>Close</button>
+            </div>
+          </div>
+        )}
         <div>
           {/* Red, centered subheading */}
           <h2 className="redHeading centerText">

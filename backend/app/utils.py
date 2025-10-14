@@ -19,9 +19,11 @@ JWT_TTL_SECONDS = int(os.getenv("JWT_TTL_SECONDS", "3600"))
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-def create_access_token(*, subject: str, ttl_seconds: int = JWT_TTL_SECONDS) -> str:
+def create_access_token(*, subject: str, ttl_seconds: int = JWT_TTL_SECONDS, extra_claims: Optional[dict] = None) -> str:
     now = int(time.time())
     payload = {"sub": subject, "iat": now, "exp": now + ttl_seconds}
+    if extra_claims:
+        payload.update(extra_claims)
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALG)
 
 def decode_token(token: str) -> Optional[str]:

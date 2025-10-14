@@ -1,13 +1,14 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .db import Base, engine
-from . import models
 from .routers import auth, users
 from .routers import invoices as invoices_router
 from .routers import client_record as client_record
 from .routers import vehicle_status as vehicle_status
-
+from .routers import landing_page
 from .routers import s3_online_estimates
+from .routers import online_estimates
+
 
 # Create tables automatically
 Base.metadata.create_all(bind=engine)
@@ -38,4 +39,7 @@ app.include_router(vehicle_status.router, prefix="/api")
 app.include_router(users.router, prefix="/api")
 
 app.include_router(s3_online_estimates.router, prefix="/api")
+app.include_router(online_estimates.router, prefix="/api")
+app.include_router(landing_page.router, prefix="/api")
+
 
