@@ -11,11 +11,11 @@ const api = (path) => `${base}/api${path}`;
 
 export default function AdminProfile() {
   const menu = [
-    { key: "profile", label: "Profile", href: "/client-profile" },
+    { key: "profile", label: "Profile", href: "/client-portal-profile" },
     { key: "vehicle", label: "View Vehicle Status", href: "/client-vehicle-status" },
     { key: "request", label: "Create New Service Request", href: "/select-service" },
     { key: "review", label: "Leave a Review", href: "/review" },
-    { key: "records", label: "Past Records", href: "/client-records" },
+    { key: "records", label: "Past Records", href: "/client-past-records" },
     { key: "signout", label: "Sign Out", href: "/client-signout" },
   ];
 
