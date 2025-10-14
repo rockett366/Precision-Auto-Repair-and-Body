@@ -101,61 +101,34 @@ def test_create_review_no_followup_when_rating_high(client):
     assert data["needs_followup"] is False
 
 def test_create_review_db_failure_returns_500(client):
-    """
-    Simulate a DB commit failure via dependency override so the endpoint
-    rolls back and returns 500 with the expected detail.
-    """
-    app = client.app
+    # Import the actual module your router lives in
+    from app.routers import auth as auth_module
 
-    # Find the mounted auth module from app routes and get its get_db
-    # (this avoids import path guesses).
-    get_db = None
-    for route in getattr(app, "routes", []):
-        try:
-            candidate = getattr(route.app, "dependency_overrides", None)
-            # Not helpful; fallback to module scan below
-        except Exception:
-            pass
-
-    # Fallback: try common import names
-    import importlib
-    try:
-        auth_module = importlib.import_module("auth")
-    except ModuleNotFoundError:
-        for name in ("app.api.auth", "api.auth", "src.api.auth"):
-            try:
-                auth_module = importlib.import_module(name)
-                break
-            except ModuleNotFoundError:
-                continue
-        else:
-            pytest.skip("Could not import auth module to override get_db")
-
-    get_db = getattr(auth_module, "get_db", None)
-    if get_db is None:
-        pytest.skip("get_db not found; cannot simulate DB failure")
-
+    # Fake DB that fails on commit (so the endpoint returns 500)
     class FakeDB:
         def add(self, _): pass
         def commit(self): raise Exception("boom")
         def refresh(self, _): pass
         def rollback(self): self.did_rb = True
         # create_review calls models.Review.__table__.create(bind=db.get_bind(), checkfirst=True)
+        # We can return anything; their code wraps this in try/except and ignores errors.
         def get_bind(self):
-            class B: ...
-            return B()
+            class DummyBind: ...
+            return DummyBind()
 
     def _yield_fake_db():
+        # FastAPI Depends(get_db) expects a generator
         yield FakeDB()
 
-    app.dependency_overrides[get_db] = _yield_fake_db
+    # Override the exact dependency object referenced in this module
+    app = client.app
+    app.dependency_overrides[auth_module.get_db] = _yield_fake_db
     try:
         r = client.post("/api/auth/reviews", json={"rating": 1, "content": "bad"})
         assert r.status_code == 500
         assert "Failed to save review" in r.text
     finally:
-        app.dependency_overrides.pop(get_db, None)
-
+        app.dependency_overrides.pop(auth_module.get_db, None)
 
 # ---------------------- login + /me ----------------------
 

@@ -51,6 +51,8 @@ rebuild-api:
 # ======== TEST CONFIG ========
 -include backend/.env
 
+PYTEST_ADDOPTS ?= -vv -ra
+
 test:
 	@$(COMPOSE) up -d db
 	@$(COMPOSE) exec -T db psql -U app_user -d postgres -c "DROP DATABASE IF EXISTS precision_test_db WITH (FORCE);"
@@ -58,7 +60,7 @@ test:
 	@$(COMPOSE) run --rm \
 	  -v $$PWD/backend:/app \
 	  -w /app \
-	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest --cov=app --cov-report=term-missing --cov-report=xml"
+	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest $(PYTEST_ADDOPTS) --cov=app --cov-report=term-missing --cov-report=xml"
 	@echo "Coverage report -> backend/coverage.xml"
 
 # Install deps
