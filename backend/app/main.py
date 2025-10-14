@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from .db import Base, engine
 from . import models
 from .routers import auth, users
-from .routers import estimates as estimates_router
+from .routers import client_record as estimates_router
 from .routers import invoices as invoices_router
 from .routers import client_record as client_record
 from .routers import vehicle_status as vehicle_status
