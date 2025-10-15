@@ -97,3 +97,90 @@
   font-weight: 700;
 }
 .viewBtn:hover { background: #eef3ff; }
+
+/* --- Controls Bar (Search, Sort, Filter) --- */
+.controlsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f8f9fb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.searchInput {
+  flex: 1 1 240px;
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.uploadBtn {
+  background: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.uploadBtn:hover { background: #005fcc; }
+
+.sortDropdown {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #fff;
+  font-weight: 600;
+}
+.sortDropdown:hover { background: #f1f5ff; }
+
+.sortOrderBtn {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #fff;
+  color: #007bff;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sortOrderBtn:hover { background: #eef3ff; }
+
+/* --- Filters (UI-only) --- */
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filterLabel {
+  font-weight: 600;
+  color: #333;
+}
+
+.filterSelect,
+.filterDate {
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.filterDash {
+  opacity: 0.6;
+}
+
+/* --- Empty State (for consistency) --- */
+.tableEmpty {
+  text-align: center;
+  padding: 24px 12px;
+  color: #444;
+  font-weight: 600;
+}
