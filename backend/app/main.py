@@ -9,7 +9,9 @@ from .routers import vehicle_status as vehicle_status
 from .routers import landing_page
 from .routers import s3_online_estimates
 from .routers import online_estimates
+from .routers import user_vehicles
 
+from . import models
 
 # Create tables automatically
 Base.metadata.create_all(bind=engine)
@@ -42,5 +44,5 @@ app.include_router(users.router, prefix="/api")
 app.include_router(s3_online_estimates.router, prefix="/api")
 app.include_router(online_estimates.router, prefix="/api")
 app.include_router(landing_page.router, prefix="/api")
-
+app.include_router(user_vehicles.router, prefix="/api")
 

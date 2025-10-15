@@ -162,3 +162,23 @@ class OnlineEstimaesCreate(BaseModel):
     vin: str
     color: str
     description: str
+
+class VehicleCreate(BaseModel):
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+
+
+class VehicleOut(BaseModel):
+    id: int
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+    created_at: date
+
+    class Config:
+        from_attributes = True

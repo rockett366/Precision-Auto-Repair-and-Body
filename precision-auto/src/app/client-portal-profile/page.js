@@ -268,6 +268,17 @@ export default function AdminProfile() {
     setDraftVehicle((v) => ({ ...(v || {}), file, preview }));
   };
 
+  const cancelAddVehicle = () => {
+    setVehError("");
+    setDraftVehicle((v) => {
+      // clean up preview blob if present
+      if (v?.preview && String(v.preview).startsWith("blob:")) {
+        try { URL.revokeObjectURL(v.preview); } catch {}
+      }
+      return null; // dismiss the draft form
+    });
+  };
+
   function validateVehicleFields(obj, existingList, excludeId = null) {
     const errs = [];
     if (!obj.make?.trim()) errs.push("Make is required.");
@@ -288,17 +299,48 @@ export default function AdminProfile() {
     return errs;
   }
 
-  const confirmAddVehicle = () => {
+  // create vehicle (POST /api/user-vehicles)
+  const confirmAddVehicle = async () => {
     if (!draftVehicle) return;
     setVehError("");
+
     const errs = validateVehicleFields(draftVehicle, vehicles);
     if (errs.length) {
       setVehError(errs.join(" "));
       return;
     }
-    const newItem = { id: Date.now(), ...draftVehicle };
-    setVehicles((list) => [...list, newItem]);
-    setDraftVehicle(null);
+
+    // Prepare request payload
+    const payload = {
+      user_id: 1, // TEMP — replace with actual user_id when auth is re-enabled
+      make: draftVehicle.make.trim(),
+      model: draftVehicle.model.trim(),
+      year: Number(draftVehicle.year),
+      vin: draftVehicle.vin.trim().toUpperCase(),
+    };
+
+    try {
+      const res = await fetch(api(`/user-vehicles`), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders(),
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.detail || `Vehicle creation failed (${res.status})`);
+      }
+
+      const newVeh = await res.json();
+      setVehicles((list) => [newVeh, ...list]);
+      setDraftVehicle(null);
+    } catch (e) {
+      console.error("Add vehicle failed:", e);
+      setVehError(e.message || "Could not add vehicle.");
+    }
   };
 
   const startEditVehicle = (id) => {
@@ -330,20 +372,31 @@ export default function AdminProfile() {
     setEditBuffer(null);
   };
 
-  const removeVehicle = (id) => {
-    const target = vehicles.find((x) => x.id === id);
-    if (!target) return;
-    const label = [target.year, target.make, target.model].filter(Boolean).join(" ");
+  const removeVehicle = async (id) => {
+  const target = vehicles.find((x) => x.id === id);
+  if (!target) return;
+
+  const label = [target.year, target.make, target.model].filter(Boolean).join(" ");
     const ok = window.confirm(
       `Remove vehicle${label ? `: ${label}` : ""}? This cannot be undone.`
     );
     if (!ok) return;
-    setVehicles((list) => list.filter((v) => v.id !== id));
-    if (editingId === id) {
-      setEditingId(null);
-      setEditBuffer(null);
+
+    try {
+      const res = await fetch(api(`/user-vehicles/${id}`), {
+        method: "DELETE",
+        headers: { ...authHeaders() },
+      });
+      if (!res.ok) throw new Error(`Delete failed (${res.status})`);
+      setVehicles((list) => list.filter((v) => v.id !== id));
+      if (editingId === id) {
+        setEditingId(null);
+        setEditBuffer(null);
+      }
+    } catch (e) {
+      console.error("Delete vehicle failed:", e);
+      setVehError(e.message || "Could not delete vehicle.");
     }
-    setVehError("");
   };
 
   const handleEditImage = (e) => {
@@ -806,17 +859,25 @@ export default function AdminProfile() {
                             onChange={(e) => handleVehicleField("vin", e.target.value)}
                           />
                         </div>
-
+                        
                         {/* confirm row */}
                         <div
-                          className={styles.formFullRow}
-                          style={{ display: "flex", justifyContent: "flex-end", marginTop: 8 }}
+                          className={`${styles.formFullRow} ${styles.buttonRow}`}
+                          style={{ justifyContent: "flex-end", marginTop: 8, gap: "0.5rem" }}
                         >
                           <button
                             className={`${styles.buttonBase} ${styles.buttonPrimary}`}
                             onClick={confirmAddVehicle}
+                            type="button"
                           >
                             Confirm Vehicle
+                          </button>
+                          <button
+                            className={`${styles.buttonBase} ${styles.buttonSecondary}`}
+                            onClick={cancelAddVehicle}
+                            type="button"
+                          >
+                            Cancel
                           </button>
                         </div>
                       </div>
