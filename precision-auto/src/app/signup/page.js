@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
+import Script from "next/script";
 import Nav from "@/app/constants/nav";
 
 // ---- One source of truth for the API base ----
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 const api = (path) => `${BASE_URL}/api${path}`;
+
+const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 
 // Generic JSON fetch with good error messages
 async function jsonFetch(url, options = {}) {
@@ -52,12 +55,61 @@ export default function Home() {
   const [serverError, setServerError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [googleError, setGoogleError] = useState(null);
 
   const isValidLength = formValues.password.length >= 8;
   const hasUpperCase = /[A-Z]/.test(formValues.password);
   const hasLowerCase = /[a-z]/.test(formValues.password);
   const hasNumber = /[0-9]/.test(formValues.password);
   const hasSpecialChar = /[\W_]/.test(formValues.password);
+
+function initGoogle() { 
+    if (!GOOGLE_CLIENT_ID) {
+      console.warn("Missing NEXT_PUBLIC_GOOGLE_CLIENT_ID");
+      return;
+    }
+    if (!window.google) return;
+
+    try {
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: async ({ credential }) => {
+          try {
+            const data = await jsonFetch(api("/auth/google-signin"), {
+              method: "POST",
+              body: JSON.stringify({ credential }),
+            });
+
+            if (data?.access_token) {
+              localStorage.setItem("token", data.access_token);
+            }
+            router.push("/client-portal-profile");
+          } catch (e) {
+            setGoogleError(e.message || "Google sign-in failed");
+          }
+        },
+        auto_select: false,
+        ux_mode: "popup",
+      });
+
+      const slot = document.getElementById("google-signup-btn");
+      if (slot) {
+        window.google.accounts.id.renderButton(slot, {
+          theme: "outline",
+          size: "large",
+          text: "signup_with",
+          width: 280,
+        });
+      }
+    } catch {
+      setGoogleError("Failed to initialize Google Sign-In");
+    }
+  }
+
+// useEffect(() => {
+//     if (window?.google) initGoogle();
+//   }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -99,6 +151,8 @@ export default function Home() {
           phone: formValues.phone_number,
           password: formValues.password,
           confirm_password: formValues.confirm_password,
+
+
         }),
       });
 
@@ -131,6 +185,15 @@ export default function Home() {
     <div>
       <Nav />
 
+
+    {/* Google Identity Services Script */}
+      <Script
+        src="https://accounts.google.com/gsi/client"
+        strategy="afterInteractive"
+        onLoad={initGoogle}
+      />
+
+
       <div className={styles.signupPage}>
         <form id="form" className={styles.leftContainer} onSubmit={handleSubmit} noValidate>
           <div className={styles.container}>
@@ -138,6 +201,7 @@ export default function Home() {
             <h4 className={styles.header2}>to continue your experience</h4>
 
             {serverError && <p className={styles.errors}>{serverError}</p>}
+            {googleError && <p className={styles.errors}>{googleError}</p>}
 
             <div className={styles.formContainer}>
               <div className={styles.inputWrapper}>
@@ -261,6 +325,20 @@ export default function Home() {
                 {isSubmitting ? "Signing up..." : "Sign Up"}
               </button>
 
+              {/* <button
+                className={styles.button + " " + styles.google_button}
+                type="button"
+              >
+                Sign in with Google
+                <img
+                  src="/images/signup/google-logo.jpg"
+                  alt="google logo"
+                  className={styles.google_logo}
+                />
+              </button> */}
+
+              {/* Google renders its button */}
+              <div id = "google-signup-btn" style = {{ marginTop: 8 }} />
               <button className={`${styles.button} ${styles.google_button}`} type="button">
                 Sign in with Google
                 <img src="/images/signup/google-logo.jpg" alt="google logo" className={styles.google_logo} />

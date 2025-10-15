@@ -6,40 +6,43 @@ from sqlalchemy import select
 from ..db import get_db
 from .. import models, schemas
 from ..schemas import (SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, 
-ReviewCreate, ReviewOut, LoginRequest, TokenOut)
-from ..utils import hash_password, create_access_token, verify_password, decode_token 
+ReviewCreate, ReviewOut, LoginRequest, TokenOut, GoogleSignInRequest)
+from ..utils import (hash_password, create_access_token, verify_password, decode_token, verify_google_credential, random_password_hash, GOOGLE_CLIENT_ID)
 
-from ..schemas import SignupRequest, SignupResponse, UserOut, MIN_PASSWORD_LEN, ReviewCreate, ReviewOut
-from ..utils import hash_password, verify_password
-from datetime import timedelta
+# from google.oauth2 import id_token
+# from google.auth.transport import requests as grequests
+# import os, random 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/login")
+
+# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 @router.post("/signup", response_model=SignupResponse, status_code=status.HTTP_201_CREATED)
 def signup(payload: SignupRequest, db: Session = Depends(get_db)):
     # Server side check
-    if len(payload.password) < MIN_PASSWORD_LEN:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            detail=f"Password must be at least {MIN_PASSWORD_LEN} characters."
-        )
+    # if len(payload.password) < MIN_PASSWORD_LEN:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+    #         detail=f"Password must be at least {MIN_PASSWORD_LEN} characters."
+    #     )
 
-    # Unique email/phone check
-    email_exists = db.execute(select(models.User).where(models.User.email == payload.email)).scalar_one_or_none()
-    if email_exists:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="Email/phone number already in use."
-        )
+    # # Unique email/phone check
+    # email_exists = db.execute(select(models.User).where(models.User.email == payload.email)).scalar_one_or_none()
+    # if email_exists:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_409_CONFLICT,
+    #         detail="Email/phone number already in use."
+    #     )
 
-    phone_exists = db.execute(select(models.User).where(models.User.phone == payload.phone)).scalar_one_or_none()
-    if phone_exists:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="Email/phone number already in use."
-        )
+    # phone_exists = db.execute(select(models.User).where(models.User.phone == payload.phone)).scalar_one_or_none()
+    # if phone_exists:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_409_CONFLICT,
+    #         detail="Email/phone number already in use."
+    #     )
 
     user = models.User(
         first_name=payload.first_name.strip(),
@@ -102,6 +105,17 @@ def login(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
+#------for login pg-------
+@router.post("/login-legacy")  # <-- was "/login"
+def login_legacy(payload: schemas.LoginRequest, db: Session = Depends(get_db)):
+    user = db.execute(
+        select(models.User).where(models.User.email == payload.email.lower())
+    ).scalar_one_or_none()
+
+    if not user or not verify_password(payload.password, user.password_hash):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password."
     access_token = create_access_token(
         subject=user.email,
         ttl_seconds=ACCESS_TOKEN_EXPIRE_MINUTES * 60,
@@ -186,6 +200,32 @@ def get_admin_me(request: Request, db: Session = Depends(get_db)):
         "is_admin": user.is_admin,
     }
 
+@router.post("/google-signin", response_model=TokenOut)
+def google_signin(payload: GoogleSignInRequest, db: Session = Depends(get_db)):
+    if not GOOGLE_CLIENT_ID:
+        raise HTTPException(status_code=500, detail="Server missing GOOGLE_CLIENT_ID")
+
+    try:
+        info = verify_google_credential(payload.credential, GOOGLE_CLIENT_ID)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid Google credential")
+
+    # Upsert user
+    user = db.query(models.User).filter(models.User.email == info["email"]).first()
+    if not user:
+        user = models.User(
+            first_name=info["given_name"] or "Google",
+            last_name=info["family_name"] or "User",
+            email=info["email"],
+            phone="+10000000000",  # placeholder; collect later if needed
+            password_hash=random_password_hash(),  # <— now no arg needed
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+
+    token = create_access_token(subject=user.email)
+    return {"access_token": token, "token_type": "bearer"}
 @router.post("/logout")
 def logout_user(response: Response):
     response.delete_cookie(key="access_token")

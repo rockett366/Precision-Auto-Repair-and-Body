@@ -17,3 +17,4 @@ pytest-cov
 httpx
 
 PyJWT                      #for JWT token creation and verification (ezra)      
+google-auth
