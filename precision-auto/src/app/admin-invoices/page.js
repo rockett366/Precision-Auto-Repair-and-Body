@@ -3,8 +3,6 @@
 import Nav from "../constants/nav";
 import Sidebar from "@/app/constants/admin-sidebar";
 import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
-
-// REUSE THE RECORDS CSS (rename later to a shared module if you want)
 import styles from "../admin-records/page.module.css";
 
 import { useEffect, useState } from "react";
@@ -17,15 +15,22 @@ export default function AdminInvoices() {
   const [formDate, setFormDate] = useState("");
   const [formFile, setFormFile] = useState(null);
 
+  // search + debounce (so we don't spam the API)
   const [searchQuery, setSearchQuery] = useState("");
   const [debounced, setDebounced] = useState("");
-
   useEffect(() => {
     const t = setTimeout(() => setDebounced(searchQuery.trim()), 250);
     return () => clearTimeout(t);
   }, [searchQuery]);
 
-const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debounced);
+  // sort
+  const [sortKey, setSortKey] = useState("");
+  const [sortOrder, setSortOrder] = useState("asc");
+  const toggleSortOrder = () => setSortOrder((p) => (p === "asc" ? "desc" : "asc"));
+
+  // fetch (now backend-driven)
+  const { invoices, isLoading, isError, error, refetch } =
+    useInvoicesHistory(debounced, sortKey, sortOrder);
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
@@ -39,7 +44,7 @@ const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debo
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // TODO: implement real upload
+    // TODO: real upload
     closeModal();
     // await refetch();
   };
@@ -55,8 +60,6 @@ const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debo
             <h1>Review Invoices</h1>
             <p>Manage and review customer repair invoices.</p>
 
-            {/* Controls – copy the same search/sort/upload block from Records.
-                If you don't have sorting wired yet, leave the UI but no-op the handlers. */}
             <div className={styles.controlsContainer}>
               <input
                 type="text"
@@ -65,36 +68,41 @@ const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debo
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <button className={styles.uploadBtn} onClick={openModal}>
-                Upload
-              </button>
-              <select className={styles.sortDropdown} /* onChange={...} value={...} */>
+
+              <button className={styles.uploadBtn} onClick={openModal}>Upload</button>
+
+              <select
+                className={styles.sortDropdown}
+                value={sortKey}
+                onChange={(e) => setSortKey(e.target.value)}
+              >
                 <option value="">Sort By</option>
                 <option value="name">Name</option>
                 <option value="date">Date</option>
                 <option value="description">Description</option>
               </select>
+
               <button
                 type="button"
                 className={styles.sortOrderBtn}
-                // onClick={toggleSortOrder}
-                title="Ascending"
+                onClick={toggleSortOrder}
+                title={sortOrder === "asc" ? "Ascending" : "Descending"}
               >
-                ↑
+                {sortOrder === "asc" ? "↑" : "↓"}
               </button>
             </div>
 
-            {/* Loading / Error */}
             {isLoading && <p>Loading…</p>}
+
             {isError && (
               <div className={styles.tableContainer}>
                 <div className={styles.tableEmpty}>
                   Could not load invoices. <button onClick={refetch}>Retry</button>
+                  <pre style={{ whiteSpace: "pre-wrap" }}>{error?.message}</pre>
                 </div>
               </div>
             )}
 
-            {/* Table (same markup as Records) */}
             {!isLoading && !isError && (
               <div className={styles.tableContainer}>
                 <table className={styles.table}>
@@ -110,8 +118,8 @@ const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debo
                     {invoices.length === 0 ? (
                       <tr>
                         <td colSpan={4}>
-                          {searchQuery
-                            ? <>No matches for “{searchQuery}”.</>
+                          {debounced
+                            ? <>No matches for “{debounced}”.</>
                             : <>No records yet. Use Upload to add one.</>}
                         </td>
                       </tr>
@@ -129,7 +137,8 @@ const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debo
                 </table>
               </div>
             )}
-            {/* Keep your Upload modal JSX here, unchanged */}
+
+            {/* your upload modal JSX stays the same */}
           </div>
         </main>
       </div>
