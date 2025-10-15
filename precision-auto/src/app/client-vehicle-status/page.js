@@ -29,34 +29,18 @@ export default function VehicleStatus() {
 
   const stages = ["In Service", "Repairing", "Ready"];
   const [status, setStatus] = useState([]);
+  const [selectedVehicleIndex, setSelectedVehicleIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Get Vehicle Statuses from the Database
   useEffect(() => {
     const fetchStatus = async () => {
       try {
-        {
-          /* Option 1
-            For testing on other computers
-        */
-        }
-
-        const res = await fetch("api/vehicle-status-seed", {
-          cache: "no-store",
-        });
-        if (!res.ok) throw new Error("Failed to fetch records from mock API");
-        const data = await res.json();
-
-        {
-          /* Option 2
-          For testing on local db
-
         const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
         const res = await fetch(`${base}/api/vehicle-status/`, { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch records");
         const data = await res.json();
-        */
-        }
 
         setStatus(data);
       } catch (err) {
@@ -68,7 +52,7 @@ export default function VehicleStatus() {
     fetchStatus();
   }, []);
 
-  const vehicle = status[0]; // In the future, add a dropdown menu so user can pick which car to see vehicle status of
+  const vehicle = status[selectedVehicleIndex];
 
   return (
     <div className={styles.page}>
@@ -104,6 +88,27 @@ export default function VehicleStatus() {
           <main className={styles.main}>
             <div className={`${styles.card} ${styles.statusCard}`}>
               <h2 className={styles.header}>Vehicle Status</h2>
+              
+              {/* Dropdown for vehicle selection */}
+              {!loading && !error && status.length > 0 && (
+                <div className={styles.dropdownWrapper}>
+                  <label htmlFor="vehicleSelect" className={styles.label}>
+                    Select Vehicle:
+                  </label>
+                  <select
+                    id="vehicleSelect"
+                    className={styles.dropdown}
+                    value={selectedVehicleIndex}
+                    onChange={(e) => setSelectedVehicleIndex(Number(e.target.value))}
+                  >
+                    {status.map((v, i) => (
+                      <option key={i} value={i}>
+                        {v.make} {v.model} ({v.year})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
 
               {loading ? (
                 <p>Loading vehicle status...</p>
