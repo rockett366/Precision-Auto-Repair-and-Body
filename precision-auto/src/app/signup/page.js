@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import styles from "./page.module.css";
-import Nav from "../constants/nav";
 import Script from "next/script";
+import Nav from "@/app/constants/nav";
 
 // ---- One source of truth for the API base ----
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 const api = (path) => `${BASE_URL}/api${path}`;
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
@@ -124,15 +122,11 @@ function initGoogle() {
     if (!values.firstname) errors.firstname = "First Name is required!";
     if (!values.lastname) errors.lastname = "Last Name is required!";
     if (!values.email) errors.email = "Email is required!";
-    else if (!regex.test(values.email))
-      errors.email = "This is not a valid email format!";
+    else if (!regex.test(values.email)) errors.email = "This is not a valid email format!";
     if (!values.password) errors.password = "Password is required!";
-    else if (values.password.length < 8)
-      errors.password = "Password must be more than 8 characters!";
-    if (!values.confirm_password)
-      errors.confirm_password = "Confirm Password is required!";
-    else if (values.password !== values.confirm_password)
-      errors.confirm_password = "Passwords do not match!";
+    else if (values.password.length < 8) errors.password = "Password must be more than 8 characters!";
+    if (!values.confirm_password) errors.confirm_password = "Confirm Password is required!";
+    else if (values.password !== values.confirm_password) errors.confirm_password = "Passwords do not match!";
     if (!values.phone_number) errors.phone_number = "Phone Number is required!";
     return errors;
   };
@@ -180,6 +174,7 @@ function initGoogle() {
       router.push("/client-portal-profile");
     } catch (err) {
       setServerError(err?.message || "Network error");
+      // eslint-disable-next-line no-console
       console.error("Auth error:", err);
     } finally {
       setIsSubmitting(false);
@@ -200,7 +195,7 @@ function initGoogle() {
 
 
       <div className={styles.signupPage}>
-        <form id="form" className={styles.leftContainer} onSubmit={handleSubmit}>
+        <form id="form" className={styles.leftContainer} onSubmit={handleSubmit} noValidate>
           <div className={styles.container}>
             <h1 className={styles.header1}>Create your Account</h1>
             <h4 className={styles.header2}>to continue your experience</h4>
@@ -211,9 +206,7 @@ function initGoogle() {
             <div className={styles.formContainer}>
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="firstname">
-                    <b>First Name</b>
-                  </label>
+                  <label htmlFor="firstname"><b>First Name</b></label>
                   <input
                     className={styles.inputBox}
                     id="firstname"
@@ -229,9 +222,7 @@ function initGoogle() {
 
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="lastname">
-                    <b>Last Name</b>
-                  </label>
+                  <label htmlFor="lastname"><b>Last Name</b></label>
                   <input
                     className={styles.inputBox}
                     id="lastname"
@@ -247,9 +238,7 @@ function initGoogle() {
             </div>
 
             <div className={styles.emailContainer}>
-              <label htmlFor="email">
-                <b>Email</b>
-              </label>
+              <label htmlFor="email"><b>Email</b></label>
               <input
                 className={styles.inputBox}
                 id="email"
@@ -266,9 +255,7 @@ function initGoogle() {
             <div className={styles.formContainer}>
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="password">
-                    <b>Password</b>
-                  </label>
+                  <label htmlFor="password"><b>Password</b></label>
                   <input
                     className={styles.inputBox}
                     id="password"
@@ -285,21 +272,11 @@ function initGoogle() {
                     <div className={styles.passwordPopup}>
                       <p>Password must contain:</p>
                       <ul>
-                        <li style={{ color: isValidLength ? "green" : "red" }}>
-                          At least 8 characters
-                        </li>
-                        <li style={{ color: hasUpperCase ? "green" : "red" }}>
-                          One uppercase letter
-                        </li>
-                        <li style={{ color: hasLowerCase ? "green" : "red" }}>
-                          One lowercase letter
-                        </li>
-                        <li style={{ color: hasNumber ? "green" : "red" }}>
-                          One number
-                        </li>
-                        <li style={{ color: hasSpecialChar ? "green" : "red" }}>
-                          One special character
-                        </li>
+                        <li style={{ color: isValidLength ? "green" : "red" }}>At least 8 characters</li>
+                        <li style={{ color: hasUpperCase ? "green" : "red" }}>One uppercase letter</li>
+                        <li style={{ color: hasLowerCase ? "green" : "red" }}>One lowercase letter</li>
+                        <li style={{ color: hasNumber ? "green" : "red" }}>One number</li>
+                        <li style={{ color: hasSpecialChar ? "green" : "red" }}>One special character</li>
                       </ul>
                     </div>
                   )}
@@ -310,9 +287,7 @@ function initGoogle() {
 
               <div className={styles.inputWrapper}>
                 <div>
-                  <label htmlFor="confirm_password">
-                    <b>Confirm Password</b>
-                  </label>
+                  <label htmlFor="confirm_password"><b>Confirm Password</b></label>
                   <input
                     className={styles.inputBox}
                     id="confirm_password"
@@ -328,9 +303,7 @@ function initGoogle() {
             </div>
 
             <div className={styles.phoneContainer}>
-              <label htmlFor="phone_number">
-                <b>Phone Number</b>
-              </label>
+              <label htmlFor="phone_number"><b>Phone Number</b></label>
               <input
                 className={styles.inputBox}
                 id="phone_number"
@@ -345,7 +318,7 @@ function initGoogle() {
 
             <div className={styles.buttonContainer}>
               <button
-                className={styles.button + " " + styles.signup_button}
+                className={`${styles.button} ${styles.signup_button}`}
                 type="submit"
                 disabled={isSubmitting}
               >
@@ -366,6 +339,10 @@ function initGoogle() {
 
               {/* Google renders its button */}
               <div id = "google-signup-btn" style = {{ marginTop: 8 }} />
+              <button className={`${styles.button} ${styles.google_button}`} type="button">
+                Sign in with Google
+                <img src="/images/signup/google-logo.jpg" alt="google logo" className={styles.google_logo} />
+              </button>
 
               <div className={styles.loginContainer}>
                 <p>Have an account already?</p>
@@ -378,14 +355,9 @@ function initGoogle() {
         </form>
 
         <div className={styles.rightContainer}>
-          <img
-            src="/images/signup/b&w_logo.jpg"
-            alt="logo pic"
-            className={styles.logo}
-          />
+          <img src="/images/signup/b&w_logo.jpg" alt="logo pic" className={styles.logo} />
           <p className={styles.description}>
-            Subscribe to our membership and have instant access to exclusive
-            rewards, and savings!
+            Subscribe to our membership and have instant access to exclusive rewards, and savings!
           </p>
         </div>
       </div>

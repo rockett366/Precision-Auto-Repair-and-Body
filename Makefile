@@ -47,9 +47,13 @@ seed-user:
 rebuild-api:
 	@$(COMPOSE) build --no-cache api
 
+seed-inventory:
+	@docker compose exec api python app/scripts/seed_inventory.py
 
 # ======== TEST CONFIG ========
 -include backend/.env
+
+PYTEST_ADDOPTS ?= -vv -ra
 
 test:
 	@$(COMPOSE) up -d db
@@ -58,7 +62,7 @@ test:
 	@$(COMPOSE) run --rm \
 	  -v $$PWD/backend:/app \
 	  -w /app \
-	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest --cov=app --cov-report=term-missing --cov-report=xml"
+	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest $(PYTEST_ADDOPTS) --cov=app --cov-report=term-missing --cov-report=xml"
 	@echo "Coverage report -> backend/coverage.xml"
 
 # Install deps
