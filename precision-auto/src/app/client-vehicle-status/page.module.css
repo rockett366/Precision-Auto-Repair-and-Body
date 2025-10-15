@@ -208,3 +208,23 @@
   padding: 10px;
   border-radius: 6px;
 }
+
+/* Drop down Menu*/
+.dropdownWrapper {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1.5rem;
+  gap: 60%;
+}
+
+.dropdown {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--accent);
+  color: white;
+}
