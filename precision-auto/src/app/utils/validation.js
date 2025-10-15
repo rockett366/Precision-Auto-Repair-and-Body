@@ -1,3 +1,5 @@
+import React from "react";
+
 // --- Password helpers ---
 export const PWD_MIN = 8;
 
@@ -14,10 +16,8 @@ export function passwordsMatch(next, confirm) {
   return (next || "").length > 0 && (next || "") === (confirm || "");
 }
 
-
 /** Dynamic checklist component for password strength rules on the client portal.
     Usage:   <PasswordChecklist rules={rules} matchOk={matchOk} styles={styles} />  */
-import React from "react";
 export function PasswordChecklist({ rules, matchOk, styles }) {
   return (
     <div className={styles.formFullRow} style={{ marginTop: 8 }}>
@@ -78,4 +78,23 @@ export function validateVIN(vinRaw) {
   }
 
   return { ok: errors.length === 0, errors };
+}
+
+// --- Lightweight input helpers for vehicle fields ---
+
+/** Uppercase + trim; leave detailed ISO checks to validateVIN (so we can show errors) */
+export function normalizeVinInput(v) {
+  return (v || "").toUpperCase().trim().slice(0, 17); // hard-cap length at 17
+}
+
+/** Keep only digits from a string (useful for year input fields) */
+export function digitsOnly(s) {
+  return (s || "").replace(/[^\d]/g, "");
+}
+
+/** Simple year guard; pass currentYear from caller for testability */
+export function isValidYear(yearNum, currentYear) {
+  const y = Number(yearNum);
+  if (Number.isNaN(y)) return false;
+  return y >= 1900 && y <= currentYear + 1;
 }

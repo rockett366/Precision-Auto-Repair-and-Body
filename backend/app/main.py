@@ -46,3 +46,17 @@ app.include_router(online_estimates.router, prefix="/api")
 app.include_router(landing_page.router, prefix="/api")
 app.include_router(user_vehicles.router, prefix="/api")
 
+def dump_routes(app):
+    print("\n--- ROUTES ---")
+    for r in app.router.routes:
+        try:
+            path = getattr(r, "path", "")
+            methods = getattr(r, "methods", set())
+            name = getattr(r, "name", "")
+            if "/api/user-vehicles" in path:
+                print(f"{methods}  {path}  -> {name}")
+        except Exception:
+            pass
+    print("--- END ROUTES ---\n")
+
+dump_routes(app)

@@ -1,11 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status, Path
+from typing import List
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from typing import List
 
 from ..db import get_db             
 from ..models import UserVehicle
-from ..schemas import VehicleCreate, VehicleOut
+from ..schemas import VehicleCreate, VehicleOut, VehicleUpdate
 
 router = APIRouter(prefix="/user-vehicles", tags=["user_vehicles"])
 
@@ -19,6 +20,37 @@ def create_vehicle(payload: VehicleCreate, db: Session = Depends(get_db)):
         vin=payload.vin.upper().strip(),
     )
     db.add(v)
+    try:
+        db.commit()
+        db.refresh(v)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="VIN already exists.")
+    return v
+
+@router.put("/{vehicle_id}", response_model=VehicleOut)
+def update_vehicle(
+    vehicle_id: int = Path(..., gt=0),
+    payload: VehicleUpdate = None,
+    db: Session = Depends(get_db)
+):
+    v = db.query(UserVehicle).filter(UserVehicle.id == vehicle_id).first()
+    if not v:
+        raise HTTPException(status_code=404, detail="Vehicle not found.")
+
+    # Apply changes only if provided
+    if payload.make is not None:
+        v.make = payload.make
+    if payload.model is not None:
+        v.model = payload.model
+    if payload.year is not None:
+        try:
+            v.year = int(payload.year)
+        except (TypeError, ValueError):
+            raise HTTPException(status_code=400, detail="Year must be an integer.")
+    if payload.vin is not None:
+        v.vin = payload.vin.strip().upper()
+
     try:
         db.commit()
         db.refresh(v)
@@ -44,3 +76,16 @@ def delete_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
     db.delete(v)
     db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+
+@router.get("", response_model=List[VehicleOut])
+def list_all_vehicles(db: Session = Depends(get_db)):
+    return db.query(UserVehicle).order_by(UserVehicle.id.desc()).all()
+
+@router.get("/{vehicle_id}", response_model=VehicleOut)
+def get_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
+    v = db.query(UserVehicle).filter(UserVehicle.id == vehicle_id).first()
+    if not v:
+        raise HTTPException(status_code=404, detail="Vehicle not found.")
+    return v

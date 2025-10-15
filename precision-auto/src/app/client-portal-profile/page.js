@@ -12,6 +12,9 @@ import {
   passwordsMatch,
   PasswordChecklist, // <- dynamic checklist UI
   validateVIN,       // <- ISO-3779 VIN checker
+  normalizeVinInput,
+  digitsOnly,
+  isValidYear,
 } from "../utils/validation";
 
 // TEMP: frontend-only auth bypass — set to false when re-enabling auth
@@ -268,14 +271,16 @@ export default function AdminProfile() {
     setDraftVehicle((v) => ({ ...(v || {}), file, preview }));
   };
 
+  // NEW: cancel add (clear draft and revoke preview blob)
   const cancelAddVehicle = () => {
     setVehError("");
     setDraftVehicle((v) => {
-      // clean up preview blob if present
       if (v?.preview && String(v.preview).startsWith("blob:")) {
-        try { URL.revokeObjectURL(v.preview); } catch {}
+        try {
+          URL.revokeObjectURL(v.preview);
+        } catch {}
       }
-      return null; // dismiss the draft form
+      return null;
     });
   };
 
@@ -284,8 +289,9 @@ export default function AdminProfile() {
     if (!obj.make?.trim()) errs.push("Make is required.");
     if (!obj.model?.trim()) errs.push("Model is required.");
     const yr = Number(obj.year);
-    if (!obj.year?.trim() || Number.isNaN(yr)) errs.push("Year must be a number.");
-    else if (yr < 1900 || yr > currentYear + 1) {
+    if (!obj.year?.toString().trim() || Number.isNaN(yr)) {
+      errs.push("Year must be a number.");
+    } else if (!isValidYear(yr, currentYear)) {
       errs.push(`Year must be between 1900 and ${currentYear + 1}.`);
     }
     const vinCheck = validateVIN(obj.vin);
@@ -316,7 +322,7 @@ export default function AdminProfile() {
       make: draftVehicle.make.trim(),
       model: draftVehicle.model.trim(),
       year: Number(draftVehicle.year),
-      vin: draftVehicle.vin.trim().toUpperCase(),
+      vin: normalizeVinInput(draftVehicle.vin),
     };
 
     try {
@@ -357,26 +363,54 @@ export default function AdminProfile() {
     setVehError("");
   };
 
-  const saveEditVehicle = () => {
+  // UPDATED: Save edit -> PUT to API
+  const saveEditVehicle = async () => {
     if (!editBuffer) return;
     setVehError("");
+
     const errs = validateVehicleFields(editBuffer, vehicles, editingId);
     if (errs.length) {
       setVehError(errs.join(" "));
       return;
     }
-    setVehicles((list) =>
-      list.map((item) => (item.id === editingId ? { ...item, ...editBuffer } : item))
-    );
-    setEditingId(null);
-    setEditBuffer(null);
+
+    const payload = {
+      make: editBuffer.make?.trim() || undefined,
+      model: editBuffer.model?.trim() || undefined,
+      year: editBuffer.year ? Number(editBuffer.year) : undefined,
+      vin: editBuffer.vin ? normalizeVinInput(editBuffer.vin) : undefined,
+    };
+
+    try {
+      const res = await fetch(api(`/user-vehicles/${editingId}`), {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const j = await res.json().catch(() => ({}));
+        throw new Error(j.detail || `Update failed (${res.status})`);
+      }
+
+      const updated = await res.json();
+
+      setVehicles((list) =>
+        list.map((item) => (item.id === editingId ? { ...item, ...updated } : item))
+      );
+      setEditingId(null);
+      setEditBuffer(null);
+    } catch (e) {
+      console.error("Update vehicle failed:", e);
+      setVehError(e.message || "Could not update vehicle.");
+    }
   };
 
   const removeVehicle = async (id) => {
-  const target = vehicles.find((x) => x.id === id);
-  if (!target) return;
+    const target = vehicles.find((x) => x.id === id);
+    if (!target) return;
 
-  const label = [target.year, target.make, target.model].filter(Boolean).join(" ");
+    const label = [target.year, target.make, target.model].filter(Boolean).join(" ");
     const ok = window.confirm(
       `Remove vehicle${label ? `: ${label}` : ""}? This cannot be undone.`
     );
@@ -405,7 +439,9 @@ export default function AdminProfile() {
     const preview = URL.createObjectURL(file);
     setEditBuffer((buf) => {
       if (buf?.preview && String(buf.preview).startsWith("blob:")) {
-        try { URL.revokeObjectURL(buf.preview); } catch {}
+        try {
+          URL.revokeObjectURL(buf.preview);
+        } catch {}
       }
       return { ...(buf || {}), file, preview };
     });
@@ -790,14 +826,18 @@ export default function AdminProfile() {
                               <label>Year</label>
                               <input
                                 value={editBuffer.year}
-                                onChange={(e) => setEditBuffer({ ...editBuffer, year: e.target.value })}
+                                onChange={(e) =>
+                                  setEditBuffer({ ...editBuffer, year: digitsOnly(e.target.value) })
+                                }
                               />
                             </div>
                             <div className={styles.formField}>
                               <label>VIN</label>
                               <input
                                 value={editBuffer.vin}
-                                onChange={(e) => setEditBuffer({ ...editBuffer, vin: e.target.value })}
+                                onChange={(e) =>
+                                  setEditBuffer({ ...editBuffer, vin: normalizeVinInput(e.target.value) })
+                                }
                               />
                             </div>
                           </div>
@@ -849,17 +889,17 @@ export default function AdminProfile() {
                           <label>Year</label>
                           <input
                             value={draftVehicle.year}
-                            onChange={(e) => handleVehicleField("year", e.target.value)}
+                            onChange={(e) => handleVehicleField("year", digitsOnly(e.target.value))}
                           />
                         </div>
                         <div className={styles.formField}>
                           <label>VIN</label>
                           <input
                             value={draftVehicle.vin}
-                            onChange={(e) => handleVehicleField("vin", e.target.value)}
+                            onChange={(e) => handleVehicleField("vin", normalizeVinInput(e.target.value))}
                           />
                         </div>
-                        
+
                         {/* confirm row */}
                         <div
                           className={`${styles.formFullRow} ${styles.buttonRow}`}
