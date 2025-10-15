@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 
-// Normalize FastAPI List[InvoiceOut] -> { id, name, description, date }[]
+// Normalize FastAPI -> { id, name, description, date }[]
 function normalizeInvoices(arr) {
   if (!Array.isArray(arr)) return [];
   return arr
@@ -14,12 +14,19 @@ function normalizeInvoices(arr) {
     .filter((e) => e.id !== null && !!e.date);
 }
 
-export default function useInvoicesHistory(search = "") {
+/**
+ * Backend-driven fetch with search + sort.
+ * @param {string} search - search string (name)
+ * @param {string} sortKey - "name" | "date" | "description" | ""
+ * @param {string} sortOrder - "asc" | "desc"
+ */
+export default function useInvoicesHistory(search = "", sortKey = "", sortOrder = "asc") {
   const [invoices, setInvoices] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const refreshId = useRef(0);           // simple refetch trigger
 
+  // little refetch toggle
+  const refreshId = useRef(0);
   const refetch = () => {
     refreshId.current++;
     setLoading(true);
@@ -27,14 +34,18 @@ export default function useInvoicesHistory(search = "") {
 
   useEffect(() => {
     const controller = new AbortController();
+
+    const params = new URLSearchParams();
+    if (search) params.set("q", search);
+    if (sortKey) params.set("sort", sortKey);
+    if (sortOrder) params.set("order", sortOrder);
+
     (async () => {
       try {
         setError(null);
-        const url = search
-          ? `/api/invoices/history?name=${encodeURIComponent(search)}`
-          : `/api/invoices/history`;
-        const res = await fetch(url, {
+        const res = await fetch(`/api/invoices/history?${params.toString()}`, {
           credentials: "include",
+          cache: "no-store",
           signal: controller.signal,
         });
         if (!res.ok) throw new Error(`Fetch failed ${res.status}`);
@@ -46,8 +57,9 @@ export default function useInvoicesHistory(search = "") {
         setLoading(false);
       }
     })();
+
     return () => controller.abort();
-  }, [refreshId.current, search]);
+  }, [search, sortKey, sortOrder, refreshId.current]);
 
   return { invoices, isLoading, isError: !!error, error, refetch };
 }
