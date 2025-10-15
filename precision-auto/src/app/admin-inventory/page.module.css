@@ -3,235 +3,183 @@
   padding-top: 130px;
   padding-bottom: 100px;
   font-family: Arial, sans-serif;
-  background-color: #d9d9d9;
+  background-color: #f4f4f4;
   min-height: 100vh;
   width: 100%;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
   font-size: 24px;
   font-weight: bold;
-  color: black;
-  margin-bottom: 20px;
-  margin-left: 10px;
-  text-align: left;
-  text-shadow:
-    1px 1px 1 rgb(153, 153, 153);
+  color: #333;
+  margin: 0 auto 20px;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(153, 153, 153, 0.5);
 }
 
-/* Layout  */
-
+/* Layout */
 .layoutContainer {
   display: flex;
   height: 100vh;
 }
 
 /* Sidebar Styles */
-
 .sidebar {
   color: black;
   font-size: 20px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
   padding-top: 190px;
   padding-left: 50px;
   width: 40%;
 }
 
-.adminTitle{
-  padding-left: 10px;
-  font-size: 60px;
-  font-weight: bold;
-  color: black;
-  margin-bottom: 20px;
-  text-align: left;
-  text-shadow:
-    1px 1px 1 rgb(153, 153, 153);
-  }
-
-.adminItem{
+/* Controls */
+.controlsContainer {
   display: flex;
-  color: black;
-  font-weight: bold;
-  font-size: 20;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px;
+  gap: 10px;
   margin-bottom: 20px;
-  background-color: transparent;
-  cursor: pointer;
-  border-radius: 20px;
-  transition: background-color 0.2s;
-  border: none;
-  outline: none;
-  width: fit-content;
-}
-
-.adminItem:hover{
-  background-color: #acacac;
-  border: 2px solid black;
-  width: fit-content;
-}
-
-.adminCurSelect{
-  display: flex;
-  color: white;
-  font-weight: bold;
-  font-size: 20;
-  align-items: center;
   padding: 10px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  border-radius: 20px;
-  border: 2px solid black;
-  background-color: #931621;
-  width: fit-content;
-  text-shadow:
-    2px 2px 5 black,
-    2px 2px 5 black;
-}
-
-/* Inventory */
-
-/* Oveflow */
-.inventoryScrollContainer {
-  max-height: 60vh; /* or a fixed px value like 400px */
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 5px; /* space for scrollbar */
-}
-
-/* Search Bar */
-.searchContainer {
-  display: flex;
-  align-items: center;
-  font: white;
-  margin-bottom: 20px;
-  background: transparent;
-  padding: 10px;
-  border-radius: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f8f8f8;
+  width: 90%;
+  max-width: 900px;
 }
 
 .searchInput {
-  padding: 10px;
-  background-color: transparent;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
   flex-grow: 1;
-  font-size: 16px;
-  border: 1px solid black;
+  padding: 8px 12px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
 }
 
-.searchBarButton{
-  font-size: 15;
-  padding: 10px 13px;
-  background-color: transparent;
-  border: 2px solid black;
-  border-radius: 10px;
-  color: black;
+.searchBarButton {
+  padding: 8px 12px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background: #007bff;
+  color: white;
   cursor: pointer;
   font-weight: bold;
-  margin-right: 5px;
-  transition: 0.2s;
+  transition: background 0.2s, transform 0.2s;
 }
 
-.searchBarButton:hover{
-  background: rgb(170, 170, 170);
+.searchBarButton:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
 }
 
 /* Table */
-.inventoryTable {
+.tableContainer {
+  margin: 20px auto 0;
+  width: 90%;
+  max-width: 900px;
+  background: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
-  background: #d9d9d9;
+  background-color: #ffffff;
+  border-radius: 10px;
   overflow: hidden;
-  border-collapse: separate;
 }
 
-.inventoryTable th {
-  background-color: #888;
-  padding: 10px;
-  text-align: left;
-  font-weight: bold;
-  text-shadow:
-    1px 1px 1 rgb(0, 0, 0);
-  border-radius: 30;
-}
-
-.inventoryTable thead tr:first-child th:first-child {
-  overflow: hidden;
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
-.inventoryTable th,
-.inventoryTable td {
-  padding: 15px;
-  text-align: left;
-}
-
-/* Table Row Styles */
-.inventoryTable tr {
-  background-color: #888;
+.table th {
+  background: #007bff;
   color: white;
-  border-radius: 20px;
-  margin-bottom: 10px;
-  display: block;
-  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-  text-shadow:
-    1px 1px 1 rgb(0, 0, 0);
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: 2px solid #0056b3;
 }
 
-.inventoryTable tr td {
-  display: inline-block;
+.table td {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  color: #333;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.table tbody tr:hover {
+  background-color: #e9ecef;
 }
 
 /* Buttons */
 .inventoryActions {
   display: flex;
+  justify-content: center;
   gap: 10px;
   align-items: center;
 }
 
 .actionButton {
-  background: white;
-  border: 1px solid #ccc;
+  background: #ffffff;
+  border: 1px solid #007bff;
   border-radius: 5px;
-  color: rgb(0, 0, 0);
-  padding: 5px 10px;
-  font-size: 16px;
+  color: #007bff;
+  padding: 6px 12px;
+  font-size: 14px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .actionButton:hover {
-  background: #bbb;
+  background: #007bff;
+  color: #ffffff;
 }
 
 /* Save and Cancel Buttons */
 .saveButton {
-  background: green;
+  background: #28a745;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.saveButton:hover {
+  background: #1e7e34;
 }
 
 .cancelButton {
-  background: red;
+  background: #dc3545;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 6px 12px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelButton:hover {
+  background: #a71d2a;
 }
 
 /* Edit Mode Input Fields */
 .editInput {
-  padding: 5px;
+  padding: 6px;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
   width: 100%;
+  box-sizing: border-box;
 }

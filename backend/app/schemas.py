@@ -50,6 +50,20 @@ class SignupResponse(BaseModel):
     user: UserOut
 
 
+class InventoryOut(BaseModel):
+    id: int
+    name: str
+    description: str
+    quantity: int
+
+    class Config:
+        from_attributes = True
+
+class InventoryUpdate(BaseModel):
+    name: str
+    description: str
+    quantity: int
+    
 class InvoiceOut(BaseModel):
     id: int
     name: str
