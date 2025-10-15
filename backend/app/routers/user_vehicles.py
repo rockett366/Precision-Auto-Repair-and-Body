@@ -78,11 +78,12 @@ def delete_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
-
+# Get all vehicles (for admin use, not linked to user)
 @router.get("", response_model=List[VehicleOut])
 def list_all_vehicles(db: Session = Depends(get_db)):
     return db.query(UserVehicle).order_by(UserVehicle.id.desc()).all()
 
+# Get a specific vehicle by ID
 @router.get("/{vehicle_id}", response_model=VehicleOut)
 def get_vehicle(vehicle_id: int, db: Session = Depends(get_db)):
     v = db.query(UserVehicle).filter(UserVehicle.id == vehicle_id).first()
