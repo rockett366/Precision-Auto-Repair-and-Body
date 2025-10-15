@@ -910,7 +910,7 @@ export default function AdminProfile() {
                             onClick={confirmAddVehicle}
                             type="button"
                           >
-                            Confirm Vehicle
+                            Save Vehicle
                           </button>
                           <button
                             className={`${styles.buttonBase} ${styles.buttonSecondary}`}
