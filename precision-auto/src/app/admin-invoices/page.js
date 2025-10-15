@@ -7,7 +7,7 @@ import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 // REUSE THE RECORDS CSS (rename later to a shared module if you want)
 import styles from "../admin-records/page.module.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useInvoicesHistory from "./hooks/useInvoicesHistory";
 
 export default function AdminInvoices() {
@@ -17,7 +17,15 @@ export default function AdminInvoices() {
   const [formDate, setFormDate] = useState("");
   const [formFile, setFormFile] = useState(null);
 
-  const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [debounced, setDebounced] = useState("");
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(searchQuery.trim()), 250);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
+const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debounced);
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
@@ -52,9 +60,10 @@ export default function AdminInvoices() {
             <div className={styles.controlsContainer}>
               <input
                 type="text"
-                placeholder="Search Item Name"
+                placeholder="Search by customer name"
                 className={styles.searchInput}
-                // wire to your local search state if needed
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className={styles.uploadBtn} onClick={openModal}>
                 Upload
@@ -98,9 +107,13 @@ export default function AdminInvoices() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(!invoices || invoices.length === 0) ? (
+                    {invoices.length === 0 ? (
                       <tr>
-                        <td colSpan="4">No records yet. Use Upload to add one.</td>
+                        <td colSpan={4}>
+                          {searchQuery
+                            ? <>No matches for “{searchQuery}”.</>
+                            : <>No records yet. Use Upload to add one.</>}
+                        </td>
                       </tr>
                     ) : (
                       invoices.map((item) => (
@@ -108,9 +121,7 @@ export default function AdminInvoices() {
                           <td>{item.name}</td>
                           <td>{item.description}</td>
                           <td>{item.date}</td>
-                          <td>
-                            <button className={styles.reviewBtn}>View</button>
-                          </td>
+                          <td><button className={styles.reviewBtn}>View</button></td>
                         </tr>
                       ))
                     )}
@@ -118,7 +129,6 @@ export default function AdminInvoices() {
                 </table>
               </div>
             )}
-
             {/* Keep your Upload modal JSX here, unchanged */}
           </div>
         </main>

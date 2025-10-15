@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
-from typing import List
+from typing import List, Optional
 
 from ..db import get_db
 from .. import models
@@ -8,14 +8,18 @@ from ..schemas import InvoiceOut
 
 router = APIRouter(prefix="/invoices", tags=["invoices"])
 
-@router.get("/history", response_model=List[InvoiceOut])
-def get_invoice_history(db: Session = Depends(get_db)):
-    """Return invoices ordered by most recent date, then creation time."""
-    return (
-        db.query(models.Invoice)
-        .order_by(models.Invoice.date.desc(), models.Invoice.created_at.desc())
-        .all()
+@router.get("/history", response_model=List[InvoiceOut])  # or List[EstimateOut]
+def get_invoice_history(
+    name: Optional[str] = Query(None, description="case-insensitive name filter"),
+    db: Session = Depends(get_db),
+):
+    q = db.query(models.Invoice).order_by(
+        models.Invoice.date.desc(),
+        models.Invoice.created_at.desc()
     )
+    if name:
+        q = q.filter(models.Invoice.name.ilike(f"%{name}%"))
+    return q.all()
 
 # data seeder for testing
 @router.post("/seed-dev", response_model=int)
