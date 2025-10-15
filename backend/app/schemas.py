@@ -137,9 +137,9 @@ class PasswordChange(BaseModel):
     current_password: str
     new_password: str = Field(min_length=MIN_PASSWORD_LEN)
 
-class PasswordChange(BaseModel):
-    current_password: str
-    new_password: str = Field(min_length=MIN_PASSWORD_LEN)
+# class PasswordChange(BaseModel):
+#     current_password: str
+#     new_password: str = Field(min_length=MIN_PASSWORD_LEN)
 
 # NEW: used by POST /users/me/verify-password
 class PasswordVerify(BaseModel):
@@ -148,3 +148,11 @@ class PasswordVerify(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=1)
+
+
+class GoogleSignInRequest(BaseModel):
+    credential: str
+
+class TokenOut(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
