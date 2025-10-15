@@ -1,21 +1,36 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
+from typing import List, Optional, Literal
 from sqlalchemy.orm import Session
-from typing import List
+from sqlalchemy import asc, desc
 
 from ..db import get_db
 from .. import models
-from ..schemas import InvoiceOut
+from ..schemas import InvoiceOut  # or EstimateOut if you haven't renamed
 
 router = APIRouter(prefix="/invoices", tags=["invoices"])
 
 @router.get("/history", response_model=List[InvoiceOut])
-def get_invoice_history(db: Session = Depends(get_db)):
-    """Return invoices ordered by most recent date, then creation time."""
-    return (
-        db.query(models.Invoice)
-        .order_by(models.Invoice.date.desc(), models.Invoice.created_at.desc())
-        .all()
-    )
+def get_invoice_history(
+    db: Session = Depends(get_db),
+    q: Optional[str] = Query(None, description="Search by customer name"),
+    sort: Optional[Literal["name", "date", "description"]] = Query(None),
+    order: Optional[Literal["asc", "desc"]] = Query("asc"),
+):
+    query = db.query(models.Invoice)  # models.Estimate if not renamed
+
+    # optional search by name (case-insensitive)
+    if q:
+        query = query.filter(models.Invoice.name.ilike(f"%{q}%"))
+
+    # sorting
+    if sort in {"name", "date", "description"}:
+        col = getattr(models.Invoice, sort)
+        query = query.order_by(asc(col) if order == "asc" else desc(col))
+    else:
+        # default ordering (newest first)
+        query = query.order_by(models.Invoice.date.desc(), models.Invoice.created_at.desc())
+
+    return query.all()
 
 # data seeder for testing
 @router.post("/seed-dev", response_model=int)

@@ -38,30 +38,13 @@ export default function Home() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        {
-          /* Option 1: */
-        }
-        {
-          /* For testing on other computers */
-        }
-        const res = await fetch("/api/client_records_seed", {
+        const base =
+          process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+        const res = await fetch(`${base}/api/client-records/`, {
           cache: "no-store",
         });
-        if (!res.ok) throw new Error("Failed to fetch records from mock API");
-        const data = await res.json();
-
-        {
-          /* Option 2: */
-        }
-        {
-          /* For testing on local 
-        const base = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
-        const res = await fetch(`${base}/api/client-records/`, { cache: "no-store" });
         if (!res.ok) throw new Error("Failed to fetch records");
         const data = await res.json();
-        */
-        }
-
         setRecords(data);
       } catch (err) {
         setError(err.message);

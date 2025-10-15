@@ -50,6 +50,20 @@ class SignupResponse(BaseModel):
     user: UserOut
 
 
+class InventoryOut(BaseModel):
+    id: int
+    name: str
+    description: str
+    quantity: int
+
+    class Config:
+        from_attributes = True
+
+class InventoryUpdate(BaseModel):
+    name: str
+    description: str
+    quantity: int
+    
 class InvoiceOut(BaseModel):
     id: int
     name: str
@@ -162,3 +176,42 @@ class OnlineEstimaesCreate(BaseModel):
     vin: str
     color: str
     description: str
+
+class VehicleCreate(BaseModel):
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+
+
+class VehicleOut(BaseModel):
+    id: int
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+    created_at: date
+
+    class Config:
+        from_attributes = True
+
+class VehicleUpdate(BaseModel):
+    make: Optional[str] = None
+    model: Optional[str] = None
+    year: Optional[int] = None
+    vin: Optional[str] = None
+
+    @field_validator("make", "model", "vin")
+    @classmethod
+    def strip_and_normalize(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        s = v.strip()
+        if s == "":
+            return None
+        # VIN upper-case normalization if provided
+        if cls.__fields__.get("vin") and v is s:
+            return s.upper()
+        return s
