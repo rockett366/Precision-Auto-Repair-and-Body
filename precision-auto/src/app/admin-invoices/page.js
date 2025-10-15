@@ -7,7 +7,7 @@ import SidebarStyles from "@/app/constants/admin-sidebar.module.css";
 // REUSE THE RECORDS CSS (rename later to a shared module if you want)
 import styles from "../admin-records/page.module.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useInvoicesHistory from "./hooks/useInvoicesHistory";
 
 export default function AdminInvoices() {
@@ -18,14 +18,14 @@ export default function AdminInvoices() {
   const [formFile, setFormFile] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
-  const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory();
+  const [debounced, setDebounced] = useState("");
 
-  // case-insensitive filter on the "name" field
-  const filtered = searchQuery
-    ? invoices.filter(i =>
-        (i?.name ?? "").toLowerCase().includes(searchQuery.trim().toLowerCase())
-      )
-    : invoices;
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(searchQuery.trim()), 250);
+    return () => clearTimeout(t);
+  }, [searchQuery]);
+
+const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory(debounced);
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
@@ -107,23 +107,21 @@ export default function AdminInvoices() {
                     </tr>
                   </thead>
                   <tbody>
-                    {(!invoices || invoices.length === 0) ? (
+                    {invoices.length === 0 ? (
                       <tr>
-                        <td colSpan={4}>No records yet. Use Upload to add one.</td>
-                      </tr>
-                    ) : (filtered.length === 0) ? (
-                      <tr>
-                        <td colSpan={4}>No matches for “{searchQuery}”.</td>
+                        <td colSpan={4}>
+                          {searchQuery
+                            ? <>No matches for “{searchQuery}”.</>
+                            : <>No records yet. Use Upload to add one.</>}
+                        </td>
                       </tr>
                     ) : (
-                      filtered.map((item) => (
+                      invoices.map((item) => (
                         <tr key={item.id}>
                           <td>{item.name}</td>
                           <td>{item.description}</td>
                           <td>{item.date}</td>
-                          <td>
-                            <button className={styles.reviewBtn}>View</button>
-                          </td>
+                          <td><button className={styles.reviewBtn}>View</button></td>
                         </tr>
                       ))
                     )}

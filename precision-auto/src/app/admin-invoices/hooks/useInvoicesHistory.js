@@ -9,12 +9,12 @@ function normalizeInvoices(arr) {
       id: e?.id ?? null,
       name: e?.name ?? "",
       description: e?.description ?? "",
-      date: typeof e?.date === "string" ? e.date : null, // YYYY-MM-DD
+      date: typeof e?.date === "string" ? e.date : null,
     }))
     .filter((e) => e.id !== null && !!e.date);
 }
 
-export default function useInvoicesHistory() {
+export default function useInvoicesHistory(search = "") {
   const [invoices, setInvoices] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,7 +30,10 @@ export default function useInvoicesHistory() {
     (async () => {
       try {
         setError(null);
-        const res = await fetch("/api/invoices/history", {
+        const url = search
+          ? `/api/invoices/history?name=${encodeURIComponent(search)}`
+          : `/api/invoices/history`;
+        const res = await fetch(url, {
           credentials: "include",
           signal: controller.signal,
         });
@@ -44,7 +47,7 @@ export default function useInvoicesHistory() {
       }
     })();
     return () => controller.abort();
-  }, [refreshId.current]); // re-run when refetch() increments ref
+  }, [refreshId.current, search]);
 
   return { invoices, isLoading, isError: !!error, error, refetch };
 }
