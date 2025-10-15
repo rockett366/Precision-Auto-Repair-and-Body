@@ -17,7 +17,15 @@ export default function AdminInvoices() {
   const [formDate, setFormDate] = useState("");
   const [formFile, setFormFile] = useState(null);
 
+  const [searchQuery, setSearchQuery] = useState("");
   const { invoices, isLoading, isError, error, refetch } = useInvoicesHistory();
+
+  // case-insensitive filter on the "name" field
+  const filtered = searchQuery
+    ? invoices.filter(i =>
+        (i?.name ?? "").toLowerCase().includes(searchQuery.trim().toLowerCase())
+      )
+    : invoices;
 
   const openModal = () => setModalVisible(true);
   const closeModal = () => {
@@ -52,9 +60,10 @@ export default function AdminInvoices() {
             <div className={styles.controlsContainer}>
               <input
                 type="text"
-                placeholder="Search Item Name"
+                placeholder="Search by customer name"
                 className={styles.searchInput}
-                // wire to your local search state if needed
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button className={styles.uploadBtn} onClick={openModal}>
                 Upload
@@ -100,10 +109,14 @@ export default function AdminInvoices() {
                   <tbody>
                     {(!invoices || invoices.length === 0) ? (
                       <tr>
-                        <td colSpan="4">No records yet. Use Upload to add one.</td>
+                        <td colSpan={4}>No records yet. Use Upload to add one.</td>
+                      </tr>
+                    ) : (filtered.length === 0) ? (
+                      <tr>
+                        <td colSpan={4}>No matches for “{searchQuery}”.</td>
                       </tr>
                     ) : (
-                      invoices.map((item) => (
+                      filtered.map((item) => (
                         <tr key={item.id}>
                           <td>{item.name}</td>
                           <td>{item.description}</td>
@@ -118,7 +131,6 @@ export default function AdminInvoices() {
                 </table>
               </div>
             )}
-
             {/* Keep your Upload modal JSX here, unchanged */}
           </div>
         </main>
