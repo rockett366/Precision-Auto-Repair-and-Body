@@ -10,6 +10,10 @@ import { useRouter } from "next/navigation";
 export default function VehicleInfoPage() {
   const router = useRouter();
 
+  //this is for the year selection in the form
+  const currentYear = new Date().getFullYear();
+  const years = Array.from({ length: 40 }, (_, i) => currentYear - i);
+
   // Information from the page
   const [make, setMake] = useState("");
   const [model, setModel] = useState("");
@@ -26,14 +30,19 @@ export default function VehicleInfoPage() {
       setShowPopup(true);
       return;
     }
+    if (vin.length != 17) {
+      setPopupMessage("Please makesure the vin is 17 charactors long");
+      setShowPopup(true);
+      return;
+    }
 
-    // Additional data checking would be here but
-    // The two text fields that can be inputted into can't really have any?
-    // Why are there only three colors of car that exist? Only three makes?
+    // Store data in sessionStorage
+    sessionStorage.setItem("make", make);
+    sessionStorage.setItem("model", model);
+    sessionStorage.setItem("year", year);
+    sessionStorage.setItem("vin", vin);
+    sessionStorage.setItem("color", color);
 
-    // Probably need another story to touch this page up.
-
-    // And then whatever the 'next step' is can be implemented here.
     router.push("/online-estimate/damage");
   };
   return (
@@ -76,16 +85,12 @@ export default function VehicleInfoPage() {
           <div className="formRow">
             <div className="field">
               <label htmlFor="make">Make</label>
-              <select
+              <input
                 id="make"
+                placeholder="e.g. Toyota"
                 value={make}
                 onChange={(e) => setMake(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>Toyota</option>
-                <option>Ford</option>
-                <option>Honda</option>
-              </select>
+              ></input>
             </div>
 
             <div className="field">
@@ -101,14 +106,17 @@ export default function VehicleInfoPage() {
             <div className="field">
               <label htmlFor="year">Year</label>
               <select
-                id="year"
                 value={year}
                 onChange={(e) => setYear(e.target.value)}
+                className="border p-2 w-full"
+                required
               >
-                <option value="">Select</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
+                <option value="">-- Select Year --</option>
+                {years.map((yr) => (
+                  <option key={yr} value={yr}>
+                    {yr}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -127,16 +135,12 @@ export default function VehicleInfoPage() {
 
             <div className="field">
               <label htmlFor="color">Color</label>
-              <select
+              <input
                 id="color"
                 value={color}
+                placeholder="e.g. Red"
                 onChange={(e) => setColor(e.target.value)}
-              >
-                <option value="">Select</option>
-                <option>Red</option>
-                <option>Black</option>
-                <option>Silver</option>
-              </select>
+              ></input>
             </div>
           </div>
 

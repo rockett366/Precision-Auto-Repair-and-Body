@@ -1,158 +1,294 @@
 :root {
-  --shop_red: #931621;
+  /* ===== THEME ===== */
+  --background: #ffffff;
+  --page-bg: #d9d9d9;
+
+  --accent: #931621;
+  --accent-hover: #b1202f;
+
+  --surface: #ffffff;
+  --border: #cccccc;
+  --radius: 8px;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  --card-padding: 4rem;
+
+  --ok: #2e7d32;
+  --err: #c62828;
 }
 
-/* Main container */
-.profilePage {
-  background-color: #d9d9d9; /* Background color */
-  color: #000000; /* Text color */
+/* =========================================================
+   PAGE SHELL
+========================================================= */
+.pageShell {
+  background: var(--page-bg);
   min-height: 100vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
 }
 
-/* Left container contains navigation tabs */
-.leftContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 30%;
-  height: auto;
-  padding-left: 200px;
-  gap: 20px;
+.pageContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
-/* Right container contains user information */
-.rightContainer {
+.pageTitle {
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: "Inknut Antiqua", serif;
+  margin-left: 12rem;
+  margin-bottom: 2rem;
+  margin-top: 6rem; /* below navbar */
+  color: #382828;
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   LAYOUT
+========================================================= */
+.mainLayout {
   display: flex;
-  flex-direction: column;
-  width: 70%;
-  height: auto;
-  justify-content: center;
+  gap: 2rem;
+}
+
+.sideNav {
+  width: 200px;
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+.sideNavMenu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+.sideNavItem {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  transition: background 0.2s, color 0.2s;
+  color: #382828;
+}
+
+.sideNavItem:hover {
+  background: #d3d3d3;
+}
+
+.sideNavItemActive {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* =========================================================
+   MAIN PANEL / CARDS
+========================================================= */
+.mainContent {
+  flex: 1;
+}
+
+.panelCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: var(--card-padding);
+  color: #382828;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+/* =========================================================
+   HEADERS
+========================================================= */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-}
-
-/* Highlights which tab is active */
-.activeTab {
-  background-color: var(--shop_red);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 20px;
-  border: 1px solid black;
-  color: white;
-  padding: 8px 38px 8px 8px;
-  width: 100px;
+  margin-bottom: 1rem;
+  color: #382828;
+  font-family: "Inknut Antiqua", serif;
   font-size: 20px;
 }
 
-/* Tabs that are not active */
-.inactiveTab {
-  padding-left: 8px;
-  font-size: 20px;
+.sectionHeader h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #382828;
+}
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+.buttonBase {
+  border: none;
+  padding: 0.45rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  line-height: 1.2;
+  font-family: "Inknut Antiqua", serif;
+}
+
+/* Primary (Red) */
+.buttonPrimary {
+  background: var(--accent);
+  color: #fff;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+.buttonPrimary:hover {
+  background: var(--accent-hover);
+}
+
+/* Secondary (Gray) */
+.buttonSecondary {
+  background: #d3d3d3;
+  color: #382828;
+  border: 1px solid var(--border);
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+/* =========================================================
+   FIELDS
+========================================================= */
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 18px;
+}
+
+.formField label {
+  font-weight: bold;
+  margin-bottom: 0.3rem;
+  font-family: "Inknut Antiqua", serif;
+}
+
+.formField input {
+  padding: 0.5rem;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+  font-family: "Inknut Antiqua", serif;
+  font-size: 16px;
+}
+
+.formField input:disabled {
+  background: #eee;
+}
+
+.formFullRow {
+  grid-column: 1 / -1;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 0.5rem;
+  font-family: "Inknut Antiqua", serif;
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+.alert {
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-family: "Inknut Antiqua", serif;
+}
+
+.alertError {
+  color: var(--err);
+  border-color: var(--err);
+  background: #ffecec;
+}
+
+.alertSuccess {
+  color: var(--ok);
+  border-color: var(--ok);
+  background: #e9f6ec;
+}
+
+/* =========================================================
+   HELPERS
+========================================================= */
+.textOk { color: var(--ok); }
+.textErr { color: var(--err); }
+
+.readOnlyRow { margin: 0.25rem 0; }
+.readOnlyLabel { font-weight: 600; }
+
+/* =========================================================
+   PASSWORD VALIDATION LIST
+========================================================= */
+.validationList {
+  margin: 4px 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+.validationPass { color: var(--ok); }
+.validationFail { color: var(--err); }
+
+
+/* ===== VEHICLE UI LAYOUT ===== */
+.vehicleRow {
+  display: flex;
+  gap: 1rem;
+  align-items: stretch; /* edit row */
+}
+
+.vehicleImageCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 0 0 140px;
+  align-items: stretch;
+}
+
+.vehicleThumb {
+  width: 140px;
+  height: 90px;
+  border: 1px solid #0a0a0a;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vehicleThumbImg {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Underline tabs when you hover over them */
-.inactiveTab:hover,
-.activeTab:hover {
-  text-decoration: underline;
+.vehicleThumbEmpty {
+  font-size: 12px;
+  color: #382828;
 }
 
-/* Outer box for Profile Box */
-.bigContainer {
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  border: 4px solid black;
-  width: 70%;
-  height: 70%;
-  background-color: var(--shop_red);
-  border-radius: 20px;
+.vehicleFormCol {
+  flex: 1;
 }
 
-/* Inner box for Profile Box*/
-.smallContainer {
-  box-sizing: border-box;
-  border: 4px solid black;
-  width: 90%;
-  height: 80%;
-  display: grid;
-  margin-left: 32px;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  background-color: white;
-  border-radius: 20px;
+/* compact card for nested panels */
+.cardCompact {
+  padding: 1.25rem;
 }
-
-/* Your Service Dashboard at the top */
-.header {
-  font-size: 70px;
-  font-family: "Inknut Antiqua";
-  font-weight: bold;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  color: #000000;
-}
-
-/* Makes it so label is on top of text*/
-.inputWrapper {
-  display: flex;
-  flex-direction: column;
-  padding-left: 50px;
-  padding-top: 50px;
-  gap: 5px;
-  font-size: 25px;
-  font-family: "Inknut Antiqua";
-  font-weight: bold;
-}
-
-/* Information text */
-.info{
-  font-size: 20px;
-  font-weight: normal;
-}
-
-/* Profile in the big box */
-.profileHeader {
-  font-size: 32px;
-  font-family: "Inknut Antiqua";
-  color: white;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-/* Edit Button in the big box */
-.editButton {
-  justify-content: end;
-  width: 80px;
-  height: 40px;
-  border-color: 1px solid black;
-  border-radius: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  background-color: white;
-  color: black;
-}
-
-/* Container for Profile and Edit Button */
-.topContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
-/* Container for Edit Button */
-.topRightContainer {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  padding-right: 40px;
-}
-
-/* Container for Profile text */
-.topLeftContainer {
-  float: right;
-  padding-left: 30px;
-  align-items: center;
-  justify-content: end;
-  border: 4px black solid;
-}
+.mt12 { margin-top: 12px; }
+.mb8 { margin-bottom: 8px; }

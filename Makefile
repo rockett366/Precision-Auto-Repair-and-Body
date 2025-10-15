@@ -1,6 +1,6 @@
 # ==== Config ====
 COMPOSE := docker compose
-PGHOST_PORT ?= 5433
+PGHOST_PORT ?= 5432
 PGADMIN_PORT ?= 5050
 
 # start full stack (DB, API, pgAdmin)
@@ -11,7 +11,7 @@ dev-up:
 	@echo "pgAdmin => http://localhost:$(PGADMIN_PORT)"
 	@echo "Web     => http://localhost:3000"
 
-# remove contaienrs (data persists)
+# remove containers (data persists)
 dev-down:
 	@$(COMPOSE) down
 
@@ -49,3 +49,48 @@ rebuild-api:
 
 seed-inventory:
 	@docker compose exec api python app/scripts/seed_inventory.py
+
+# ======== TEST CONFIG ========
+-include backend/.env
+
+PYTEST_ADDOPTS ?= -vv -ra
+
+test:
+	@$(COMPOSE) up -d db
+	@$(COMPOSE) exec -T db psql -U app_user -d postgres -c "DROP DATABASE IF EXISTS precision_test_db WITH (FORCE);"
+	@$(COMPOSE) exec -T db psql -U app_user -d postgres -c "CREATE DATABASE precision_test_db;"
+	@$(COMPOSE) run --rm \
+	  -v $$PWD/backend:/app \
+	  -w /app \
+	  api sh -lc "pip install -q -r requirements.txt && DATABASE_URL=$(TEST_DB_URL) pytest $(PYTEST_ADDOPTS) --cov=app --cov-report=term-missing --cov-report=xml"
+	@echo "Coverage report -> backend/coverage.xml"
+
+# Install deps
+fe-install:
+	docker compose run --rm web sh -lc '\
+if [ -f package-lock.json ]; then \
+  npm ci || (echo "npm ci failed; updating lock with npm install..." && npm install); \
+else \
+  npm install; \
+fi'
+
+# Run all frontend tests (unit + integration)
+fe-test: fe-install
+	docker compose run --rm web sh -lc "npm test"
+
+# Run with coverage
+fe-coverage: fe-install
+	docker compose run --rm web sh -lc "npm run test:coverage"
+
+.PHONY: fe-install fe-test fe-coverage
+
+# ======== CI TARGETS (no docker compose) ========
+ci-backend:
+	@echo "Using TEST_DB_URL=$(TEST_DB_URL)"
+	@pip install -r backend/requirements.txt
+	@cd backend && DATABASE_URL=$(TEST_DB_URL) pytest -q --cov=app --cov-report=xml --cov-report=term-missing
+	@echo "Coverage report -> backend/coverage.xml"
+
+ci-frontend:
+	@cd precision-auto && npm ci
+	@cd precision-auto && npm run test:coverage -- --ci

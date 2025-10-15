@@ -1,29 +1,44 @@
 {
-    "dependencies": {
-        "googleapis": "^148.0.0",
-        "next": "^15.2.2",
-        "react": "^19.0.0",
-        "react-dom": "^19.0.0"
-    },
-    "name": "precision-auto-repair-and-body",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "dev": "next dev --turbopack",
-        "build": "next build",
-        "start": "next start",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/rockett366/Precision-Auto-Repair-and-Body.git"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/rockett366/Precision-Auto-Repair-and-Body/issues"
-    },
-    "homepage": "https://github.com/rockett366/Precision-Auto-Repair-and-Body#readme"
+  "name": "precision-auto-repair-and-body",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.908.0",
+    "@aws-sdk/s3-request-presigner": "^3.908.0",
+    "googleapis": "^148.0.0",
+    "next": "^15.2.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "whatwg-fetch": "^3.6.20"
+  },
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest",
+    "test:unit": "jest src",
+    "test:integration": "jest tests/integration",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rockett366/Precision-Auto-Repair-and-Body.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rockett366/Precision-Auto-Repair-and-Body/issues"
+  },
+  "homepage": "https://github.com/rockett366/Precision-Auto-Repair-and-Body#readme"
 }

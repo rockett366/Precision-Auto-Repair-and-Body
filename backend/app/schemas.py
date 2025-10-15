@@ -1,4 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field, field_validator, model_validator
+from datetime import date
 import phonenumbers
 from typing import Optional
 
@@ -62,8 +63,8 @@ class InventoryUpdate(BaseModel):
     name: str
     description: str
     quantity: int
-
-class EstimateOut(BaseModel):
+    
+class InvoiceOut(BaseModel):
     id: int
     name: str
     description: str
@@ -92,3 +93,125 @@ class ReviewOut(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ClientRecordBase(BaseModel):
+    vehicle: str
+    description: str
+    date: date
+    
+    class Config:
+        orm_mode = True
+        
+class VehicleStatus(BaseModel):
+    id: int
+    status: int
+    make: str
+    model: str
+    year: int
+    vin: str
+    color: str
+    design: str
+    additional_details: str
+    
+    class Config:
+        from_attributes = True
+
+
+#----Authentication Tokens----
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+class TokenOut(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
+    is_admin: bool
+
+#----Update User Profile----
+
+class UserUpdate(BaseModel):
+    first_name: str
+    last_name: str
+    phone: str
+
+    @field_validator("phone")
+    @classmethod
+    def validate_phone(cls, v: str) -> str:
+        try:
+            import phonenumbers
+            if not v.startswith("+"):
+                v = "+1" + v
+            num = phonenumbers.parse(v, None)
+            if not phonenumbers.is_valid_number(num):
+                raise ValueError("Invalid phone number")
+            return phonenumbers.format_number(num, phonenumbers.PhoneNumberFormat.E164)
+        except Exception:
+            raise ValueError("Invalid phone number")
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=MIN_PASSWORD_LEN)
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=MIN_PASSWORD_LEN)
+
+# NEW: used by POST /users/me/verify-password
+class PasswordVerify(BaseModel):
+    current_password: str
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=1)
+
+# online-estimates page
+class OnlineEstimaesCreate(BaseModel):
+    first_name: str
+    last_name: str
+    email: str
+    phone: str
+    make: str
+    model: str
+    year: int
+    vin: str
+    color: str
+    description: str
+
+class VehicleCreate(BaseModel):
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+
+
+class VehicleOut(BaseModel):
+    id: int
+    user_id: int
+    make: str
+    model: str
+    year: int
+    vin: str
+    created_at: date
+
+    class Config:
+        from_attributes = True
+
+class VehicleUpdate(BaseModel):
+    make: Optional[str] = None
+    model: Optional[str] = None
+    year: Optional[int] = None
+    vin: Optional[str] = None
+
+    @field_validator("make", "model", "vin")
+    @classmethod
+    def strip_and_normalize(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        s = v.strip()
+        if s == "":
+            return None
+        # VIN upper-case normalization if provided
+        if cls.__fields__.get("vin") and v is s:
+            return s.upper()
+        return s

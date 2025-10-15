@@ -8,5 +8,12 @@ phonenumbers
 psycopg2-binary
 passlib==1.7.4
 bcrypt==3.2.2
-phonenumbers
 python-multipart
+boto3
+
+# Testing
+pytest
+pytest-cov
+httpx
+
+PyJWT                      #for JWT token creation and verification (ezra)      
