@@ -1,8 +1,16 @@
-// src/app/about/page.js
-import styles from "./page.module.css"; // Import the CSS module
+import styles from "./page.module.css";
 import Nav from "../constants/nav.js";
 import Footer from "../constants/footer";
 import Image from "next/image";
+
+function FeatureCard({ src, title }) {
+  return (
+    <div className={styles.cardName}>
+      <Image className={styles.logo} src={src} alt="stock photo for car" width={100} height={100} />
+      <h3>{title}</h3>
+    </div>
+  );
+}
 
 export default function Loyalty() {
   return (
@@ -19,71 +27,41 @@ export default function Loyalty() {
           />
           <h1 className={styles.header}>Customer Loyalty Membership</h1>
         </div>
-        {/* info cards */}
+
         <div className={styles.titleCard}>
-          <div className={styles.cardName}>
-            <Image
-              className={styles.logo}
-              src="/images/loyalty-page/percent.svg"
-              alt="stock photo for car"
-              width={100}
-              height={100}
-            />
-            <h3>Discounted Services</h3>
-          </div>
-          <div className={styles.cardName}>
-            <Image
-              className={styles.logo}
-              src="/images/loyalty-page/handshake.svg"
-              alt="stock photo for car"
-              width={100}
-              height={100}
-            />
-            <h3>Free Services</h3>
-          </div>
-          <div className={styles.cardName}>
-            <Image
-              className={styles.logo}
-              src="/images/loyalty-page/tiers.svg"
-              alt="stock photo for car"
-              width={100}
-              height={100}
-            />
-            <h3>Different Membership Plans</h3>
-          </div>
+          <FeatureCard src="/images/loyalty-page/percent.svg" title="Discounted Services" />
+          <FeatureCard src="/images/loyalty-page/handshake.svg" title="Free Services" />
+          <FeatureCard src="/images/loyalty-page/tiers.svg" title="Different Membership Plans" />
         </div>
 
-        {/* info about the membership */}
         <div className={styles.sectionInfo}>
           <div className={styles.sectionTitle}>
             <h2>Our Membership</h2>
-            <div className={styles.fullDividerBar}> </div>
+            <div className={styles.fullDividerBar} />
           </div>
           <p>
-            We are proudly introducing our Customer Loyalty Member Program.
-            Being the only repair facility in the area to offer the opportunity
-            for our customers to join a membership that works and saves you
-            money in most of your automotive needs. No hassle of looking for
-            fake coupon sales. <br></br>
-            <br></br> That is right! There is no need for coupons and no waiting
-            for sales of any kind. You get the best low pricing possible for
-            honest good service and quality guaranteed products for your vehicle
-            all the time! You can review here and choose from some of the
-            discounted services you will benefit from when you become a member
-            of Precision Auto Repair & Body.
+            We are proudly introducing our Customer Loyalty Member Program. Being the only repair
+            facility in the area to offer the opportunity for our customers to join a membership
+            that works and saves you money in most of your automotive needs. No hassle of looking
+            for fake coupon sales. <br />
+            <br />
+            That is right! There is no need for coupons and no waiting for sales of any kind. You
+            get the best low pricing possible for honest good service and quality guaranteed
+            products for your vehicle all the time! You can review here and choose from some of the
+            discounted services you will benefit from when you become a member of Precision Auto
+            Repair &amp; Body.
           </p>
         </div>
 
-        {/* free and discounted services */}
         <div className={styles.discounts}>
           <div className={styles.discountCategory}>
             <h2>Free Services</h2>
-            <br></br>
+            <br />
             <ul>
               <li>Free multipoint vehicle inspections</li>
               <li>Free tire rotations / pressure checks</li>
               <li>Free battery / charging system check</li>
-              <li>Free monitor / DTC code check & clear</li>
+              <li>Free monitor / DTC code check &amp; clear</li>
               <li>Free mechanical / collision estimates</li>
               <li>Free VIN verifications (3 per year)</li>
               <li>Free notary public (3 per year)</li>
@@ -91,7 +69,7 @@ export default function Loyalty() {
           </div>
           <div className={styles.discountCategory}>
             <h2>Discounted Services</h2>
-            <br></br>
+            <br />
             <ul>
               <li>50% OFF any oil service</li>
               <li>50% off wiper blade replacements</li>
@@ -104,8 +82,8 @@ export default function Loyalty() {
             </ul>
           </div>
         </div>
-        {/* info about the membership plan options */}
-        <div className={styles.fullDividerBar}> </div>
+
+        <div className={styles.fullDividerBar} />
         <h2>Membership Plan Options</h2>
         <div className={styles.sectionPlanOptions}>
           <div className={styles.planOptions}>
@@ -138,11 +116,10 @@ export default function Loyalty() {
           </div>
           <div>
             <p>
-              You can sign up for our customer loyalty membership in person
-              during our regular business hours. Memberships may be limited, so
-              we encourage you to stop by soon to secure your spot. Our hours of
-              operation are Monday through Friday from 8:30 AM to 5:30 PM, and
-              Saturday from 9:00 AM to 3:00 PM. We are closed on Sundays.
+              You can sign up for our customer loyalty membership in person during our regular
+              business hours. Memberships may be limited, so we encourage you to stop by soon to
+              secure your spot. Our hours of operation are Monday through Friday from 8:30 AM to
+              5:30 PM, and Saturday from 9:00 AM to 3:00 PM. We are closed on Sundays.
             </p>
           </div>
         </div>

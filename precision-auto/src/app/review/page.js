@@ -1,38 +1,44 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./review.module.css";
-import Nav from "../constants/nav"; // <-- landing-page navbar
+import Nav from "../constants/nav";
 
-// --- Hardcode backend endpoint here ---
 const REVIEWS_URL = "http://localhost:8000/api/auth/reviews";
-
-// public review links when ready
 const GOOGLE_URL = "";
 const YELP_URL = "";
+const NAV_HEIGHT = 20;
+const BODY_TOP_MARGIN_FIX = -8;
 
-// tweak if your nav is taller/shorter
-const NAV_HEIGHT = 20;   // visual height of your navbar (px)
-
-// small offset to cancel the browser's default body margin (no globals edit)
-const BODY_TOP_MARGIN_FIX = -8; // px
+function StarRating({ value, onChange }) {
+  return (
+    <div className={styles.starRating}>
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`${styles.star} ${star <= value ? styles.filled : ""}`}
+          onClick={() => onChange(star)}
+          onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onChange(star)}
+          role="button"
+          tabIndex={0}
+          aria-label={`Set rating to ${star}`}
+        >
+          &#9733;
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export default function ReviewPage() {
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  // popup state (single-page, not reusable)
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("info"); // "info" | "error" | "success"
 
   const typeClass =
-    popupType === "error"
-      ? styles.error
-      : popupType === "success"
-      ? styles.success
-      : styles.info;
-
-  const handleRating = (value) => setRating(value);
+    popupType === "error" ? styles.error : popupType === "success" ? styles.success : styles.info;
 
   const resetForm = () => {
     setRating(0);
@@ -42,7 +48,6 @@ export default function ReviewPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!rating) {
       setPopupType("error");
       setPopupMessage("Please select a star rating (1–5).");
@@ -60,8 +65,8 @@ export default function ReviewPage() {
       });
 
       if (!res.ok) {
-        const ct = res.headers.get("content-type") || "";
-        let msg = `HTTP ${res.status} ${res.statusText}`;
+        const ct = res.headers?.get?.("content-type") || "";
+        let msg = `HTTP ${res.status} ${res.statusText || ""}`.trim();
 
         if (ct.includes("application/json")) {
           const data = await res.json().catch(() => null);
@@ -77,32 +82,26 @@ export default function ReviewPage() {
 
       if (rating >= 4) {
         setPopupType("success");
-        setPopupMessage(
-          "Thanks for the great rating! Please consider leaving a public review as well 🙂"
-        );
+        setPopupMessage("Thanks for the great rating! Please consider leaving a public review as well 🙂");
         if (GOOGLE_URL) window.open(GOOGLE_URL, "_blank", "noopener,noreferrer");
         if (YELP_URL) window.open(YELP_URL, "_blank", "noopener,noreferrer");
       } else {
         setPopupType("info");
-        setPopupMessage(
-          "Thanks for your feedback. A team member may follow up to make things right."
-        );
+        setPopupMessage("Thanks for your feedback. A team member may follow up to make things right.");
       }
 
       resetForm();
     } catch (err) {
+      // eslint-disable-next-line no-console
       console.error("Review submit failed:", err);
       setPopupType("error");
-      setPopupMessage(
-        "Something went wrong submitting your review. " + (err?.message || "")
-      );
+      setPopupMessage("Something went wrong submitting your review. " + (err?.message || ""));
       setSubmitting(false);
     }
   };
 
   return (
     <div className={styles.page}>
-      {/* Pin the landing navbar to the very top without editing global CSS */}
       <div
         style={{
           position: "fixed",
@@ -110,57 +109,37 @@ export default function ReviewPage() {
           left: 0,
           right: 0,
           zIndex: 1000,
-          marginTop: BODY_TOP_MARGIN_FIX, // cancels default body top margin
+          marginTop: BODY_TOP_MARGIN_FIX,
         }}
       >
         <Nav />
       </div>
-      {/* Spacer so content isn't hidden behind the fixed nav */}
+
       <div style={{ height: NAV_HEIGHT - BODY_TOP_MARGIN_FIX }} aria-hidden="true" />
 
       <div className={styles.reviewContainer}>
         <h1 className={styles.reviewTitle}>Leave a Review</h1>
-        <h2 className={styles.subHeading}>
-          How would you like to rate your experience with us?
-        </h2>
+        <h2 className={styles.subHeading}>How would you like to rate your experience with us?</h2>
 
-        {/* Star Rating */}
-        <div className={styles.starRating}>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <span
-              key={star}
-              className={`${styles.star} ${star <= rating ? styles.filled : ""}`}
-              onClick={() => handleRating(star)}
-              role="button"
-              aria-label={`Set rating to ${star}`}
-            >
-              &#9733;
-            </span>
-          ))}
-        </div>
+        <StarRating value={rating} onChange={setRating} />
 
-        {/* Review form */}
         <form className={styles.reviewForm} onSubmit={handleSubmit}>
-          <label className={styles.label}>
+          <label className={styles.label} htmlFor="review-textarea">
             <i>Review</i> <span className={styles.required}>*</span>
           </label>
           <textarea
+            id="review-textarea"
             className={styles.textarea}
             placeholder="ex. You guys are Awesome..."
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
           />
-          <button
-            type="submit"
-            className={styles.submitButton}
-            disabled={submitting}
-          >
+          <button type="submit" className={styles.submitButton} disabled={submitting}>
             {submitting ? "Submitting..." : "Submit Review"}
           </button>
         </form>
       </div>
 
-      {/* Popup overlay */}
       {popupMessage && (
         <div
           className={styles.overlay}
